@@ -3,11 +3,9 @@ package com.lavanya.web.proxies;
 import com.lavanya.web.configuration.WebappOpenFeignConfiguration;
 import com.lavanya.web.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -21,7 +19,10 @@ public interface UserProxy {
     @GetMapping("/user/{id}")
     Optional<UserDto> getUserConnected(@PathVariable("id") int id);
 
-    @PostMapping(value="/api/auth/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    String login(@RequestBody AuthBodyDto data);
+//    @PostMapping(value="/api/auth/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+//    String login(@RequestBody AuthBodyDto data);
+
+    @GetMapping("/users")
+    Page<UserDto> showUsersListByPage(@RequestParam(name="pageNumber") int currentPage);
 
 }

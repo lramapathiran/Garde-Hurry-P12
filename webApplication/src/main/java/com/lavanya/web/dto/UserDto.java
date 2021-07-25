@@ -7,6 +7,7 @@ public class UserDto {
     private Integer id;
     private String lastName;
     private String firstName;
+    private String address;
     private String city;
     private String area;
     private String email;
@@ -46,6 +47,14 @@ public class UserDto {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCity() {
