@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<head th:insert="fragments/componentsRessources.html :: headVisit">-->
+<head>
+<!--    <meta content="" name="description">-->
+<!--    <meta content="" name="keywords">-->
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <meta name="robots" content="all,follow">-->
+    <title>S'inscrire</title>
+    <!-- 	multiInput query test -->
+    <link th:href="@{/jq.multiinput.min.css}" rel="stylesheet">
+</head>
+<body>
+<!-- ======= Header ======= -->
+
+<!--<header id="header2" class="fixed-top"th:insert="fragments/componentsVisit.html :: headerVisit"></header>-->
+<div class="d-flex justify-content-center ">
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-4 view">
+            <section class="py-6 d-flex justify-content-center">
+
+                <!-- Form Elements -->
+                <div class="col-lg-5 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="h6 text-uppercase mb-0">Inscription</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="form-horizontal" action="#" th:action="@{/saveUser}" th:object="${user}" method="post" enctype="utf8">
+
+                                <div class="form-group row" >
+                                    <label class="col-sm-3 col-form-label" for="firstName">Prénom</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{firstName}" id="firstName" class="form-control"/>
+<!--                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="fieldError">Données incorrectes</span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+
+                                <div class="form-group row ${#fields.hasErrors('lastName')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="lastName">Nom</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{lastName}" id="lastName" class="form-control">
+<!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div class="form-group row ${#fields.hasErrors('email')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="email">Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" th:field="*{email}" id="email" class="form-control">
+<!--                                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div class="form-group row ${#fields.hasErrors('password')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="password">Mot de Passe</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" th:field="*{password}" id="password" class="form-control">
+                                        <small class="form-text text-muted ml-3">entre 8 à 14 caractères</small>
+
+                                    </div>
+                                </div>
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-3 col-form-label" for="matchingPassword">Confirmer le Mot de Passe</label>-->
+<!--                                    <div class="col-sm-8">-->
+<!--                                        <input min="8" max="14" type="password" th:field="*{matchingPassword}" id="matchingPassword" class="form-control">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <br></br>-->
+
+<!--                                <div>-->
+<!--                                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="fieldError"></span>-->
+<!--                                    <span th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" th:errorclass="fieldError"></span>-->
+<!--                                    <span  class="message" th:utext="${message}"></span>-->
+<!--                                    <span class="message" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></span>-->
+<!--                                </div>-->
+
+                                <br></br>
+
+                                <div>
+                                    <label class="col-sm-3 col-form-label" for="address">N° et type de voie</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{address}" id="address" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                        <small class="form-text text-muted ml-3">ex: 6 Avenue des Bois</small>
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div>
+                                    <label class="col-sm-3 col-form-label" for="city">Ville</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{city}" id="city" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div>
+                                    <label class="col-sm-3 col-form-label" for="area">Quartier</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{area}" id="area" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <div class="form-group row ${#fields.hasErrors('situation')}? has-error">
+                                    <div class="col-sm-3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" th:field="*{situation}" id="situation">
+                                            <span th:if="${#fields.hasErrors('situation')}" th:errors="*{situation}" th:errorclass="fieldError"></span>
+                                            <label class="custom-control-label" for="situation">En activité</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--             Jquery dynamic MultiInput form -->
+                                <div>
+                                   <textarea class="form-control row" id="childrenDtosData" name="childrenDtosData">
+                                       [{"childrenDtos":""}]
+                                   </textarea>
+                                </div>
+                                <div>
+                                    <p th:if="${message}" th:text="${message}" class="message"></p>
+                                </div>
+
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <div class="col-md5  mx-auto d-block">
+                                        <a th:href="@{/}"><button type="button" class="btn btn-secondary">Annuler</button></a>
+                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- ======= Footer ======= -->
+<!--<footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>&lt;!&ndash; End Footer &ndash;&gt;-->
+
+<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+<!-- Vendor JS Files -->
+<!--<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>-->
+<!--     Jquery for multiInput form -->
+<script src="https://use.fontawesome.com/1e73f8e328.js"></script>
+<script type="text/javascript" th:src="@{/jq.multiinput.min.js}"></script>
+<script type="text/javascript" th:src="@{/user.js}"></script>
+
+
+</body>
+</html>

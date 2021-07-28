@@ -1,6 +1,8 @@
 package com.lavanya.api.service;
 
+import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.UserAlreadyExistException;
+import com.lavanya.api.mapper.UserMapper;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,35 +26,45 @@ public class UserService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserMapper mapper;
+
 //    @Autowired
 //    private PasswordEncoder bCryptPasswordEncoder;
+
 
     /**
      * method to retrieve a particular user identified by its username.
      * @param email of the user of interest to identify in database.
      * @return User object.
      */
-    public User findUserByUsername(String email) {
-        return userRepository.findByEmail(email);
+    public UserDto findUserByUsername(String email) {
+
+        User user = userRepository.findByEmail(email);
+
+        return mapper.INSTANCE.userToUserDto(user);
     }
 
     /**
      * method to save a newly registered user.
-     * @param user that needs to be saved in database.
+     * @param userDto that needs to be saved in database.
      */
-    public User saveUser(User user) throws UserAlreadyExistException{
+    public UserDto saveUser(UserDto userDto) throws UserAlreadyExistException{
 
-        if (this.emailExists(user.getEmail())) {
+        if (this.emailExists(userDto.getEmail())) {
             throw new UserAlreadyExistException(
                     "Il existe déjà un email avec l'addresse: "
-                            + user.getEmail());
+                            + userDto.getEmail());
         }
 
-        user.setActive(true);
-        user.setRoles("ADMIN");
-        user.setValidated(false);
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userDto.setActive(true);
+        userDto.setRoles("ADMIN");
+        userDto.setValidated(false);
+//        userDto.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        User user = mapper.INSTANCE.userDtoToUser(userDto);
+        User userSaved = userRepository.save(user);
+
+        return mapper.INSTANCE.userToUserDto(userSaved);
     }
 
     /**
@@ -67,18 +79,21 @@ public class UserService{
 
     /**
      * method to update an already registered user.
-     * @param user that needs to be updated in database.
+     * @param userDto that needs to be updated in database.
      */
-    public void updateUser(User user) {
+    public void updateUser(UserDto userDto) {
+
+        User user = mapper.INSTANCE.userDtoToUser(userDto);
         userRepository.save(user);
     }
 
     /**
      * method to tag an user profile as verified by updating its profile.
-     * @param user that needs to be updated in database.
+     * @param userDto that needs to be updated in database.
      */
-    public void validateUserProfileByAdmin(User user) {
+    public void validateUserProfileByAdmin(UserDto userDto) {
 
+        User user = mapper.INSTANCE.userDtoToUser(userDto);
         user.setValidated(true);
         userRepository.save(user);
     }
@@ -88,9 +103,11 @@ public class UserService{
      * @param id, id of the user of interest to identify in database.
      * @return Optional User object.
      */
-    public Optional<User> getUserById (Integer id) {
+    public UserDto getUserById (Integer id) {
 
-        return userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
+        UserDto userDto = mapper.INSTANCE.userToUserDto(user.get());
+        return userDto;
 
     }
 
@@ -115,7 +132,8 @@ public class UserService{
         return userRepository.existsByEmail(email);
     }
 
-    public void deleteUserByAdmin(User user) {
+    public void deleteUserByAdmin(UserDto userDto) {
+        User user = mapper.INSTANCE.userDtoToUser(userDto);
         userRepository.delete(user);
     }
 

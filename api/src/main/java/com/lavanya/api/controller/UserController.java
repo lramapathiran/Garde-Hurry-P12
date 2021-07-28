@@ -1,5 +1,6 @@
 package com.lavanya.api.controller;
 
+import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.service.UserService;
 import com.lavanya.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class UserController {
      *
      */
     @PostMapping("/saveUser")
-    public void saveUser(@RequestBody User user) {
+    public void saveUser(@RequestBody UserDto userDto) {
 
-        userService.saveUser(user);
+        userService.saveUser(userDto);
 
     }
 

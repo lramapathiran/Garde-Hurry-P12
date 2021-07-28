@@ -1,5 +1,6 @@
 package com.lavanya.api;
 
+import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.UserAlreadyExistException;
 import com.lavanya.api.model.User;
 
@@ -41,57 +42,56 @@ public class UserServiceTestIT {
 
     @Test
     public void saveUserSucceedTest() {
-        User user = new User();
-        user.setPassword("blabla");
-        user.setFirstName("Linda");
-        user.setLastName("Morêt");
-        user.setEmail("lmoret@gmail.com");
-        user.setAddress("1 rue des roses");
-        user.setArea("les charmettes");
-        user.setCity("Nantes");
-        user.setSituation(false);
-        user.setChildren(Collections.emptyList());
+        UserDto userDto = new UserDto();
+        userDto.setPassword("blabla");
+        userDto.setFirstName("Linda");
+        userDto.setLastName("Morêt");
+        userDto.setEmail("lmoret@gmail.com");
+        userDto.setAddress("1 rue des roses");
+        userDto.setArea("les charmettes");
+        userDto.setCity("Nantes");
+        userDto.setSituation(false);
 
-        User savedUser = userService.saveUser(user);
-        assertThat(savedUser).usingRecursiveComparison().ignoringFields("id").isEqualTo(user);
+        UserDto savedUser = userService.saveUser(userDto);
+        assertThat(savedUser).usingRecursiveComparison().ignoringFields("id").isEqualTo(userDto);
     }
 
     @Test
     public void findUserByUsernameTest() {
 
-        User userInDatabase = userService.findUserByUsername("l.fernand@gmail.com");
+        UserDto userInDatabase = userService.findUserByUsername("l.fernand@gmail.com");
 
         Assert.assertEquals("l.fernand@gmail.com",userInDatabase.getEmail());
     }
 
     @Test
     public void saveUserFailedWithAlreadyExistingEmailTest() {
-        User user = new User();
-        user.setPassword("blabla");
-        user.setFirstName("Linda");
-        user.setLastName("Morêt");
-        user.setEmail("l.fernand@gmail.com");
-        user.setAddress("1 rue des roses");
-        user.setArea("les charmettes");
-        user.setCity("Nantes");
-        user.setSituation(false);
+        UserDto userDto = new UserDto();
+        userDto.setPassword("blabla");
+        userDto.setFirstName("Linda");
+        userDto.setLastName("Morêt");
+        userDto.setEmail("l.fernand@gmail.com");
+        userDto.setAddress("1 rue des roses");
+        userDto.setArea("les charmettes");
+        userDto.setCity("Nantes");
+        userDto.setSituation(false);
 
         Assertions.assertThrows(UserAlreadyExistException.class, () -> {
-            userService.saveUser(user);
+            userService.saveUser(userDto);
         });
 
     }
 
     @Test
     public void updateUserTest() {
-        User user = userService.findUserByUsername("l.fernand@gmail.com");
-        String userAddress = user.getAddress();
+        UserDto userDto = userService.findUserByUsername("l.fernand@gmail.com");
+        String userAddress = userDto.getAddress();
 
-        user.setAddress("2 rue des Roses");
+        userDto.setAddress("2 rue des Roses");
 
-        userService.updateUser(user);
+        userService.updateUser(userDto);
 
-        User userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
+        UserDto userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
         String updatedUserAddress = userUpdated.getAddress();
 
         Assert.assertEquals("1 rue des Roses",userAddress);
@@ -102,13 +102,13 @@ public class UserServiceTestIT {
     @Test
     public void validateUserProfileByAdminTest() {
 
-        User user = userService.findUserByUsername("l.fernand@gmail.com");
-        Boolean userProfileValidation = user.getValidated();
+        UserDto userDto = userService.findUserByUsername("l.fernand@gmail.com");
+        Boolean userProfileValidation = userDto.getValidated();
 
-        userService.validateUserProfileByAdmin(user);
+        userService.validateUserProfileByAdmin(userDto);
 
-        User userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
-        Boolean userProfileActivation = user.getValidated();
+        UserDto userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
+        Boolean userProfileActivation = userUpdated.getValidated();
 
         Assert.assertNotEquals(userProfileValidation,userProfileActivation);
 
@@ -117,9 +117,9 @@ public class UserServiceTestIT {
     @Test
     public void getUserByIdTest() {
 
-        Optional<User> optional = userService.getUserById(3);
+        UserDto userDto = userService.getUserById(3);
 
-        String username = optional.get().getEmail();
+        String username = userDto.getEmail();
 
         Assert.assertEquals("l.fernand@gmail.com", username);
 
@@ -145,14 +145,14 @@ public class UserServiceTestIT {
 
     @Test
     public void deleteUserTest() {
-        Optional<User> user = userService.getUserById(3);
-        String username = user.get().getEmail();
+        UserDto userDto = userService.getUserById(3);
+        String username = userDto.getEmail();
         Boolean response = userService.emailExists(username);
         Assert.assertEquals(true,response);
 
-        userService.deleteUserByAdmin(user.get());
+        userService.deleteUserByAdmin(userDto);
 
-        Optional<User> userDeleted = userService.getUserById(3);
-        Assertions.assertFalse(userDeleted.isPresent());
+        Boolean newResponse = userService.emailExists(username);
+        Assert.assertEquals(false,newResponse);
     }
 }

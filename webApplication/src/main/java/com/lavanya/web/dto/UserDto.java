@@ -11,10 +11,11 @@ public class UserDto {
     private String city;
     private String area;
     private String email;
+    private String password;
     private Boolean isValidated;
     private Boolean situation;
     private String roles;
-    private List<ChildrenDto> children;
+    private List<ChildrenDto> childrenDtos;
     private List<CommentDto> commentsReceived;
     private List<CommentDto> commentsMade;
     private List<ChildcareDto> childcareRequests;
@@ -81,6 +82,14 @@ public class UserDto {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Boolean getValidated() {
         return isValidated;
     }
@@ -105,12 +114,12 @@ public class UserDto {
         this.roles = roles;
     }
 
-    public List<ChildrenDto> getChildren() {
-        return children;
+    public List<ChildrenDto> getChildrenDtos() {
+        return childrenDtos;
     }
 
-    public void setChildren(List<ChildrenDto> children) {
-        this.children = children;
+    public void setChildrenDtos(List<ChildrenDto> childrenDtos) {
+        this.childrenDtos = childrenDtos;
     }
 
     public List<CommentDto> getCommentsReceived() {

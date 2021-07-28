@@ -61,11 +61,11 @@ public class User {
 
     @OneToMany(mappedBy="userWhoInvite", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Friend> sentInvitations;
+    private List<Friend> sentFriendInvitations;
 
     @OneToMany(mappedBy="userInvited", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Friend> receivedInvitations;
+    private List<Friend> receivedFriendInvitations;
 
     public User() {
     }
@@ -206,19 +206,19 @@ public class User {
         this.childcareMissions = childcareMissions;
     }
 
-    public List<Friend> getSentInvitations() {
-        return sentInvitations;
+    public List<Friend> getSentFriendInvitations() {
+        return sentFriendInvitations;
     }
 
-    public void setSentInvitations(List<Friend> sentInvitations) {
-        this.sentInvitations = sentInvitations;
+    public void setSentFriendInvitations(List<Friend> sentFriendInvitations) {
+        this.sentFriendInvitations = sentFriendInvitations;
     }
 
-    public List<Friend> getReceivedInvitations() {
-        return receivedInvitations;
+    public List<Friend> getReceivedFriendInvitations() {
+        return receivedFriendInvitations;
     }
 
-    public void setReceivedInvitations(List<Friend> receivedInvitations) {
-        this.receivedInvitations = receivedInvitations;
+    public void setReceivedFriendInvitations(List<Friend> receivedFriendInvitations) {
+        this.receivedFriendInvitations = receivedFriendInvitations;
     }
 }

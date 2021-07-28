@@ -53,5 +53,20 @@ public class UserController {
 
     }
 
+    /**
+     * GET requests for /signup endpoint.
+     * This controller-method creates a new object User and pass it to the form for the User to be created with all its attributes.
+     *
+     * @param model to pass data to the view.
+     * @return addUser.html
+     */
+    @GetMapping("/signup")
+    public String showSignUpForm (Model model) {
+
+        UserDto userDto = new UserDto();
+        model.addAttribute("user", userDto);
+        return "addUser";
+    }
+
 
 }
