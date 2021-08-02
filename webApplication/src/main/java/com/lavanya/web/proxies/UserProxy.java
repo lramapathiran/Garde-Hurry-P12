@@ -25,4 +25,6 @@ public interface UserProxy {
     @GetMapping(value="/users/{pageNumber}")
     Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage);
 
+    @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void saveUser(@RequestBody UserDto userDto);
 }

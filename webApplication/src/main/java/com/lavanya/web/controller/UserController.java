@@ -1,15 +1,14 @@
 package com.lavanya.web.controller;
 
+import com.lavanya.web.dto.FriendDto;
 import com.lavanya.web.dto.UserDto;
+import com.lavanya.web.proxies.FriendProxy;
 import com.lavanya.web.proxies.UserProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +21,9 @@ public class UserController {
 
     @Autowired
     UserProxy userProxy;
+
+    @Autowired
+    FriendProxy friendProxy;
 
     /**
      * GET requests for /users endpoint.
@@ -69,6 +71,12 @@ public class UserController {
         return "addUser";
     }
 
+    @PostMapping("/saveUser")
+    public String saveUser(@ModelAttribute ("user") UserDto userDto, Model model) {
+        userProxy.saveUser(userDto);
+        return "addUser";
+    }
+
     @GetMapping("/user/{id}")
     public String showUserProfile(@PathVariable("id") int id, Model model) {
         UserDto userDto = userProxy.getUserConnected(id);
@@ -76,33 +84,22 @@ public class UserController {
         return "userProfile";
     }
 
-    @GetMapping("profile/user/{id}")
-    public String showUserProfileToVisit(@PathVariable("id") int id, Model model) {
+    @GetMapping("profile/user/{id}/{userConnectedId}")
+    public String showUserProfileToVisit(@PathVariable("id") int id, @PathVariable("userConnectedId") int userConnectedId, Model model) {
         UserDto userDto = userProxy.getUserConnected(id);
+        UserDto userDtoWhoInvite = userProxy.getUserConnected(userConnectedId);
         int totalChildren = userDto.getChildrenDtos().size();
+
+        Boolean isMyFriend = friendProxy.isMyfriend(userConnectedId,id);
 
         model.addAttribute("user", userDto);
         model.addAttribute("numberOfChildren", totalChildren);
+        model.addAttribute("userConnected", userDtoWhoInvite);
+        model.addAttribute("userConnectedId", userConnectedId);
+        model.addAttribute("isMyFriend", isMyFriend);
+
         return "userProfileToVisit";
     }
-
-    /**
-     * POST request to send notification to another user to part of friends list.
-     *
-     * @param topo is the object Topo whose reservation attribute needs to be updated.
-     * @param model to pass data to the view.
-     * @return the url /user/topos
-     */
-    @PostMapping("/request/friend")
-    public String sendRequestForFriendInvitation(Friend friend) {
-
-        int id = topo.getId();
-
-        topoService.save(topo);
-
-        return "redirect:/topo/" + id;
-    }
-
 
 
 

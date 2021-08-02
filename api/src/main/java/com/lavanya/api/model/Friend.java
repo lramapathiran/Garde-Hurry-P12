@@ -16,6 +16,9 @@ public class Friend {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private LocalDate date;
 
+    @Column(name="is_accepted")
+    private Boolean isAccepted;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
@@ -43,6 +46,14 @@ public class Friend {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
     }
 
     public User getUserWhoInvite() {
