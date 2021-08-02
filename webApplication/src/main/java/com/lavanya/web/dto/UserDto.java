@@ -16,12 +16,12 @@ public class UserDto {
     private Boolean situation;
     private String roles;
     private List<ChildrenDto> childrenDtos;
-    private List<CommentDto> commentsReceived;
-    private List<CommentDto> commentsMade;
-    private List<ChildcareDto> childcareRequests;
-    private List<ChildcareDto> childcareMissions;
-    private List<FriendDto> sentInvitations;
-    private List<FriendDto> receivedInvitations;
+    private List<CommentDto> commentDtosReceived;
+    private List<CommentDto> commentDtosMade;
+    private List<ChildcareDto> childcareDtosRequests;
+    private List<ChildcareDto> childcareDtosMissions;
+    private List<FriendDto> sentFriendDtoInvitations;
+    private List<FriendDto> receivedFriendDtoInvitations;
 
     public UserDto() {
     }
@@ -122,51 +122,51 @@ public class UserDto {
         this.childrenDtos = childrenDtos;
     }
 
-    public List<CommentDto> getCommentsReceived() {
-        return commentsReceived;
+    public List<CommentDto> getCommentDtosReceived() {
+        return commentDtosReceived;
     }
 
-    public void setCommentsReceived(List<CommentDto> commentsReceived) {
-        this.commentsReceived = commentsReceived;
+    public void setCommentDtosReceived(List<CommentDto> commentDtosReceived) {
+        this.commentDtosReceived = commentDtosReceived;
     }
 
-    public List<CommentDto> getCommentsMade() {
-        return commentsMade;
+    public List<CommentDto> getCommentDtosMade() {
+        return commentDtosMade;
     }
 
-    public void setCommentsMade(List<CommentDto> commentsMade) {
-        this.commentsMade = commentsMade;
+    public void setCommentDtosMade(List<CommentDto> commentDtosMade) {
+        this.commentDtosMade = commentDtosMade;
     }
 
-    public List<ChildcareDto> getChildcareRequests() {
-        return childcareRequests;
+    public List<ChildcareDto> getChildcareDtosRequests() {
+        return childcareDtosRequests;
     }
 
-    public void setChildcareRequests(List<ChildcareDto> childcareRequests) {
-        this.childcareRequests = childcareRequests;
+    public void setChildcareDtosRequests(List<ChildcareDto> childcareDtosRequests) {
+        this.childcareDtosRequests = childcareDtosRequests;
     }
 
-    public List<ChildcareDto> getChildcareMissions() {
-        return childcareMissions;
+    public List<ChildcareDto> getChildcareDtosMissions() {
+        return childcareDtosMissions;
     }
 
-    public void setChildcareMissions(List<ChildcareDto> childcareMissions) {
-        this.childcareMissions = childcareMissions;
+    public void setChildcareDtosMissions(List<ChildcareDto> childcareDtosMissions) {
+        this.childcareDtosMissions = childcareDtosMissions;
     }
 
-    public List<FriendDto> getSentInvitations() {
-        return sentInvitations;
+    public List<FriendDto> getSentFriendDtoInvitations() {
+        return sentFriendDtoInvitations;
     }
 
-    public void setSentInvitations(List<FriendDto> sentInvitations) {
-        this.sentInvitations = sentInvitations;
+    public void setSentFriendDtoInvitations(List<FriendDto> sentFriendDtoInvitations) {
+        this.sentFriendDtoInvitations = sentFriendDtoInvitations;
     }
 
-    public List<FriendDto> getReceivedInvitations() {
-        return receivedInvitations;
+    public List<FriendDto> getReceivedFriendDtoInvitations() {
+        return receivedFriendDtoInvitations;
     }
 
-    public void setReceivedInvitations(List<FriendDto> receivedInvitations) {
-        this.receivedInvitations = receivedInvitations;
+    public void setReceivedFriendDtoInvitations(List<FriendDto> receivedFriendDtoInvitations) {
+        this.receivedFriendDtoInvitations = receivedFriendDtoInvitations;
     }
 }

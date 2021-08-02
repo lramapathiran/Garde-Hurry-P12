@@ -39,15 +39,15 @@ public class User {
 
     private String roles;
 
-    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Children> children;
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Children> childrens;
 
     @OneToMany(mappedBy="userCommented", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> commentsReceived;
 
-    @OneToMany(mappedBy="userComment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userComment")
     @JsonIgnore
     private List<Comment> commentsMade;
 
@@ -166,12 +166,12 @@ public class User {
         this.roles = roles;
     }
 
-    public List<Children> getChildren() {
-        return children;
+    public List<Children> getChildrens() {
+        return childrens;
     }
 
-    public void setChildren(List<Children> children) {
-        this.children = children;
+    public void setChildrens(List<Children> childrens) {
+        this.childrens = childrens;
     }
 
     public List<Comment> getCommentsReceived() {

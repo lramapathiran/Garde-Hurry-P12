@@ -13,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+
+
     /**
      * Query to retrieve a specific user using his username.
      * @param email used to identify the user searched in database.

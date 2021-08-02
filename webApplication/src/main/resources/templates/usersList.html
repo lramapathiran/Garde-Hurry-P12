@@ -60,19 +60,19 @@
                                             Total d'Utilisateurs : [[${totalUsers}]] - Page : [[${currentPage}]]/[[${totalPages}]]
                                             &nbsp; - &nbsp;
                                             <span>
-			                   		<a th:if="${currentPage > 1}" th:href="@{/users(pageNumber=${currentPage - 1})}">Précédent</a>
+			                   		<a th:if="${currentPage > 1}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage - 1})}">Précédent</a>
 			                   		<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
 			                   	</span>
                                             <span th:each="i: ${#numbers.sequence(1,totalPages)}">
-			                   		<a th:if="${i != currentPage}" th:href="@{/users(pageNumber=${i})}">[[${i}]]</a>
+			                   		<a th:if="${i != currentPage}" th:href="@{/users/{pageNumber}(pageNumber=${i})}">[[${i}]]</a>
 			                   		<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
 			                   	</span>
                                             <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users(pageNumber=${currentPage + 1})}">Suivant</a>
+			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage + 1})}">Suivant</a>
 			                   		<span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
 			                   	</span>
                                             <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users(pageNumber=${totalPages})}">Dernier</a>
+			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${totalPages})}">Dernier</a>
 			                   		<span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
 			                   	</span>
                                         </div>

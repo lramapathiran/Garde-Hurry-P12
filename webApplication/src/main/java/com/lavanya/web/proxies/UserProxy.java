@@ -17,12 +17,12 @@ import java.util.Optional;
 public interface UserProxy {
 
     @GetMapping("/user/{id}")
-    Optional<UserDto> getUserConnected(@PathVariable("id") int id);
+    UserDto getUserConnected(@PathVariable("id") int id);
 
 //    @PostMapping(value="/api/auth/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 //    String login(@RequestBody AuthBodyDto data);
 
-    @GetMapping("/users")
-    Page<UserDto> showUsersListByPage(@RequestParam(name="pageNumber") int currentPage);
+    @GetMapping(value="/users/{pageNumber}")
+    Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage);
 
 }

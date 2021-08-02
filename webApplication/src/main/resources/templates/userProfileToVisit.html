@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Profile</title>
+</head>
+
+<body>
+
+
+<!-- ======= Hero Section ======= -->
+<div class="d-flex align-items-stretch justify-content-center">
+    <div id="sidebar" class="sidebar py-3"></div>
+    <div class="page-holder w-100 d-flex flex-wrap">
+
+        <section>
+
+            <div class="row mb-4">
+                <div class="col-lg-9 mb-4 mb-lg-0 site-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h2 class="text-uppercase mb-0">
+                                        <span class="float-md-left" th:utext="${user.firstName}"></span>
+                                        <span class="float-md-left" th:utext = "${user.lastName}"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <div>
+                                <p class="col-sm-8"><strong>Adresse </strong>:
+                                    <span th:utext="${user.city}"></span>
+                                </p>
+                                <p class="col-sm-8"><strong>Secteur </strong>: <span th:utext="${user.area}"></span></p>
+                                <p class="col-sm-8"><strong>Situation </strong>:
+                                    <span th:if="${user.situation} == true">En activité</span>
+                                    <span th:if="${user.situation} == false">Sans activité</span>
+                                </p>
+                                <p class="col-sm-12">J'ai
+                                    <strong><span th:text="${numberOfChildren}"></span></strong> enfant(s) qui sont:
+                                    <ul th:each="child : ${user.childrenDtos}">
+                                        <li>
+                                            <span th:switch="${child.school}">
+											    <span th:case="${T(com.lavanya.web.dto.School).N}">
+											    	Non Scolarisé</span>
+                                                <span th:case="${T(com.lavanya.web.dto.School).M}">
+											    	En Maternelle</span>
+                                                <span id="unavailable" th:case="${T(com.lavanya.web.dto.School).P}">
+											    	Au Primaire</span>
+                                                <span id="in-progress" th:case="${T(com.lavanya.web.dto.School).C}">
+											    	Au Collège</span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>	<!-- End Hero -->
+
+</body>
+
+</html>

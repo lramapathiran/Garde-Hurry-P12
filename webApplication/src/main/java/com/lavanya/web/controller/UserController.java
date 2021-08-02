@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -27,11 +29,10 @@ public class UserController {
      *
      * @param model to pass data to the view.
      * @param currentPage an int to specify which page of Users to be displayed.
-     * @param userConnected is the authenticated User passed within the object MyUserDetails
      * @return usersList.html
      */
-    @GetMapping("/users")
-    public String showUsersListByPage(@RequestParam(name="pageNumber") int currentPage, Model model) {
+    @GetMapping("/users/{pageNumber}")
+    public String showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage, Model model) {
 
 //        model.addAttribute("user", userConnected);
 //
@@ -67,6 +68,42 @@ public class UserController {
         model.addAttribute("user", userDto);
         return "addUser";
     }
+
+    @GetMapping("/user/{id}")
+    public String showUserProfile(@PathVariable("id") int id, Model model) {
+        UserDto userDto = userProxy.getUserConnected(id);
+        model.addAttribute("user", userDto);
+        return "userProfile";
+    }
+
+    @GetMapping("profile/user/{id}")
+    public String showUserProfileToVisit(@PathVariable("id") int id, Model model) {
+        UserDto userDto = userProxy.getUserConnected(id);
+        int totalChildren = userDto.getChildrenDtos().size();
+
+        model.addAttribute("user", userDto);
+        model.addAttribute("numberOfChildren", totalChildren);
+        return "userProfileToVisit";
+    }
+
+    /**
+     * POST request to send notification to another user to part of friends list.
+     *
+     * @param topo is the object Topo whose reservation attribute needs to be updated.
+     * @param model to pass data to the view.
+     * @return the url /user/topos
+     */
+    @PostMapping("/request/friend")
+    public String sendRequestForFriendInvitation(Friend friend) {
+
+        int id = topo.getId();
+
+        topoService.save(topo);
+
+        return "redirect:/topo/" + id;
+    }
+
+
 
 
 }
