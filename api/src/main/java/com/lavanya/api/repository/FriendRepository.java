@@ -22,4 +22,6 @@ public interface FriendRepository extends JpaRepository<Friend, Integer> {
     Boolean existsByUserInvitedAndUserWhoInvite (User userConnected, User userProfileVisited);
 
     List<Friend> findByUserInvitedIdOrderByDateDesc(int userConnectedId);
+
+    Friend findByUserInvitedIdAndUserWhoInviteId(int userInvitedId, int userWhoInviteId);
 }

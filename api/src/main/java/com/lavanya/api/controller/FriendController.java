@@ -40,6 +40,19 @@ public class FriendController {
         return friendService.getListOfFriendRequests(userConnected);
     }
 
+    @PostMapping(value="/updateFriend/{id}")
+    public void acceptFriendInvitation(@PathVariable ("id") int id){
+        friendService.updateFriend(id);
+    }
 
+    @PostMapping(value="/deleteFriend/{id}")
+    public void refuseFriendInvitation(@PathVariable ("id") int id){
+        friendService.deleteFriend(id);
+    }
+
+    @GetMapping("/users/friend/{userInvitedId}/{userWhoInviteId}")
+    public FriendDto getFriendByIds(@PathVariable("userWhoInviteId") int userWhoInviteId, @PathVariable("userInvitedId") int userInvitedId) {
+        return friendService.findFriendRelationshipByBothUsersId(userInvitedId,userWhoInviteId);
+    }
 
 }

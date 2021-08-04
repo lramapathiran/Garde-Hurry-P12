@@ -34,51 +34,31 @@
                                     </div>
                                     <table th:unless="${requests.empty}" class="table table-striped table-hover card-text">
                                         <thead>
-                                        <tr>
-                                            <th>Nom</th>
-                                            <th>Prénom</th>
-                                            <th>Accepter</th>
-                                        </tr>
+<!--                                        <tr>-->
+<!--                                            <th>Nom</th>-->
+<!--                                            <th>Prénom</th>-->
+<!--                                            <th>Accepter</th>-->
+<!--                                        </tr>-->
                                         </thead>
                                         <tbody>
                                         <tr th:each="friendDto: ${requests}">
-                                            <td><a target="_blank" th:href="@{/profile/user/{id}(id = ${friendDto.userWhoInvite.id})}" th:utext = "${friend.userWhoInvite.firstName}"></a>...</td>
+                                            <td><a target="_blank" th:href="@{/profile/user/{id}(id = ${friendDto.userWhoInvite.id})}" th:utext = "${friendDto.userWhoInvite.firstName}"></a></td>
                                             <td th:utext = "${friendDto.userWhoInvite.lastName}">...</td>
 
                                             <td>
                                                 <form action="#" th:action="@{/request/response}" th:method="post">
-                                                    <input type="hidden" name="id" th:value = "${friend.id}"/>
-<!--                                                    <input type="hidden" name="userId" th:value = "${topo.userId}"/>-->
-<!--                                                    <input type="hidden" name="siteId" th:value = "${topo.siteId}"/>-->
-<!--                                                    <input type="hidden" name="topoName" th:value = "${topo.topoName}"/>-->
-<!--                                                    <input type="hidden" name="localization" th:value = "${topo.localization}"/>-->
-<!--                                                    <input type="hidden" name="topoDescription" th:value = "${topo.topoDescription}"/>-->
-<!--                                                    <input type="hidden" name="topoDate" th:value = "${topo.topoDate}"/>-->
-
-<!--                                                    <span class="btn-group-toggle" data-toggle="buttons" th:if="${topo.reservation} == ${T(com.lavanya.escalade.enums.Reservation).A} or ${topo.reservation} == ${T(com.lavanya.escalade.enums.Reservation).R}">-->
-<!--												  <label class="btn btn-secondary active">-->
-<!--												    <input type="radio" name="reservation" th:value="${topo.reservation.U}" checked autocomplete="off"> Indisponible-->
-<!--												  </label>-->
-<!--											</span>-->
-
-<!--                                                    <span class="btn-group btn-group-toggle" data-toggle="buttons" th:if="${topo.reservation} == ${T(com.lavanya.escalade.enums.Reservation).I}">-->
-<!--												  <label class="btn btn-secondary active">-->
-<!--												    <input type="radio" name="reservation" th:value="${topo.reservation.R}" id="option1" autocomplete="off" checked>Accepté-->
-<!--												  </label>-->
-<!--												  <label class="btn btn-secondary option">-->
-<!--												    <input type="radio" name="reservation" th:value="${topo.reservation.U}" id="option2" autocomplete="off"> Indisponible-->
-<!--												  </label>-->
-<!--											</span>-->
-
-
-<!--                                                    <span class="btn-group-toggle" data-toggle="buttons" th:if="${topo.reservation} == ${T(com.lavanya.escalade.enums.Reservation).U}">-->
-<!--												  <label class="btn btn-secondary active">-->
-<!--												    <input type="radio" name="reservation" th:value="${topo.reservation.A}" checked autocomplete="off"> Disponible-->
-<!--												  </label>-->
-<!--											</span>-->
-
-                                                    <button type="submit" class="float-md-right"><img src="https://img.icons8.com/color/30/000000/save.png"/></button>
+                                                    <input type="hidden" name="id" th:value = "${friendDto.id}"/>
+                                                    <input type="hidden" name="userConnectedId" th:value = "${friendDto.userInvited.id}"/>
+                                                    <button type="submit" class="float-md-right"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
                                                 </form>
+                                            </td>
+                                            <td>
+                                                <form action="#" th:action="@{/delete/request}" th:method="post">
+                                                    <input type="hidden" name="id" th:value = "${friendDto.id}"/>
+                                                    <input type="hidden" name="userConnectedId" th:value = "${friendDto.userInvited.id}"/>
+                                                    <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
+                                                </form>
+
                                             </td>
                                         </tr>
                                         </tbody>
@@ -92,10 +72,8 @@
         </div>
     </div>
 
-    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
 
 </div>
-<!-- JavaScript files-->
-<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
+
 </body>
 </html>

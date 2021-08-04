@@ -57,6 +57,22 @@ public class FriendController {
         model.addAttribute("userId",id);
 
         return "friendsDashboard";
+    }
 
+    @PostMapping("/request/response")
+    public String acceptFriendRequest(@ModelAttribute ("id") int id, @ModelAttribute ("userConnectedId") int userConnectedId){
+
+        friendProxy.acceptFriendInvitation(id);
+
+        return "redirect:/user/friends/" + userConnectedId;
+
+    }
+
+    @PostMapping("/delete/request")
+    public String refuseFriendRequest(@ModelAttribute("id") int id, @ModelAttribute ("userConnectedId") int userConnectedId) {
+
+        friendProxy.refuseFriendInvitation(id);
+
+        return "redirect:/user/friends/" + userConnectedId;
     }
 }

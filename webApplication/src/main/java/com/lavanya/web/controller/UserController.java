@@ -91,6 +91,10 @@ public class UserController {
         int totalChildren = userDto.getChildrenDtos().size();
 
         Boolean isMyFriend = friendProxy.isMyfriend(userConnectedId,id);
+        if(isMyFriend){
+            FriendDto friendDto = friendProxy.getFriendByIds(id,userConnectedId);
+            model.addAttribute("friend", friendDto);
+        }
 
         model.addAttribute("user", userDto);
         model.addAttribute("numberOfChildren", totalChildren);

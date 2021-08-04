@@ -1,6 +1,5 @@
 package com.lavanya.web.proxies;
 
-import com.lavanya.web.configuration.WebappOpenFeignConfiguration;
 import com.lavanya.web.dto.FriendDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "friendApi", url = "localhost:9090",configuration = WebappOpenFeignConfiguration.class)
+@FeignClient(name = "friendApi", url = "localhost:9090")
 public interface FriendProxy {
 
     @PostMapping(value="/saveFriend", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -22,4 +21,14 @@ public interface FriendProxy {
 
     @PostMapping(value="/friendsRequest/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     List<FriendDto> FriendRequests(@PathVariable ("id") int userConnected);
+
+    @PostMapping(value="/updateFriend/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void acceptFriendInvitation(@PathVariable ("id") int id);
+
+    @PostMapping(value="/deleteFriend/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void refuseFriendInvitation(@PathVariable ("id") int id);
+
+    @GetMapping("/users/friend/{userInvitedId}/{userWhoInviteId}")
+    public FriendDto getFriendByIds(@PathVariable("userInvitedId") int userInvited, @PathVariable("userWhoInviteId") int userWhoInviteId);
+
 }

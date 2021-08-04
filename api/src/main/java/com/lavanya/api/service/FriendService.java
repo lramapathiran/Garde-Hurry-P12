@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,10 +80,28 @@ public class FriendService {
     }
 
     public List<FriendDto> getListOfFriendRequests(int userConnectedId) {
+
         List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
-        List<FriendDto> friendDtos = friendMapper.listFriendToListFriendDto(friendsList);
+        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsList);
 
         return friendDtos;
     }
 
+    public void updateFriend(int id) {
+        Friend friend = friendRepository.getById(id);
+        friend.setAccepted(true);
+        friendRepository.save(friend);
+    }
+
+    public void deleteFriend(int id) {
+        Friend friend = friendRepository.getById(id);
+        friendRepository.delete(friend);
+    }
+
+    public FriendDto findFriendRelationshipByBothUsersId(int userInvitedId, int userWhoInviteId){
+
+        Friend friend = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvitedId,userWhoInviteId);
+        FriendDto friendDto = friendMapper.INSTANCE.friendToFriendDto(friend);
+        return friendDto;
+    }
 }

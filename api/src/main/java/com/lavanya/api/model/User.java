@@ -60,11 +60,9 @@ public class User {
     private List<Childcare> childcareMissions;
 
     @OneToMany(mappedBy="userWhoInvite", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Friend> sentFriendInvitations;
 
     @OneToMany(mappedBy="userInvited", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Friend> receivedFriendInvitations;
 
     public User() {

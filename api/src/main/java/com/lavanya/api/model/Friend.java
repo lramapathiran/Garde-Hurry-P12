@@ -19,12 +19,12 @@ public class Friend {
     @Column(name="is_accepted")
     private Boolean isAccepted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
     private User userWhoInvite;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="friend_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
     private User userInvited;
