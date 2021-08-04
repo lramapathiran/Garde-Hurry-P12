@@ -42,4 +42,11 @@ public class ChildrenController {
         childrenProxy.saveChildren(childrenDto);
         return "redirect:/createChildren/" + userId;
     }
+
+    @PostMapping("/delete/children")
+    public String deleteChildren(@ModelAttribute ("id") int childrenId, @ModelAttribute("userConnectedId") int userId){
+        ChildrenDto childrenDto = childrenProxy.getChildrenById(childrenId);
+        childrenProxy.deleteChildren(childrenDto);
+        return "redirect:/user/" + userId;
+    }
 }

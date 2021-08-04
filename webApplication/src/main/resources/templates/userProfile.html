@@ -60,10 +60,17 @@
                                                 <span id="in-progress" th:case="${T(com.lavanya.web.dto.School).C}">
 											    	Au Collège</span>
                                             </span>
+                                            <span>
+                                                <form action="#" th:action="@{/delete/children}" th:method="post">
+                                                    <input type="hidden" name="id" th:value = "${child.id}"/>
+                                                    <input type="hidden" name="userConnectedId" th:value = "${child.user.id}"/>
+                                                    <button type="submit"><img src="https://img.icons8.com/cute-clipart/64/000000/filled-trash.png"/></button>
+                                                </form>
+                                            </span>
                                         </li>
                                     </ul>
                                     <span>
-                                        <button type="button"><a class="text-primary font-weight-bold" th:href="@{/createChildren/{userId}(userId=${user.id})}">Ajouter un enfant</a></button>
+                                        <button type="button"><a class="text-primary font-weight-bold" th:href="@{/createChildren/{userId}(userId=${user.id})}"><img src="https://img.icons8.com/office/16/000000/children-faces.png"/></a></button>
                                     </span>
                                 </p>
                             </div>

@@ -3,9 +3,7 @@ package com.lavanya.api.controller;
 import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.service.ChildrenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Rest Controller to control all the requests related to User object.
@@ -22,6 +20,16 @@ public class ChildrenController {
 
         childrenService.saveChildren(childrenDto);
 
+    }
+
+    @GetMapping("children/{childrenId}")
+    ChildrenDto getChildrenById(@PathVariable int childrenId) {
+        return childrenService.getChildrenById(childrenId);
+    }
+
+    @PostMapping("delete/children")
+    void deleteChildren(@RequestBody ChildrenDto childrenDto){
+        childrenService.deleteChildren(childrenDto);
     }
 
 }

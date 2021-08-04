@@ -31,4 +31,17 @@ public class ChildrenService {
         childrenRepository.save(children);
 
     }
+
+    public ChildrenDto getChildrenById(int childrenId) {
+
+        Children children = childrenRepository.findById(childrenId).get();
+        return childrenMapper.childrenToChildrenDto(children);
+    }
+
+    public void deleteChildren(ChildrenDto childrenDto) {
+
+        Children children = childrenMapper.INSTANCE.childrenDtoToChildren(childrenDto);
+        childrenRepository.delete(children);
+
+    }
 }
