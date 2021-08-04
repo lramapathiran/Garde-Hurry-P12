@@ -74,8 +74,11 @@ public class UserController {
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute ("user") UserDto userDto, Model model) {
         userProxy.saveUser(userDto);
-        return "addUser";
+
+        int userId = userProxy.loadUserByusername(userDto.getEmail()).getId();
+        return "redirect:/user/" + userId;
     }
+
 
     @GetMapping("/user/{id}")
     public String showUserProfile(@PathVariable("id") int id, Model model) {

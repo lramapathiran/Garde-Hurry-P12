@@ -13,8 +13,6 @@
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
 <!--    <meta name="robots" content="all,follow">-->
     <title>S'inscrire</title>
-    <!-- 	multiInput query test -->
-    <link th:href="@{/jq.multiinput.min.css}" rel="stylesheet">
 </head>
 <body>
 <!-- ======= Header ======= -->
@@ -131,11 +129,11 @@
                                 </div>
 
                                 <!--             Jquery dynamic MultiInput form -->
-                                <div>
-                                   <textarea class="form-control row" id="childrenDtosData" name="childrenDtosData">
-                                       [{"childrenDtos":""}]
-                                   </textarea>
-                                </div>
+<!--                                <div>-->
+<!--                                   <textarea class="form-control row" id="childrenDtosData" name="childrenDtosData">-->
+<!--                                       [{"childrenDtos":""}]-->
+<!--                                   </textarea>-->
+<!--                                </div>-->
                                 <div>
                                     <p th:if="${message}" th:text="${message}" class="message"></p>
                                 </div>
@@ -157,18 +155,6 @@
         </div>
     </div>
 </div>
-
-<!-- ======= Footer ======= -->
-<!--<footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>&lt;!&ndash; End Footer &ndash;&gt;-->
-
-<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
-<!-- Vendor JS Files -->
-<!--<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>-->
-<!--     Jquery for multiInput form -->
-<script src="https://use.fontawesome.com/1e73f8e328.js"></script>
-<script type="text/javascript" th:src="@{/jq.multiinput.min.js}"></script>
-<script type="text/javascript" th:src="@{/user.js}"></script>
 
 
 </body>

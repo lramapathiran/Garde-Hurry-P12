@@ -100,8 +100,19 @@ public class FriendService {
 
     public FriendDto findFriendRelationshipByBothUsersId(int userInvitedId, int userWhoInviteId){
 
-        Friend friend = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvitedId,userWhoInviteId);
-        FriendDto friendDto = friendMapper.INSTANCE.friendToFriendDto(friend);
+
+        Friend friend1 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvitedId,userWhoInviteId);
+        Friend friend2 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userWhoInviteId,userInvitedId);
+
+        FriendDto friendDto = new FriendDto();
+        if(friend1 == null && friend2 !=null) {
+            friendDto = friendMapper.INSTANCE.friendToFriendDto(friend2);
+        }
+
+        if(friend1 != null && friend2 ==null) {
+            friendDto = friendMapper.INSTANCE.friendToFriendDto(friend1);
+        }
+
         return friendDto;
     }
 }

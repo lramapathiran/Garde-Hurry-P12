@@ -57,6 +57,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/loadUserByUsername/{username}")
+    public UserDto loadUserByusername(@PathVariable ("username") String username) {
+
+        UserDto userDto = userService.findUserByUsername(username);
+
+        return userDto;
+
+    }
+
+
 
 
 

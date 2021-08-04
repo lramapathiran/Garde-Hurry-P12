@@ -1,5 +1,7 @@
 package com.lavanya.api.service;
 
+import com.lavanya.api.dto.ChildrenDto;
+import com.lavanya.api.mapper.ChildrenMapper;
 import com.lavanya.api.model.Children;
 import com.lavanya.api.repository.ChildrenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,16 @@ public class ChildrenService {
     @Autowired
     ChildrenRepository childrenRepository;
 
+    @Autowired
+    ChildrenMapper childrenMapper;
+
     /**
      * method to save a user child.
-     * @param children that needs to be saved in database.
+     * @param childrenDto that needs to be saved in database.
      */
-    public void saveChildren(Children children) {
+    public void saveChildren(ChildrenDto childrenDto) {
+
+        Children children = childrenMapper.INSTANCE.childrenDtoToChildren(childrenDto);
 
         childrenRepository.save(children);
 

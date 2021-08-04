@@ -47,11 +47,19 @@ public class FriendServiceTestIT {
 
     @Test
     public void findFriendRelationshipByBothUsersIdTest() {
-        int userWhoInviteId = 3;
-        int userInvitedId = 95;
+        int userWhoInviteId1 = 3;
+        int userInvitedId1 = 95;
 
-        FriendDto friendDto = friendService.findFriendRelationshipByBothUsersId(userInvitedId,userWhoInviteId);
+        int userWhoInviteId2 = 95;
+        int userInvitedId2 = 3;
 
-        assertEquals(111,friendDto.getId());
+
+
+        FriendDto friendDto1 = friendService.findFriendRelationshipByBothUsersId(userInvitedId1,userWhoInviteId1);
+        FriendDto friendDto2 = friendService.findFriendRelationshipByBothUsersId(userInvitedId2,userWhoInviteId2);
+
+        assertEquals(111,friendDto1.getId());
+        assertEquals(111,friendDto2.getId());
+
     }
 }

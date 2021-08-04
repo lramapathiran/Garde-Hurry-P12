@@ -70,20 +70,8 @@ public class UserService{
         userDto.setActive(true);
         userDto.setRoles("USER");
         userDto.setValidated(false);
-//        userDto.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        List<ChildrenDto> childrenDtos = userDto.getChildrenDtos();
-
-        List<Children> childrens = new ArrayList<>();
-
-        for(ChildrenDto childrenDto : childrenDtos) {
-            childrenDto.setUser(userDto);
-
-            Children children = childrenMapper.INSTANCE.childrenDtoToChildren(childrenDto);
-//            childrenService.saveChildren(children);
-            childrens.add(children);
-        }
         User user = userMapper.INSTANCE.userDtoToUser(userDto);
-        user.setChildrens(childrens);
+
         User userSaved = userRepository.save(user);
 
         return userMapper.INSTANCE.userToUserDto(userSaved);

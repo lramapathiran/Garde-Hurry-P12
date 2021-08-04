@@ -46,7 +46,7 @@
                                     <span th:if="${user.situation} == false">Sans activité</span>
                                 </p>
                                 <p class="col-sm-12"><strong>Mes enfants </strong>:
-                                    <ul th:each="child : ${user.childrenDtos}">
+                                    <ul th:if="${!user.childrenDtos.empty}" th:each="child : ${user.childrenDtos}">
                                         <li>
                                             <span th:text="${child.name}"></span>,&nbsp;
                                             <span th:text="${child.age}"></span>&nbsp; an(s),&nbsp;
@@ -62,6 +62,9 @@
                                             </span>
                                         </li>
                                     </ul>
+                                    <span>
+                                        <button type="button"><a class="text-primary font-weight-bold" th:href="@{/createChildren/{userId}(userId=${user.id})}">Ajouter un enfant</a></button>
+                                    </span>
                                 </p>
                             </div>
 

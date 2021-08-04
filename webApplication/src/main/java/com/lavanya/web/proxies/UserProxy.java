@@ -24,4 +24,7 @@ public interface UserProxy {
 
     @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void saveUser(@RequestBody UserDto userDto);
+
+    @GetMapping("/loadUserByUsername/{username}")
+    UserDto loadUserByusername(@PathVariable ("username") String username);
 }
