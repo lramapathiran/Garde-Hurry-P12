@@ -39,6 +39,11 @@ public class UserController {
 
     }
 
+    @PostMapping("/updateUser")
+    public void updateUser(@RequestBody UserDto userDto) {
+        userService.updateUser(userDto);
+    }
+
     /**
      * GET requests for /users endpoint.
      * This controller-method retrieves from database all users registered in database.
@@ -58,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/loadUserByUsername/{username}")
-    public UserDto loadUserByusername(@PathVariable ("username") String username) {
+    public UserDto loadUserByUsername(@PathVariable ("username") String username) {
 
         UserDto userDto = userService.findUserByUsername(username);
 

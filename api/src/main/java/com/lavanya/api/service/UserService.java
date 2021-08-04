@@ -94,6 +94,10 @@ public class UserService{
     public void updateUser(UserDto userDto) {
 
         User user = userMapper.INSTANCE.userDtoToUser(userDto);
+        user.setPassword(this.getUserById(user.getId()).getPassword());
+        user.setRoles(this.getUserById(user.getId()).getRoles());
+        user.setActive(true);
+        user.setValidated(this.getUserById(user.getId()).getValidated());
         userRepository.save(user);
     }
 

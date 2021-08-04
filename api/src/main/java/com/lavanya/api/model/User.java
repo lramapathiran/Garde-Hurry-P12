@@ -39,11 +39,10 @@ public class User {
 
     private String roles;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
     private List<Children> childrens;
 
-    @OneToMany(mappedBy="userCommented", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userCommented")
     @JsonIgnore
     private List<Comment> commentsReceived;
 
@@ -51,18 +50,18 @@ public class User {
     @JsonIgnore
     private List<Comment> commentsMade;
 
-    @OneToMany(mappedBy="userInNeed", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userInNeed")
     @JsonIgnore
     private List<Childcare> childcareRequests;
 
-    @OneToMany(mappedBy="userWatching", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userWatching")
     @JsonIgnore
     private List<Childcare> childcareMissions;
 
-    @OneToMany(mappedBy="userWhoInvite", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userWhoInvite")
     private List<Friend> sentFriendInvitations;
 
-    @OneToMany(mappedBy="userInvited", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="userInvited")
     private List<Friend> receivedFriendInvitations;
 
     public User() {

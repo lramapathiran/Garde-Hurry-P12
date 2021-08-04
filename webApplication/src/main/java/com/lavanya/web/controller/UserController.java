@@ -75,10 +75,24 @@ public class UserController {
     public String saveUser(@ModelAttribute ("user") UserDto userDto, Model model) {
         userProxy.saveUser(userDto);
 
-        int userId = userProxy.loadUserByusername(userDto.getEmail()).getId();
+        int userId = userProxy.loadUserByUsername(userDto.getEmail()).getId();
         return "redirect:/user/" + userId;
     }
 
+    @GetMapping("updateProfile/{id}")
+    public String showUserProfileFormForUpdate(@PathVariable("id") int userConnectedId, Model model){
+        UserDto userDto = userProxy.getUserConnected(userConnectedId);
+        model.addAttribute("user",userDto);
+        return "updateProfile";
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(@ModelAttribute ("user") UserDto userDto) {
+        userProxy.updateUser(userDto);
+
+        int userId = userProxy.loadUserByUsername(userDto.getEmail()).getId();
+        return "redirect:/user/" + userId;
+    }
 
     @GetMapping("/user/{id}")
     public String showUserProfile(@PathVariable("id") int id, Model model) {

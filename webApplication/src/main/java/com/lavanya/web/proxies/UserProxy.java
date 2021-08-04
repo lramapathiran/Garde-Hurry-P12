@@ -19,12 +19,15 @@ public interface UserProxy {
 //    @PostMapping(value="/api/auth/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 //    String login(@RequestBody AuthBodyDto data);
 
-    @GetMapping(value="/users/{pageNumber}")
+    @GetMapping("/users/{pageNumber}")
     Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage);
 
     @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void saveUser(@RequestBody UserDto userDto);
 
+    @PostMapping (value="/updateUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void updateUser(@RequestBody UserDto userDto);
+
     @GetMapping("/loadUserByUsername/{username}")
-    UserDto loadUserByusername(@PathVariable ("username") String username);
+    UserDto loadUserByUsername(@PathVariable ("username") String username);
 }
