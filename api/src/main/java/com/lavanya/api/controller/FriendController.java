@@ -35,9 +35,14 @@ public class FriendController {
         return  friendService.isUsersFriends(userConnectedId,userProfileVisitedId);
     }
 
-    @PostMapping(value="/friendsRequest/{id}")
-    public List<FriendDto> FriendRequests(@PathVariable("id") int userConnected) {
+    @GetMapping(value="/friendsRequest/{id}")
+    public List<FriendDto> getFriendRequestsByUser(@PathVariable("id") int userConnected) {
         return friendService.getListOfFriendRequests(userConnected);
+    }
+
+    @GetMapping(value="/friends/{id}")
+    public List<FriendDto> getFriendsListByUser(@PathVariable("id") int userConnected) {
+        return friendService.getListOfFriends(userConnected);
     }
 
     @PostMapping(value="/updateFriend/{id}")

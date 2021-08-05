@@ -61,7 +61,7 @@ public class FriendService {
     }
 
     /**
-     * method to verify if a friend relationship exists between two users.
+     * method to verify if a friend relationship exists between two users even if this relation is still awaiting a validation from one of the parties.
      * @param userConnectedId id of one the user concerned.
      * @param userProfileVisitedId id of the second user involved
      */
@@ -82,7 +82,29 @@ public class FriendService {
     public List<FriendDto> getListOfFriendRequests(int userConnectedId) {
 
         List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
-        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsList);
+        List<Friend> friendsRequestsList = new ArrayList<>();
+        for(Friend friend : friendsList){
+            if(!friend.getAccepted()){
+                friendsRequestsList.add(friend);
+            }
+
+        }
+        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsRequestsList);
+
+        return friendDtos;
+    }
+
+    public List<FriendDto> getListOfFriends(int userConnectedId) {
+
+        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
+        List<Friend> friendsRequestsList = new ArrayList<>();
+        for(Friend friend : friendsList){
+            if(friend.getAccepted()){
+                friendsRequestsList.add(friend);
+            }
+
+        }
+        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsRequestsList);
 
         return friendDtos;
     }

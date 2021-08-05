@@ -19,8 +19,11 @@ public interface FriendProxy {
     @GetMapping(value="/isFriend/{userConnectedId}/{userProfileVisitedId}")
     Boolean isMyfriend(@PathVariable("userConnectedId") int userConnectedId, @PathVariable ("userProfileVisitedId") int userProfileVisitedId);
 
-    @PostMapping(value="/friendsRequest/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    List<FriendDto> FriendRequests(@PathVariable ("id") int userConnected);
+    @GetMapping(value="/friendsRequest/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    List<FriendDto> getFriendRequestsByUser(@PathVariable ("id") int userConnected);
+
+    @GetMapping(value="/friends/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    List<FriendDto>getFriendsListByUser(@PathVariable ("id") int userConnected);
 
     @PostMapping(value="/updateFriend/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void acceptFriendInvitation(@PathVariable ("id") int id);

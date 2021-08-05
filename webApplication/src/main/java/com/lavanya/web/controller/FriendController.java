@@ -52,9 +52,11 @@ public class FriendController {
     @GetMapping("/user/friends/{id}")
     public String showlistOfFriendsByUser(@PathVariable ("id") int id, Model model) {
 
-        List<FriendDto> friendDtos = friendProxy.FriendRequests(id);
-        model.addAttribute("requests", friendDtos);
-        model.addAttribute("userId",id);
+        List<FriendDto> friendDtos1 = friendProxy.getFriendRequestsByUser(id);
+        List<FriendDto> friendDtos2 = friendProxy.getFriendsListByUser(id);
+        model.addAttribute("requests", friendDtos1);
+        model.addAttribute("friendDtos", friendDtos2);
+        model.addAttribute("userConnectedId",id);
 
         return "friendsDashboard";
     }
