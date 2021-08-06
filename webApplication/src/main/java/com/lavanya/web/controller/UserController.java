@@ -9,7 +9,9 @@ import com.lavanya.web.dto.FriendDto;
 import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.FriendProxy;
 import com.lavanya.web.proxies.UserProxy;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,39 +38,31 @@ public class UserController {
      * This controller-method retrieves from database all users registered with admin or user role and pass that list to the view "usersList.html"
      *
      * @param model to pass data to the view.
-     * @param currentPage an int to specify which page of Users to be displayed.
+     * @param pageNumber an int to specify which page of Users to be displayed.
      * @return usersList.html
      */
     @GetMapping("/users/{pageNumber}")
-    public String showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage, Model model) throws JsonProcessingException {
+    public String showUsersListByPage(@PathVariable(value = "pageNumber") int pageNumber, Model model) throws JsonProcessingException {
 
-        String json = new Gson().toJson(userProxy.showUsersList());
-        List<UserDto> userDtos = new ObjectMapper().readValue(
-                json, new TypeReference<List<UserDto>>() { }
-        );
+        List<UserDto> listUserDtos;
+        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<UserDto> userDtos = userProxy.showUsersList();
 
+        int toIndex = Math.min(startItem + pageSize, userDtos.size());
+        listUserDtos = userDtos.subList(startItem, toIndex);
 
-
-        Sort sort = Sort.by("lastName").ascending();
-        Pageable pageable = PageRequest.of(currentPage -1, 10, sort);
-
-        final Page<UserDto> page = new PageImpl<>(userDtos, pageable, userDtos.size());
-
-//        Page<UserDto> page = userProxy.showUsersListByPage(currentPage);
-
-
+        Page<UserDto> page = new PageImpl<UserDto>(listUserDtos, PageRequest.of(currentPage, pageSize), userDtos.size());
         List<UserDto> usersPage = page.getContent();
         int totalPages = page.getTotalPages();
         long totalUsers = page.getTotalElements();
 
         model.addAttribute("usersPage", usersPage);
-        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalUsers", totalUsers);
-
-//        List<UserDto> userDtos = userProxy.showUsersList();
-//        model.addAttribute("usersList", userDtos);
-
 
         return "usersList";
 

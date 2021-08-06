@@ -143,7 +143,7 @@ public class UserService{
     }
 
     public List<UserDto> getAllUsersInList() {
-        List<User> listOfUsers = userRepository.findAll();
+        List<User> listOfUsers = userRepository.findAllByOrderByLastName();
         return userMapper.listUserToListUserDto(listOfUsers);
     }
 
