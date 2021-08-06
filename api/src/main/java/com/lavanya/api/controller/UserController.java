@@ -62,6 +62,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("/users")
+    public List<UserDto> showUsersList(){
+        return userService.getAllUsersInList();
+    }
+
     @GetMapping("/loadUserByUsername/{username}")
     public UserDto loadUserByUsername(@PathVariable ("username") String username) {
 

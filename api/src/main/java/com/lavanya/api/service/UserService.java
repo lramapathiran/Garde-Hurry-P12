@@ -142,6 +142,11 @@ public class UserService{
         return userPage;
     }
 
+    public List<UserDto> getAllUsersInList() {
+        List<User> listOfUsers = userRepository.findAll();
+        return userMapper.listUserToListUserDto(listOfUsers);
+    }
+
     /**
      * method to verify if a user to be saved has entered an email already existing in database.
      * @param email, email to verify its existence or not in database.
@@ -155,5 +160,6 @@ public class UserService{
         User user = userMapper.INSTANCE.userDtoToUser(userDto);
         userRepository.delete(user);
     }
+
 
 }

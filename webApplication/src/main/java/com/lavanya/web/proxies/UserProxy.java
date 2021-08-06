@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * interface required to communicate with api module and make all the requests related to User object.
  * @author lavanya
@@ -21,6 +23,9 @@ public interface UserProxy {
 
     @GetMapping("/users/{pageNumber}")
     Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage);
+
+    @GetMapping(value="/users", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    List<UserDto> showUsersList();
 
     @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void saveUser(@RequestBody UserDto userDto);

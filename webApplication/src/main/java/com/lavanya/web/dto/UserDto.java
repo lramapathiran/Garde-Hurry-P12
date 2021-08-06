@@ -94,8 +94,8 @@ public class UserDto {
         return isValidated;
     }
 
-    public void setValidated(Boolean validated) {
-        isValidated = validated;
+    public void setValidated(Boolean isValidated) {
+        isValidated = isValidated;
     }
 
     public Boolean getSituation() {

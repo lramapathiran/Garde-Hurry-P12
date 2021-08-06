@@ -1,11 +1,16 @@
 package com.lavanya.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.lavanya.web.configuration.SimplePageImpl;
 import com.lavanya.web.dto.FriendDto;
 import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.FriendProxy;
 import com.lavanya.web.proxies.UserProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +30,7 @@ public class UserController {
     @Autowired
     FriendProxy friendProxy;
 
+
     /**
      * GET requests for /users endpoint.
      * This controller-method retrieves from database all users registered with admin or user role and pass that list to the view "usersList.html"
@@ -34,13 +40,22 @@ public class UserController {
      * @return usersList.html
      */
     @GetMapping("/users/{pageNumber}")
-    public String showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage, Model model) {
+    public String showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage, Model model) throws JsonProcessingException {
 
-//        model.addAttribute("user", userConnected);
-//
-//        int userId = userConnected.getId();
+        String json = new Gson().toJson(userProxy.showUsersList());
+        List<UserDto> userDtos = new ObjectMapper().readValue(
+                json, new TypeReference<List<UserDto>>() { }
+        );
 
-        Page<UserDto> page = userProxy.showUsersListByPage(currentPage);
+
+
+        Sort sort = Sort.by("lastName").ascending();
+        Pageable pageable = PageRequest.of(currentPage -1, 10, sort);
+
+        final Page<UserDto> page = new PageImpl<>(userDtos, pageable, userDtos.size());
+
+//        Page<UserDto> page = userProxy.showUsersListByPage(currentPage);
+
 
         List<UserDto> usersPage = page.getContent();
         int totalPages = page.getTotalPages();
@@ -50,6 +65,9 @@ public class UserController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalUsers", totalUsers);
+
+//        List<UserDto> userDtos = userProxy.showUsersList();
+//        model.addAttribute("usersList", userDtos);
 
 
         return "usersList";

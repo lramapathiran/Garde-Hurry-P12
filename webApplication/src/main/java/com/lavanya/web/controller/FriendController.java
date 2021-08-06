@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,6 +55,22 @@ public class FriendController {
 
         List<FriendDto> friendDtos1 = friendProxy.getFriendRequestsByUser(id);
         List<FriendDto> friendDtos2 = friendProxy.getFriendsListByUser(id);
+
+//      2nd way to send lsit of friends
+        List<UserDto> friendsUserDtos = new ArrayList<>();
+
+        for(FriendDto friendDto : friendDtos2){
+           int userInvitedId = friendDto.getUserInvited().getId();
+           int userWhoInviteId = friendDto.getUserWhoInvite().getId();
+           if(userInvitedId == id ){
+               UserDto userDto = userProxy.getUserConnected(userWhoInviteId);
+               friendsUserDtos.add(userDto);
+           }
+        }
+        model.addAttribute("friendsUserDtos", friendsUserDtos);
+//     end of 2nd way
+
+
         model.addAttribute("requests", friendDtos1);
         model.addAttribute("friendDtos", friendDtos2);
         model.addAttribute("userConnectedId",id);

@@ -3,20 +3,20 @@
 <!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Liste des Utilisateurs</title>
 </head>
 <body>
 <div id="page">
     <!-- navbar-->
-<!--    <header id="header2" class="fixed-top" th:insert="fragments/componentsAdmin.html :: headerVisitAdmin"></header>-->
+    <!--    <header id="header2" class="fixed-top" th:insert="fragments/componentsAdmin.html :: headerVisitAdmin"></header>-->
 
     <div class="d-flex align-items-stretch" id="content">
-<!--        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsAdmin.html :: sidebar-connected"></div>-->
+        <!--        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsAdmin.html :: sidebar-connected"></div>-->
         <div class="page-holder w-100 d-flex flex-wrap">
             <div class="container-fluid px-xl-5">
 
-<!--                <section class="py-5" th:insert="fragments/componentsAdmin.html :: dashboard-data"></section>-->
+                <!--                <section class="py-5" th:insert="fragments/componentsAdmin.html :: dashboard-data"></section>-->
 
                 <section class="py-5" id="card">
                     <div class="table-responsive">
@@ -40,7 +40,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="user : ${usersPage}">
+                                            <tr th:each="user : ${usersList}">
                                                 <td th:utext = "${user.lastName}" scope="row">...</td>
                                                 <td th:utext = "${user.firstName}" scope="row">...</td>
                                                 <td th:utext = "${user.email}" scope="row">...</td>
@@ -56,26 +56,26 @@
                                             </tbody>
                                         </table>
                                         <br>
-                                        <div class="text-center">
-                                            Total d'Utilisateurs : [[${totalUsers}]] - Page : [[${currentPage}]]/[[${totalPages}]]
-                                            &nbsp; - &nbsp;
-                                            <span>
-			                   		<a th:if="${currentPage > 1}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage - 1})}">Précédent</a>
-			                   		<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
-			                   	</span>
-                                            <span th:each="i: ${#numbers.sequence(1,totalPages)}">
-			                   		<a th:if="${i != currentPage}" th:href="@{/users/{pageNumber}(pageNumber=${i})}">[[${i}]]</a>
-			                   		<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
-			                   	</span>
-                                            <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage + 1})}">Suivant</a>
-			                   		<span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
-			                   	</span>
-                                            <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${totalPages})}">Dernier</a>
-			                   		<span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
-			                   	</span>
-                                        </div>
+<!--                                        <div class="text-center">-->
+<!--                                            Total d'Utilisateurs : [[${totalUsers}]] - Page : [[${currentPage}]]/[[${totalPages}]]-->
+<!--                                            &nbsp; - &nbsp;-->
+<!--                                            <span>-->
+<!--                                                <a th:if="${currentPage > 1}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage - 1})}">Précédent</a>-->
+<!--                                                <span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;-->
+<!--			                   	            </span>-->
+<!--                                            <span th:each="i: ${#numbers.sequence(1,totalPages)}">-->
+<!--			                   		            <a th:if="${i != currentPage}" th:href="@{/users/{pageNumber}(pageNumber=${i})}">[[${i}]]</a>-->
+<!--			                   		            <span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;-->
+<!--			                   	            </span>-->
+<!--                                            <span>-->
+<!--			                   		            <a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage + 1})}">Suivant</a>-->
+<!--			                   		            <span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;-->
+<!--			                            	</span>-->
+<!--                                            <span>-->
+<!--			                   		            <a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${totalPages})}">Dernier</a>-->
+<!--			                   		            <span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;-->
+<!--			                   	            </span>-->
+<!--                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
         </div>
     </div>
 
-<!--    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>-->
+    <!--    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>-->
 
 </div>
 <!-- JavaScript files-->
