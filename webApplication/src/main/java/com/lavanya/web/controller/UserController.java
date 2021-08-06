@@ -42,7 +42,7 @@ public class UserController {
      * @return usersList.html
      */
     @GetMapping("/users/{pageNumber}")
-    public String showUsersListByPage(@PathVariable(value = "pageNumber") int pageNumber, Model model) throws JsonProcessingException {
+    public String showUsersListByPage(@PathVariable(value = "pageNumber") int pageNumber, @RequestParam ("user") int userConnectedId, Model model){
 
         List<UserDto> listUserDtos;
         Pageable pageable = PageRequest.of(pageNumber -1, 5);
@@ -63,6 +63,7 @@ public class UserController {
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalUsers", totalUsers);
+        model.addAttribute("userConnectedId", userConnectedId);
 
         return "usersList";
 
@@ -106,6 +107,12 @@ public class UserController {
         return "redirect:/user/" + userId;
     }
 
+    @PostMapping("/delete/user")
+    public String deleteUser(@ModelAttribute ("id") int userDtoToDeleteId, @ModelAttribute ("userConnectedId") int userConnectedId) {
+
+        userProxy.deleteUser(userDtoToDeleteId);
+        return "redirect:/users/1?user=" + userConnectedId;
+    }
     @GetMapping("/user/{id}")
     public String showUserProfile(@PathVariable("id") int id, Model model) {
         UserDto userDto = userProxy.getUserConnected(id);

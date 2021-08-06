@@ -35,4 +35,7 @@ public interface UserProxy {
 
     @GetMapping("/loadUserByUsername/{username}")
     UserDto loadUserByUsername(@PathVariable ("username") String username);
+
+    @PostMapping("/delete/user/{userToDeleteId}")
+    void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId);
 }

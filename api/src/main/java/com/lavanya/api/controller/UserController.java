@@ -44,6 +44,11 @@ public class UserController {
         userService.updateUser(userDto);
     }
 
+    @PostMapping("/delete/user/{userToDeleteId}")
+    public void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId){
+        userService.deleteUser(userDtoToDeleteId);
+    }
+
     /**
      * GET requests for /users endpoint.
      * This controller-method retrieves from database all users registered in database.

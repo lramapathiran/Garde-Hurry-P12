@@ -162,4 +162,9 @@ public class UserService{
     }
 
 
+    public void deleteUser(int userDtoToDeleteId) {
+
+        User user = userRepository.findById(userDtoToDeleteId).get();
+        userRepository.delete(user);
+    }
 }
