@@ -3,7 +3,9 @@
 <!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <title>Liste des Utilisateurs</title>
 </head>
 <body>
@@ -36,6 +38,7 @@
                                                 <th>Droits d'utilisateurs</th>
                                                 <th>Adresse</th>
                                                 <th>Profil Validé</th>
+                                                <th>Action</th>
                                                 <th>Supprimer</th>
                                             </tr>
                                             </thead>
@@ -52,6 +55,30 @@
                                                 </td>
                                                 <td scope="row" th:if="${user.validated}">Oui</td>
                                                 <td scope="row" th:unless="${user.validated}">Non</td>
+                                                <td scope="row" >
+                                                    <form action="#" th:action="@{/validateProfile}" th:object="${validate}" th:method="post">
+                                                        <input type="hidden" name="userToValidateId" th:value = "${user.id}"/>
+                                                        <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
+
+                                                        <div th:if="${user.validated}">
+                                                            <input type="checkbox" checked name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
+                                                        </div>
+
+                                                        <div th:unless="${user.validated}">
+                                                           <input type="checkbox" name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
+
+                                                        </div>
+
+                                                        <button type="submit" class="float-md-right"><img src="https://img.icons8.com/color/30/000000/save.png"/></button>
+                                                    </form>
+                                                </td>
+                                                <td scope="row">
+                                                    <form action="#" th:action="@{/delete/user}" th:method="post">
+                                                        <input type="hidden" name="id" th:value = "${user.id}"/>
+                                                        <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
+                                                        <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -60,19 +87,19 @@
                                             Total d'Utilisateurs : [[${totalUsers}]] - Page : [[${currentPage}]]/[[${totalPages}]]
                                             &nbsp; - &nbsp;
                                             <span>
-			                   		<a th:if="${currentPage > 1}" th:href="@{/users(pageNumber=${currentPage - 1})}">Précédent</a>
+			                   		<a th:if="${currentPage > 1}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage - 1})}">Précédent</a>
 			                   		<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
 			                   	</span>
                                             <span th:each="i: ${#numbers.sequence(1,totalPages)}">
-			                   		<a th:if="${i != currentPage}" th:href="@{/users(pageNumber=${i})}">[[${i}]]</a>
+			                   		<a th:if="${i != currentPage}" th:href="@{/users/{pageNumber}(pageNumber=${i})}">[[${i}]]</a>
 			                   		<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
 			                   	</span>
                                             <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users(pageNumber=${currentPage + 1})}">Suivant</a>
+			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage + 1})}">Suivant</a>
 			                   		<span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
 			                   	</span>
                                             <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users(pageNumber=${totalPages})}">Dernier</a>
+			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${totalPages})}">Dernier</a>
 			                   		<span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
 			                   	</span>
                                         </div>
@@ -89,10 +116,13 @@
         </div>
     </div>
 
-<!--    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>-->
 
 </div>
-<!-- JavaScript files-->
-<!--<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>-->
+
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
 </body>
 </html>

@@ -13,7 +13,9 @@ public interface FriendMapper {
     FriendMapper INSTANCE = Mappers.getMapper(FriendMapper.class);
 
     Friend friendDtoToFriend(FriendDto friendDto);
+
     FriendDto friendToFriendDto(Friend friend);
+
     List<FriendDto> listFriendToListFriendDto(List<Friend> sentInvitations);
     List<Friend> listFriendDtoToListFriend(List<FriendDto> sentFriendDtoInvitations);
 }

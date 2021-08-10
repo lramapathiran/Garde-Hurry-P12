@@ -17,9 +17,8 @@ public class Children {
 
     private Integer age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="user_id",  nullable = false)
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -29,7 +28,7 @@ public class Children {
     @JoinTable(name="children_to_watch",
             joinColumns = @JoinColumn(name="childcare_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name = "children_id", referencedColumnName="id"))
-    private List<Childcare> childcareList;
+    private List<Childcare> childcares;
 
     public Children() {
     }
@@ -74,11 +73,11 @@ public class Children {
         this.school = school;
     }
 
-    public List<Childcare> getChildcareList() {
-        return childcareList;
+    public List<Childcare> getChildcares() {
+        return childcares;
     }
 
-    public void setChildcareList(List<Childcare> childcareList) {
-        this.childcareList = childcareList;
+    public void setChildcares(List<Childcare> childcares) {
+        this.childcares = childcares;
     }
 }

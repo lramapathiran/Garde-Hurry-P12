@@ -10,6 +10,7 @@ public class FriendDto {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private LocalDate date;
+    private Boolean isAccepted;
     private UserDto userWhoInvite;
     private UserDto userInvited;
 
@@ -30,6 +31,14 @@ public class FriendDto {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
     }
 
     public UserDto getUserWhoInvite() {

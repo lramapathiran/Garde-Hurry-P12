@@ -1,28 +1,44 @@
 package com.lavanya.web.proxies;
 
-import com.lavanya.web.configuration.WebappOpenFeignConfiguration;
 import com.lavanya.web.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * interface required to communicate with api module and make all the requests related to User object.
  * @author lavanya
  */
-@FeignClient(name = "userApi", url = "localhost:9090",configuration = WebappOpenFeignConfiguration.class)
+@FeignClient(name = "userApi", url = "localhost:9090")
 public interface UserProxy {
 
     @GetMapping("/user/{id}")
-    Optional<UserDto> getUserConnected(@PathVariable("id") int id);
+    UserDto getUserConnected(@PathVariable("id") int id);
 
 //    @PostMapping(value="/api/auth/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 //    String login(@RequestBody AuthBodyDto data);
 
-    @GetMapping("/users")
-    Page<UserDto> showUsersListByPage(@RequestParam(name="pageNumber") int currentPage);
+    @GetMapping("/users/{pageNumber}")
+    Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage);
 
+    @GetMapping(value="/users", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    List<UserDto> showUsersList();
+
+    @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void saveUser(@RequestBody UserDto userDto);
+
+    @PostMapping (value="/updateUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void updateUser(@RequestBody UserDto userDto);
+
+    @GetMapping("/loadUserByUsername/{username}")
+    UserDto loadUserByUsername(@PathVariable ("username") String username);
+
+    @PostMapping("/delete/user/{userToDeleteId}")
+    void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId);
+
+    @PostMapping(value="/validate/profile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void validateOrNotUserProfile(@RequestBody UserDto userDto);
 }

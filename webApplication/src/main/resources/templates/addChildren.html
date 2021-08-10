@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <title>Ajouter un enfant</title>
+
+</head>
+<body>
+
+<div class="d-flex justify-content-center ">
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-4 view">
+            <section class="py-6 d-flex justify-content-center">
+
+                <!-- Form Elements -->
+                <div class="col-lg-5 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="h6 text-uppercase mb-0">Inscription des enfants</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="form-horizontal" action="#" th:action="@{/saveChildren}" th:object="${childrenDto}" method="post" enctype="utf8">
+                                <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
+                                <div class="form-group row" >
+                                    <label class="col-sm-3 col-form-label" for="name">Prénom</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+                                        <!--                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="fieldError">Données incorrectes</span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+
+                                <div class="form-group row ${#fields.hasErrors('age')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="age">Age</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" th:field="*{age}" id="age" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div class="form-group row ${#fields.hasErrors('school')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="school">Scolarisé</label>
+                                    <select name="school" th:field="*{school}" id="school">
+                                        <option th:each="schoolOpt : ${T(com.lavanya.web.dto.School).values()}"
+                                                th:value="${schoolOpt}" th:text="${schoolOpt.label}"></option>
+                                    </select>
+
+                                </div>
+
+                                <div>
+                                    <p th:if="${message}" th:text="${message}" class="message"></p>
+                                </div>
+
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <div class="col-md5  mx-auto d-block">
+                                        <a th:href="@{/user/{id}(id=${userConnectedId})}"><button type="button" class="btn btn-secondary">Retour</button></a>
+                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

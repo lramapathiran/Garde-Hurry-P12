@@ -1,8 +1,11 @@
 package com.lavanya.api.service;
 
+import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.UserAlreadyExistException;
+import com.lavanya.api.mapper.ChildrenMapper;
 import com.lavanya.api.mapper.UserMapper;
+import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +31,13 @@ public class UserService{
     UserRepository userRepository;
 
     @Autowired
-    UserMapper mapper;
+    ChildrenService childrenService;
+
+    @Autowired
+    UserMapper userMapper;
+
+    @Autowired
+    ChildrenMapper childrenMapper;
 
 //    @Autowired
 //    private PasswordEncoder bCryptPasswordEncoder;
@@ -42,7 +52,7 @@ public class UserService{
 
         User user = userRepository.findByEmail(email);
 
-        return mapper.INSTANCE.userToUserDto(user);
+        return userMapper.INSTANCE.userToUserDto(user);
     }
 
     /**
@@ -58,13 +68,13 @@ public class UserService{
         }
 
         userDto.setActive(true);
-        userDto.setRoles("ADMIN");
+        userDto.setRoles("USER");
         userDto.setValidated(false);
-//        userDto.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        User user = mapper.INSTANCE.userDtoToUser(userDto);
+        User user = userMapper.INSTANCE.userDtoToUser(userDto);
+
         User userSaved = userRepository.save(user);
 
-        return mapper.INSTANCE.userToUserDto(userSaved);
+        return userMapper.INSTANCE.userToUserDto(userSaved);
     }
 
     /**
@@ -83,7 +93,11 @@ public class UserService{
      */
     public void updateUser(UserDto userDto) {
 
-        User user = mapper.INSTANCE.userDtoToUser(userDto);
+        User user = userMapper.INSTANCE.userDtoToUser(userDto);
+        user.setPassword(this.getUserById(user.getId()).getPassword());
+        user.setRoles(this.getUserById(user.getId()).getRoles());
+        user.setActive(true);
+        user.setValidated(this.getUserById(user.getId()).getValidated());
         userRepository.save(user);
     }
 
@@ -93,7 +107,7 @@ public class UserService{
      */
     public void validateUserProfileByAdmin(UserDto userDto) {
 
-        User user = mapper.INSTANCE.userDtoToUser(userDto);
+        User user = userMapper.INSTANCE.userDtoToUser(userDto);
         user.setValidated(true);
         userRepository.save(user);
     }
@@ -106,7 +120,10 @@ public class UserService{
     public UserDto getUserById (Integer id) {
 
         Optional<User> user = userRepository.findById(id);
-        UserDto userDto = mapper.INSTANCE.userToUserDto(user.get());
+        UserDto userDto = userMapper.INSTANCE.userToUserDto(user.get());
+
+        userDto.setChildrenDtos(childrenMapper.listChildrenToListChildrenDto(user.get().getChildrens()));
+
         return userDto;
 
     }
@@ -114,13 +131,20 @@ public class UserService{
     /**
      * method to retrieve all users saved in database and displayed with pagination.
      * @param pageNumber, int to access to the number of User Page to display.
-     * @return Page of User.
+     * @return Page of UserDto.
      */
     public Page<User> getAllUsers(int pageNumber) {
         Sort sort = Sort.by("lastName").ascending();
         Pageable pageable = PageRequest.of(pageNumber -1, 10, sort);
 
-        return userRepository.findAll(pageable);
+        Page<User> userPage = userRepository.findAll(pageable);
+//        Page<UserDto> userDtoPage = userMapper.pageUserToPageUserDto(userPage);
+        return userPage;
+    }
+
+    public List<UserDto> getAllUsersInList() {
+        List<User> listOfUsers = userRepository.findAllByOrderByLastName();
+        return userMapper.listUserToListUserDto(listOfUsers);
     }
 
     /**
@@ -133,8 +157,20 @@ public class UserService{
     }
 
     public void deleteUserByAdmin(UserDto userDto) {
-        User user = mapper.INSTANCE.userDtoToUser(userDto);
+        User user = userMapper.INSTANCE.userDtoToUser(userDto);
         userRepository.delete(user);
     }
 
+
+    public void deleteUser(int userDtoToDeleteId) {
+
+        User user = userRepository.findById(userDtoToDeleteId).get();
+        userRepository.delete(user);
+    }
+
+    public void updateUserProfileValidationStatus(UserDto userDto) {
+        User user = userMapper.INSTANCE.userDtoToUser(userDto);
+        userRepository.save(user);
+
+    }
 }

@@ -20,4 +20,7 @@ public interface ChildcareMapper {
 
     List<ChildcareDto> listChildcareToListChildcareDto(List<Childcare> ChildcareRequests);
 
+    List<Childcare> ChildcareDtosToChildcares(List<ChildcareDto> ChildcareDtos);
+
+    List<ChildcareDto> ChildcaresToChildcareDtos(List<Childcare> Childcares);
 }
