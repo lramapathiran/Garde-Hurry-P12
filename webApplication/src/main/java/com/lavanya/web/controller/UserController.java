@@ -3,10 +3,10 @@ package com.lavanya.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.lavanya.web.configuration.SimplePageImpl;
 import com.lavanya.web.dto.FriendDto;
 import com.lavanya.web.dto.UserDto;
+import com.lavanya.web.dto.Validate;
 import com.lavanya.web.proxies.FriendProxy;
 import com.lavanya.web.proxies.UserProxy;
 import org.apache.catalina.User;
@@ -139,6 +139,22 @@ public class UserController {
         model.addAttribute("isMyFriend", isMyFriend);
 
         return "userProfileToVisit";
+    }
+
+    @PostMapping("/validateProfile")
+    public String validateProfile(Validate validate){
+        UserDto userDto = userProxy.getUserConnected(validate.getUserToValidateId());
+
+        if(validate.getProfileStatus()==null){
+            userDto.setValidated(false);
+        }else{
+            userDto.setValidated(true);
+        }
+
+
+        userProxy.validateOrNotUserProfile(userDto);
+
+        return "redirect:/users/1?user=" + validate.getUserConnectedId();
     }
 
 

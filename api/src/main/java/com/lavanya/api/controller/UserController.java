@@ -7,6 +7,7 @@ import com.lavanya.api.service.UserService;
 import com.lavanya.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,6 +80,11 @@ public class UserController {
 
         return userDto;
 
+    }
+
+    @PostMapping("/validate/profile")
+    void validateOrNotUserProfile(@RequestBody UserDto userDto) {
+        userService.updateUserProfileValidationStatus(userDto);
     }
 
 

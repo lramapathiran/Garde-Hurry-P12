@@ -38,4 +38,7 @@ public interface UserProxy {
 
     @PostMapping("/delete/user/{userToDeleteId}")
     void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId);
+
+    @PostMapping(value="/validate/profile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void validateOrNotUserProfile(@RequestBody UserDto userDto);
 }

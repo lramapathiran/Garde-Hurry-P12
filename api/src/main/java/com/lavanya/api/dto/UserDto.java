@@ -25,6 +25,9 @@ public class UserDto {
     private List<FriendDto> sentFriendDtoInvitations;
     private List<FriendDto> receivedFriendDtoInvitations;
 
+    public UserDto() {
+    }
+
     public Integer getId() {
         return id;
     }

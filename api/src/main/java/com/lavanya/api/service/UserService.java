@@ -167,4 +167,10 @@ public class UserService{
         User user = userRepository.findById(userDtoToDeleteId).get();
         userRepository.delete(user);
     }
+
+    public void updateUserProfileValidationStatus(UserDto userDto) {
+        User user = userMapper.INSTANCE.userDtoToUser(userDto);
+        userRepository.save(user);
+
+    }
 }

@@ -61,10 +61,8 @@
                             </div>
 
                             <br>
-<!--                            <div th:if="${topo.reservation} == ${T(com.lavanya.escalade.enums.Reservation).A}" class="float-md-right">-->
                             <div>
                                 <p th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
-<!--                                <p th:if="${isMyFriend} and ${friend.accepted}">Demande d'amitié en cours!</p>-->
                                 <form th:if="${isMyFriend} and ${friend.accepted}" action="#" th:action="@{/delete/request}" th:method="post">
                                     <input type="hidden" name="id" th:value = "${friend.id}"/>
                                     <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
