@@ -13,7 +13,6 @@ public interface ChildcareMapper {
     ChildcareMapper INSTANCE = Mappers.getMapper(ChildcareMapper.class);
 
     Childcare childcareDtoToChildcare(ChildcareDto childcareDto);
-
     ChildcareDto childcareToChildcareDto(Childcare childcare);
 
     List<Childcare> listChildcareDtoToListChildcare(List<ChildcareDto> ChildcareDtosRequests);

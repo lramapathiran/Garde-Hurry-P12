@@ -1,8 +1,7 @@
 package com.lavanya.api.mapper;
 
-import com.lavanya.api.dto.ChildcareDto;
+
 import com.lavanya.api.dto.ChildrenDto;
-import com.lavanya.api.model.Childcare;
 import com.lavanya.api.model.Children;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

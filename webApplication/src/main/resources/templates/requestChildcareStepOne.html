@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<head th:insert="fragments/componentsRessources.html :: headVisit">-->
+<head>
+    <!--    <meta content="" name="description">-->
+    <!--    <meta content="" name="keywords">-->
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--    <meta name="robots" content="all,follow">-->
+    <title>Demande de Garde</title>
+</head>
+<body>
+<!-- ======= Header ======= -->
+
+<!--<header id="header2" class="fixed-top"th:insert="fragments/componentsVisit.html :: headerVisit"></header>-->
+<div class="d-flex justify-content-center ">
+    <div class="page-holder w-100 d-flex flex-wrap">
+        <div class="container-fluid px-xl-4 view">
+            <section class="py-6 d-flex justify-content-center">
+
+                <!-- Form Elements -->
+                <div class="col-lg-5 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="h6 text-uppercase mb-0">Demande de Garde</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="form-horizontal" action="#" th:action="@{/saveChildcare}" th:object="${childcare}" id="childcareForm" method="post" enctype="utf8">
+                                <input type="hidden" name="id" th:value = "${userConnectedId}"/>
+                                <div class="form-group row" >
+                                    <label class="col-sm-3 col-form-label" for="date">Date</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" th:field="*{date}" id="date" class="form-control"/>
+                                        <!--                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="fieldError">Données incorrectes</span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+
+                                <div class="form-group row ${#fields.hasErrors('timeStart')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="timeStart">Début de garde</label>
+                                    <div class="col-sm-8">
+                                        <input type="time" th:field="*{timeStart}" id="timeStart" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div class="form-group row ${#fields.hasErrors('timeEnd')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="timeEnd">Fin de garde</label>
+                                    <div class="col-sm-8">
+                                        <input type="time" th:field="*{timeEnd}" id="timeEnd" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div>
+                                    <label class="col-sm-3 col-form-label" for="numberOfChildren">Nombre d'enfants</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" min = 1 th:field="*{numberOfChildren}" id="numberOfChildren" class="form-control">
+                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+
+                                <div>
+                                    <label class="col-sm-3 col-form-label" for="userWatchingId">Je confie ma garde à</label>
+                                    <select class="col-sm-8" th:name="userWatchingId" id="userWatchingId">
+                                        <option th:each="friend : ${friends}" th:value="${friend.id}" th:text="${friend.firstName} + ' ' + ${friend.lastName}">
+                                    </select>
+                                </div>
+
+                                <br></br>
+
+                                <div class="form-group row ${#fields.hasErrors('description')}? has-error">
+                                    <label class="col-sm-3 col-form-label" for="description">description</label>
+                                    <div class="col-sm-8">
+                                        <textarea  rows = "8" cols = "80" th:field = "*{description}" id="description" form = "childcareForm" class="form-control" maxlength="600"></textarea>
+                                        <small class="form-text text-muted ml-3">max 600 caractères</small>
+                                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:errorclass="fieldError"></span>
+
+                                    </div>
+                                </div>
+
+                                <br></br>
+
+                                <div>
+                                    <p th:if="${message}" th:text="${message}" class="message"></p>
+                                </div>
+
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <div class="col-md5  mx-auto d-block">
+                                        <a th:href="@{/}"><button type="button" class="btn btn-secondary">Annuler</button></a>
+                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
