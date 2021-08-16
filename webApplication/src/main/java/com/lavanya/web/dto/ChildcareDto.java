@@ -21,7 +21,7 @@ public class ChildcareDto {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
     private LocalTime timeEnd;
     private String description;
-    private UserDto userInNeed;
+    private UserDto userDtoInNeed;
     private UserDto userWatching;
     private Integer numberOfChildren;
     private Boolean isValidated;
@@ -70,12 +70,12 @@ public class ChildcareDto {
         this.description = description;
     }
 
-    public UserDto getUserInNeed() {
-        return userInNeed;
+    public UserDto getUserDtoInNeed() {
+        return userDtoInNeed;
     }
 
-    public void setUserInNeed(UserDto userInNeed) {
-        this.userInNeed = userInNeed;
+    public void setUserDtoInNeed(UserDto userDtoInNeed) {
+        this.userDtoInNeed = userDtoInNeed;
     }
 
     public UserDto getUserWatching() {

@@ -29,7 +29,7 @@ public class Childcare {
     private LocalTime timeEnd;
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_in_need_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
     private User userInNeed;
@@ -45,10 +45,7 @@ public class Childcare {
     @Column(name = "childcare_validated")
     private Boolean isValidated;
 
-    @ManyToMany
-    @JoinTable(name="children_to_watch",
-            joinColumns = @JoinColumn(name="children_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "childcare_id", referencedColumnName="id"))
+    @ManyToMany(mappedBy = "childcares")
     private List<Children> childrenToWatch;
 
     public Childcare() {

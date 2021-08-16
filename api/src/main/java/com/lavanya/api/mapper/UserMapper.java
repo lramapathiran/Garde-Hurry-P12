@@ -21,8 +21,4 @@ public interface UserMapper {
 
     List<User> listUserDtoToListUser(List<UserDto> userDtos);
     List<UserDto> listUserToListUserDto(List<User> users);
-
-//    Page<User> pageUserDtoToPageUser(Page<UserDto> pageUserDtos);
-//    Page<UserDto> pageUserToPageUserDto(Page<User> pageUsers);
-
 }

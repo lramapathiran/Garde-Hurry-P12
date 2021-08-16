@@ -17,7 +17,7 @@ public class Children {
 
     private Integer age;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name="user_id",  nullable = false)
     private User user;
 
@@ -26,8 +26,8 @@ public class Children {
 
     @ManyToMany
     @JoinTable(name="children_to_watch",
-            joinColumns = @JoinColumn(name="childcare_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "children_id", referencedColumnName="id"))
+            joinColumns = @JoinColumn(name="children_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "childcare_id", referencedColumnName="id"))
     private List<Childcare> childcares;
 
     public Children() {

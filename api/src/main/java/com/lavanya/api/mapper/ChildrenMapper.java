@@ -17,7 +17,8 @@ public interface ChildrenMapper {
     Children childrenDtoToChildren(ChildrenDto childrenDto);
     ChildrenDto childrenToChildrenDto(Children children);
 
-    List<Children> listChildrenDtoToListChildren(List<ChildrenDto> ChildrenDtos);
+    List<Children> listChildrenDtoToListChildren(List<ChildrenDto> childrenDtos);
 
-    List<ChildrenDto> listChildrenToListChildrenDto(List<Children> Childrens);
+    List<ChildrenDto> listChildrenToListChildrenDto(List<Children> childrens);
 }
+
