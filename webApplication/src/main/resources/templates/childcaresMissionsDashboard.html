@@ -1,10 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <title>Gardes à faire</title>
 </head>
-<body>
 
+<body>
+<div>
+
+
+    <div class="d-flex align-items-stretch" id="content">
+        <!--        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsAdmin.html :: sidebar-connected"></div>-->
+        <div class="page-holder w-100 d-flex flex-wrap">
+            <div class="container-fluid px-xl-5">
+
+                <section class="py-6 d-flex justify-content-center">
+                    <div class="row col-lg-12 mb-4 justify-content-center">
+                        <div class="col-lg-12 mb-4 mb-lg-0">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="col-md-6 text-center">
+                                        <h6 class="text-uppercase mb-0">
+                                            <span class="float-md-left">Gardes en attente de réponse</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div th:if="${unvalidatedChildcaresMissions.empty}" class="d-flex justify-content-center">
+                                        <p><strong>Aucune garde en attente!</strong></p>
+                                    </div>
+                                    <table th:unless="${unvalidatedChildcaresMissions.empty}" class="table table-striped table-hover card-text">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                            <th>Faveur demandée par</th>
+                                            <th>Enfants</th>
+                                            <th>Réponse</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="childcare: ${unvalidatedChildcaresMissions}">
+                                            <td th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}">...</td>
+                                            <td  th:utext = "${childcare.timeStart}">...</td>
+                                            <td  th:utext = "${childcare.timeEnd}">...</td>
+                                            <td th:utext = "${childcare.userDtoInNeed.firstName} + ' ' + ${childcare.userDtoInNeed.lastName}"></td>
+                                            <td>
+                                                <ul th:each="children: ${childcare.childrenToWatch}" style="list-style-type:none;">
+                                                    <li  th:utext="${children.name} + ' - ' + ${children.age} +' an(s)'"></li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <form action="#" th:action="@{/validateChildcare}" th:object="${validateChildcare}" th:method="post">
+                                                    <input type="hidden" name="childcareToValidateId" th:value = "${childcare.id}"/>
+                                                    <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
+
+                                                    <div th:if="${childcare.validated}">
+                                                        <input type="checkbox" checked name="childcareStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
+                                                    </div>
+
+                                                    <div th:unless="${childcare.validated}">
+                                                        <input type="checkbox" name="childcareStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
+
+                                                    </div>
+
+                                                    <button type="submit" class="float-md-right"><img src="https://img.icons8.com/color/30/000000/save.png"/></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-6 d-flex justify-content-center">
+                    <div class="row col-lg-12 mb-4 justify-content-center">
+                        <div class="col-lg-12 mb-4 mb-lg-0">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="col-md-6 text-center">
+                                        <h6 class="text-uppercase mb-0">
+                                            <span class="float-md-left">Gardes confirmées</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div th:if="${childcaresMissions.empty}" class="d-flex justify-content-center">
+                                        <p><strong>Aucune garde à effectuer!</strong></p>
+                                    </div>
+                                    <table th:unless="${childcaresMissions.empty}" class="table table-striped table-hover card-text">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                            <th>Enfant(s) concerné(s)</th>
+                                            <th>Enfant(s) de</th>
+                                            <th>Informations</th>
+                                            <th>Supprimer</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="childcare: ${childcaresMissions}">
+                                            <td th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}">...</td>
+                                            <td  th:utext = "${childcare.timeStart}">...</td>
+                                            <td  th:utext = "${childcare.timeEnd}">...</td>
+                                            <td>
+                                                <ul th:each="children: ${childcare.childrenToWatch}" style="list-style-type:none;">
+                                                    <li  th:utext="${children.name} + ' - ' + ${children.age} +' an(s)'"></li>
+                                                </ul>
+                                            </td>
+                                            <td th:utext = "${childcare.userDtoInNeed.firstName} + ' ' + ${childcare.userDtoInNeed.lastName}">...</td>
+                                            <td th:utext = "${childcare.description}"></td>
+                                            <td>
+                                                <form action="#" th:action="@{/delete/childcare}" th:method="post">
+                                                    <input type="hidden" name="id" th:value = "${childcare.id}"/>
+                                                    <input type="hidden" name="userConnectedId" th:value = "${childcare.userDtoInNeed.id}"/>
+                                                    <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 </body>
 </html>

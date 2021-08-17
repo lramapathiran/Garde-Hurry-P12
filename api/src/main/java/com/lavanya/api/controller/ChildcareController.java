@@ -48,6 +48,11 @@ public class ChildcareController {
         childcareService.completeRequest(childcareId);
     }
 
+    @PostMapping(value="/validate/childcare")
+    void validateOrNotChildcare(@RequestBody ChildcareDto childcareDto){
+        childcareService.updateChildcareValidationStatus(childcareDto);
+    }
+
     @PostMapping(value="/deleteChildcare/{childcareId}")
     void deleteChildcare(@PathVariable("childcareId") int childcareId) {
         childcareService.deleteChildcare(childcareId);

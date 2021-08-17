@@ -111,4 +111,9 @@ public class ChildcareService {
         Childcare childcare = childcareRepository.findById(childcareId).get();
         childcareRepository.delete(childcare);
     }
+
+    public void updateChildcareValidationStatus(ChildcareDto childcareDto) {
+        Childcare childcare = childcareMapper.INSTANCE.childcareDtoToChildcare(childcareDto);
+        childcareRepository.save(childcare);
+    }
 }

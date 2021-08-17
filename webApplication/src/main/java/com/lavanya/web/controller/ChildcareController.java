@@ -1,8 +1,6 @@
 package com.lavanya.web.controller;
 
-import com.lavanya.web.dto.ChildcareDto;
-import com.lavanya.web.dto.FriendDto;
-import com.lavanya.web.dto.UserDto;
+import com.lavanya.web.dto.*;
 import com.lavanya.web.proxies.ChildcareProxy;
 import com.lavanya.web.proxies.ChildrenProxy;
 import com.lavanya.web.proxies.FriendProxy;
@@ -144,7 +142,7 @@ public class ChildcareController {
     }
 
     @GetMapping("/requests/childcares/{id}")
-    public String showUserChildcaresDashboard(@PathVariable("id") int userConnectedId,Model model) {
+    public String showUserChildcaresRequestsDashboard(@PathVariable("id") int userConnectedId,Model model) {
 
         UserDto userDto = userProxy.getUserConnected(userConnectedId);
         List<ChildcareDto> childcareDtosRequests = userDto.getChildcareDtosRequests();
@@ -166,13 +164,23 @@ public class ChildcareController {
         model.addAttribute("validatedChildcares", validatedChildcareDtosRequests);
         model.addAttribute("unvalidatedChildcares", unvalidatedChildcareDtosRequests);
 
+        model.addAttribute("userConnectedId", userConnectedId);
+
+        return "childcaresRequestsDashboard";
+    }
+
+    @GetMapping("/missions/childcares/{id}")
+    public String showUserChildcaresMissionsDashboard(@PathVariable("id") int userConnectedId,Model model) {
+
+        UserDto userDto = userProxy.getUserConnected(userConnectedId);
+
         List<ChildcareDto> childcareDtosMissions = userDto.getChildcareDtosMissions();
 
         List<ChildcareDto> awaitingChildcareDtosMissions = new ArrayList<>();
         List<ChildcareDto> acceptedChildcareDtosMissions = new ArrayList<>();
 
         for(ChildcareDto childcareDto : childcareDtosMissions) {
-            if(childcareDto.getComplete() && childcareDto.getComplete()) {
+            if(childcareDto.getComplete() && childcareDto.getValidated()) {
                 acceptedChildcareDtosMissions.add(childcareDto);
             }else{
                 awaitingChildcareDtosMissions.add(childcareDto);
@@ -184,7 +192,23 @@ public class ChildcareController {
 
         model.addAttribute("userConnectedId", userConnectedId);
 
-        return "childcaresRequestsDashboard";
+        return "childcaresMissionsDashboard";
+    }
+
+    @PostMapping("/validateChildcare")
+    public String validateProfile(ValidateChildcare validateChildcare){
+        ChildcareDto childcareDto = childcareProxy.getChildcareById(validateChildcare.getChildcareToValidateId());
+
+        if(validateChildcare.getChildcareStatus()==null){
+            childcareDto.setValidated(false);
+        }else{
+            childcareDto.setValidated(true);
+        }
+
+
+        childcareProxy.validateOrNotChildcare(childcareDto);
+
+        return "redirect:/missions/childcares/" + validateChildcare.getUserConnectedId();
     }
 
     @PostMapping("/delete/childcare")
@@ -192,4 +216,6 @@ public class ChildcareController {
         childcareProxy.deleteChildcare(childcareId);
         return "redirect:/requests/childcares/" + userId;
     }
+
+
 }

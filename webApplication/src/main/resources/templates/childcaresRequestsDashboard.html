@@ -135,6 +135,7 @@
                                             <th>Fin</th>
                                             <th>Enfant(s) concerné(s)</th>
                                             <th>Parent en charge</th>
+                                            <th>Informations</th>
                                             <th>Supprimer</th>
                                         </tr>
                                         </thead>
@@ -143,10 +144,13 @@
                                             <td th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}">...</td>
                                             <td  th:utext = "${childcare.timeStart}">...</td>
                                             <td  th:utext = "${childcare.timeEnd}">...</td>
-                                            <td th:each="children: ${childcare.childrenToWatch}">
-                                                <span th:utext="${children.name} + ' '"></span>
+                                            <td>
+                                                <ul th:each="children: ${childcare.childrenToWatch}" style="list-style-type:none;">
+                                                    <li  th:utext="${children.name} + ' - ' + ${children.age} +' an(s)'"></li>
+                                                </ul>
                                             </td>
                                             <td th:utext = "${childcare.userDtoWatching.firstName} + ' ' + ${childcare.userDtoWatching.lastName}">...</td>
+                                            <td th:utext = "${childcare.description}"></td>
                                             <td>
                                                 <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                     <input type="hidden" name="id" th:value = "${childcare.id}"/>

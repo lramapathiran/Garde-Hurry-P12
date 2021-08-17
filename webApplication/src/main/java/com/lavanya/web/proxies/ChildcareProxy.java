@@ -32,4 +32,7 @@ public interface ChildcareProxy {
 
     @PostMapping(value="/deleteChildcare/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void deleteChildcare(@PathVariable("childcareId") int childcareId);
+
+    @PostMapping(value="/validate/childcare", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void validateOrNotChildcare(@RequestBody ChildcareDto childcareDto);
 }
