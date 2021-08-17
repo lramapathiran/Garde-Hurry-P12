@@ -44,7 +44,7 @@
                                             </thead>
                                             <tbody>
                                             <tr th:each="user : ${usersPage}">
-                                                <td th:utext = "${user.lastName}" scope="row">...</td>
+                                                <td scope="row"><a target="_blank" th:href="@{/profile/user/{id}/{userConnectedId}(id = ${user.id},userConnectedId=${userConnectedId})}" th:utext = "${user.lastName}"></a></td>
                                                 <td th:utext = "${user.firstName}" scope="row">...</td>
                                                 <td th:utext = "${user.email}" scope="row">...</td>
                                                 <td scope="row" th:if="${user.roles} == 'USER'">Utilisateur</td>

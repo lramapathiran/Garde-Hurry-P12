@@ -48,7 +48,7 @@
                                                 <td th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}">...</td>
                                                 <td  th:utext = "${childcare.timeStart}">...</td>
                                                 <td  th:utext = "${childcare.timeEnd}">...</td>
-                                                <td><a th:href="@{/save/request/children/{id}(id=${childcare.id})}"><img src="https://img.icons8.com/clouds/100/000000/edit.png"/></a></td>
+                                                <td><a th:href="@{/save/request/children/{id}(id=${childcare.id})}"><img src="https://img.icons8.com/clouds/50/000000/edit.png"/></a></td>
                                                 <td>
                                                     <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                         <input type="hidden" name="id" th:value = "${childcare.id}"/>
