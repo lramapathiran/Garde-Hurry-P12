@@ -43,5 +43,15 @@ public class ChildcareController {
         childcareService.deleteChildrenToWatch(childrenToWatchId,childcareId);
     }
 
+    @PostMapping(value="validate/request/childcare/{childcareId}")
+    void completeChildcareRequest(@PathVariable("childcareId") int childcareId) {
+        childcareService.completeRequest(childcareId);
+    }
+
+    @PostMapping(value="/deleteChildcare/{childcareId}")
+    void deleteChildcare(@PathVariable("childcareId") int childcareId) {
+        childcareService.deleteChildcare(childcareId);
+    }
+
 
 }

@@ -21,8 +21,9 @@ public class ChildcareDto {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
     private LocalTime timeEnd;
     private String description;
+    private Boolean isComplete;
     private UserDto userDtoInNeed;
-    private UserDto userWatching;
+    private UserDto userDtoWatching;
     private Integer numberOfChildren;
     private Boolean isValidated;
     private List<ChildrenDto> childrenToWatch;
@@ -67,6 +68,14 @@ public class ChildcareDto {
         this.description = description;
     }
 
+    public Boolean getComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(Boolean complete) {
+        isComplete = complete;
+    }
+
     public UserDto getUserDtoInNeed() {
         return userDtoInNeed;
     }
@@ -75,12 +84,12 @@ public class ChildcareDto {
         this.userDtoInNeed = userDtoInNeed;
     }
 
-    public UserDto getUserWatching() {
-        return userWatching;
+    public UserDto getUserDtoWatching() {
+        return userDtoWatching;
     }
 
-    public void setUserWatching(UserDto userWatching) {
-        this.userWatching = userWatching;
+    public void setUserDtoWatching(UserDto userDtoWatching) {
+        this.userDtoWatching = userDtoWatching;
     }
 
     public Integer getNumberOfChildren() {

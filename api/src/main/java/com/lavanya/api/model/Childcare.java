@@ -29,6 +29,9 @@ public class Childcare {
     private LocalTime timeEnd;
     private String description;
 
+    @Column(name = "is_complete")
+    private Boolean isComplete;
+
     @ManyToOne
     @JoinColumn(name="user_in_need_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
@@ -89,6 +92,14 @@ public class Childcare {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(Boolean complete) {
+        isComplete = complete;
     }
 
     public User getUserInNeed() {

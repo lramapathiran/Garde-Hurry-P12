@@ -3,7 +3,9 @@ package com.lavanya.api.service;
 import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.UserAlreadyExistException;
+import com.lavanya.api.mapper.ChildcareMapper;
 import com.lavanya.api.mapper.ChildrenMapper;
+import com.lavanya.api.mapper.CommentMapper;
 import com.lavanya.api.mapper.UserMapper;
 import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
@@ -38,6 +40,12 @@ public class UserService{
 
     @Autowired
     ChildrenMapper childrenMapper;
+
+    @Autowired
+    ChildcareMapper childcareMapper;
+
+    @Autowired
+    CommentMapper commentMapper;
 
 //    @Autowired
 //    private PasswordEncoder bCryptPasswordEncoder;
@@ -123,6 +131,10 @@ public class UserService{
         UserDto userDto = userMapper.INSTANCE.userToUserDto(user.get());
 
         userDto.setChildrenDtos(childrenMapper.listChildrenToListChildrenDto(user.get().getChildrens()));
+        userDto.setChildcareDtosRequests(childcareMapper.listChildcareToListChildcareDto(user.get().getChildcareRequests()));
+        userDto.setChildcareDtosMissions(childcareMapper.listChildcareToListChildcareDto(user.get().getChildcareMissions()));
+        userDto.setCommentDtosMade(commentMapper.listCommentToCommentDto(user.get().getCommentsMade()));
+        userDto.setCommentDtosReceived(commentMapper.listCommentToCommentDto(user.get().getCommentsReceived()));
 
         return userDto;
 

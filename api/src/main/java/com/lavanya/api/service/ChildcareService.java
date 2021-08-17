@@ -45,6 +45,7 @@ public class ChildcareService {
 
         Childcare childcare = childcareMapper.childcareDtoToChildcare(childcareDto);
         childcare.setValidated(false);
+        childcare.setComplete(false);
         Childcare childcareSaved = childcareRepository.save(childcare);
         ChildcareDto childcareDtoSaved = childcareMapper.INSTANCE.childcareToChildcareDto(childcareSaved);
 
@@ -97,5 +98,17 @@ public class ChildcareService {
 
         childrenRepository.save(children);
 
+    }
+
+    public void completeRequest(int childcareId) {
+        Childcare childcare = childcareRepository.findById(childcareId).get();
+        childcare.setComplete(true);
+        childcareRepository.save(childcare);
+
+    }
+
+    public void deleteChildcare(int childcareId) {
+        Childcare childcare = childcareRepository.findById(childcareId).get();
+        childcareRepository.delete(childcare);
     }
 }

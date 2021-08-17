@@ -26,4 +26,10 @@ public interface ChildcareProxy {
 
     @PostMapping(value="/deleteChildrenToWatch/{childrenToWatchId}/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void deleteChildrenToWatchInChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId);
+
+    @PostMapping(value="validate/request/childcare/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void completeChildcareRequest(@PathVariable("childcareId") int childcareId);
+
+    @PostMapping(value="/deleteChildcare/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void deleteChildcare(@PathVariable("childcareId") int childcareId);
 }

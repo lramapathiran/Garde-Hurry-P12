@@ -18,8 +18,11 @@ public interface ChildcareMapper {
     ChildcareMapper INSTANCE = Mappers.getMapper(ChildcareMapper.class);
 
     @Mapping(source = "userDtoInNeed", target = "userInNeed")
+    @Mapping(source = "userDtoWatching", target = "userWatching")
     Childcare childcareDtoToChildcare(ChildcareDto childcareDto);
+
     @Mapping(source = "userInNeed", target = "userDtoInNeed")
+    @Mapping(source = "userWatching", target = "userDtoWatching")
     ChildcareDto childcareToChildcareDto(Childcare childcare);
 
     List<Childcare> listChildcareDtoToListChildcare(List<ChildcareDto> childcareDtosRequests);
@@ -27,7 +30,4 @@ public interface ChildcareMapper {
 
     List<Childcare> ChildcareDtosToChildcares(List<ChildcareDto> childcareDtos);
     List<ChildcareDto> ChildcaresToChildcareDtos(List<Childcare> childcares);
-
-//    List<Children> listChildrenDtoToListChildren(List<ChildrenDto> childrenDtos);
-//    List<ChildrenDto> listChildrenToListChildrenDto(List<Children> childrens);
 }
