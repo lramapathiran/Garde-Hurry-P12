@@ -42,7 +42,9 @@ public class FriendController {
 
     @GetMapping(value="/friends/{id}")
     public List<FriendDto> getFriendsListByUser(@PathVariable("id") int userConnected) {
-        return friendService.getListOfFriends(userConnected);
+
+        return friendService.getListOfAllFriendsByUser(userConnected);
+
     }
 
     @PostMapping(value="/updateFriend/{id}")

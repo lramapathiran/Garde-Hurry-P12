@@ -2,6 +2,7 @@ package com.lavanya.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ public class Childcare {
     private Integer id;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(name = "time_start")
@@ -27,7 +29,10 @@ public class Childcare {
     private LocalTime timeEnd;
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "is_complete")
+    private Boolean isComplete;
+
+    @ManyToOne
     @JoinColumn(name="user_in_need_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
     private User userInNeed;
@@ -43,10 +48,7 @@ public class Childcare {
     @Column(name = "childcare_validated")
     private Boolean isValidated;
 
-    @ManyToMany
-    @JoinTable(name="children_to_watch",
-            joinColumns = @JoinColumn(name="children_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "childcare_id", referencedColumnName="id"))
+    @ManyToMany(mappedBy = "childcares")
     private List<Children> childrenToWatch;
 
     public Childcare() {
@@ -90,6 +92,14 @@ public class Childcare {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(Boolean complete) {
+        isComplete = complete;
     }
 
     public User getUserInNeed() {

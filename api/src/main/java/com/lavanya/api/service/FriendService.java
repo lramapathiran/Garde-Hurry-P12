@@ -94,20 +94,20 @@ public class FriendService {
         return friendDtos;
     }
 
-    public List<FriendDto> getListOfFriends(int userConnectedId) {
-
-        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
-        List<Friend> friendsRequestsList = new ArrayList<>();
-        for(Friend friend : friendsList){
-            if(friend.getAccepted()){
-                friendsRequestsList.add(friend);
-            }
-
-        }
-        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsRequestsList);
-
-        return friendDtos;
-    }
+//    public List<FriendDto> getListOfFriends(int userConnectedId) {
+//
+//        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
+//        List<Friend> friendsRequestsList = new ArrayList<>();
+//        for(Friend friend : friendsList){
+//            if(friend.getAccepted()){
+//                friendsRequestsList.add(friend);
+//            }
+//
+//        }
+//        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsRequestsList);
+//
+//        return friendDtos;
+//    }
 
     public void updateFriend(int id) {
         Friend friend = friendRepository.getById(id);
@@ -136,5 +136,14 @@ public class FriendService {
         }
 
         return friendDto;
+    }
+
+    public List<FriendDto> getListOfAllFriendsByUser(int userConnectedId){
+
+        User user = userRepository.getById(userConnectedId);
+        List<Friend> list = friendRepository.findByUserInvitedIdOrUserWhoInviteId(user);
+
+
+        return friendMapper.INSTANCE.listFriendToListFriendDto(list);
     }
 }

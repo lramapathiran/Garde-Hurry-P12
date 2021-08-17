@@ -57,17 +57,17 @@ public class FriendController {
         List<FriendDto> friendDtos2 = friendProxy.getFriendsListByUser(id);
 
 //      2nd way to send lsit of friends
-        List<UserDto> friendsUserDtos = new ArrayList<>();
-
-        for(FriendDto friendDto : friendDtos2){
-           int userInvitedId = friendDto.getUserInvited().getId();
-           int userWhoInviteId = friendDto.getUserWhoInvite().getId();
-           if(userInvitedId == id ){
-               UserDto userDto = userProxy.getUserConnected(userWhoInviteId);
-               friendsUserDtos.add(userDto);
-           }
-        }
-        model.addAttribute("friendsUserDtos", friendsUserDtos);
+//        List<UserDto> friendsUserDtos = new ArrayList<>();
+//
+//        for(FriendDto friendDto : friendDtos2){
+//           int userInvitedId = friendDto.getUserInvited().getId();
+//           int userWhoInviteId = friendDto.getUserWhoInvite().getId();
+//           if(userInvitedId == id ){
+//               UserDto userDto = userProxy.getUserConnected(userWhoInviteId);
+//               friendsUserDtos.add(userDto);
+//           }
+//        }
+//        model.addAttribute("friendsUserDtos", friendsUserDtos);
 //     end of 2nd way
 
 

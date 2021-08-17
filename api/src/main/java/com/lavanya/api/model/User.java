@@ -39,23 +39,19 @@ public class User {
 
     private String roles;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="user")
     private List<Children> childrens;
 
     @OneToMany(mappedBy="userCommented")
-    @JsonIgnore
     private List<Comment> commentsReceived;
 
     @OneToMany(mappedBy="userComment")
-    @JsonIgnore
     private List<Comment> commentsMade;
 
     @OneToMany(mappedBy="userInNeed")
-    @JsonIgnore
     private List<Childcare> childcareRequests;
 
     @OneToMany(mappedBy="userWatching")
-    @JsonIgnore
     private List<Childcare> childcareMissions;
 
     @OneToMany(mappedBy="userWhoInvite")

@@ -1,8 +1,7 @@
 package com.lavanya.api.mapper;
 
-import com.lavanya.api.dto.ChildcareDto;
+
 import com.lavanya.api.dto.ChildrenDto;
-import com.lavanya.api.model.Childcare;
 import com.lavanya.api.model.Children;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -18,7 +17,8 @@ public interface ChildrenMapper {
     Children childrenDtoToChildren(ChildrenDto childrenDto);
     ChildrenDto childrenToChildrenDto(Children children);
 
-    List<Children> listChildrenDtoToListChildren(List<ChildrenDto> ChildrenDtos);
+    List<Children> listChildrenDtoToListChildren(List<ChildrenDto> childrenDtos);
 
-    List<ChildrenDto> listChildrenToListChildrenDto(List<Children> Childrens);
+    List<ChildrenDto> listChildrenToListChildrenDto(List<Children> childrens);
 }
+
