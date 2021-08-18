@@ -3,6 +3,8 @@ package com.lavanya.web.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,17 +15,21 @@ public class ChildcareDto {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Ce champs est obligatoire")
     private LocalDate date;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
+    @NotNull(message = "Ce champs est obligatoire")
     private LocalTime timeStart;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
+    @NotNull(message = "Ce champs est obligatoire")
     private LocalTime timeEnd;
     private String description;
     private Boolean isComplete;
     private UserDto userDtoInNeed;
     private UserDto userDtoWatching;
+    @NotNull(message = "Ce champs est obligatoire")
     private Integer numberOfChildren;
     private Boolean isValidated;
     private List<ChildrenDto> childrenToWatch;

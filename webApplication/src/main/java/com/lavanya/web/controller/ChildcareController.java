@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -63,7 +65,7 @@ public class ChildcareController {
             }
         }
 
-        model.addAttribute("childcare", childcareDto);
+        model.addAttribute("childcareDto", childcareDto);
         model.addAttribute("friends", users);
         model.addAttribute("userConnectedId", userConnectedId);
         model.addAttribute("maxChildren", totalChildren);
@@ -72,11 +74,33 @@ public class ChildcareController {
     }
 
     @PostMapping("/saveChildcare")
-    public String saveChildcare(@ModelAttribute ("childcare") ChildcareDto childcareDto,
-                                @ModelAttribute ("id") int userConnectedId, @ModelAttribute ("userWatchingId") int userWatchingId){
+    public String saveChildcare(@Valid @ModelAttribute ("childcareDto") ChildcareDto childcareDto, BindingResult result,
+                                @ModelAttribute ("id") int userConnectedId, @ModelAttribute ("userDtoWatchingId") int userDtoWatchingId, Model model){
 
+        if (result.hasErrors()) {
+            List<FriendDto> friendDtos = friendProxy.getFriendsListByUser(userConnectedId);
+            UserDto userConnected = userProxy.getUserConnected(userConnectedId);
+            int totalChildren = userConnected.getChildrenDtos().size();
+
+            List<UserDto> users = new ArrayList<>();
+
+            for(FriendDto friendDto : friendDtos) {
+
+                if(friendDto.getUserWhoInvite().getId() == userConnectedId){
+                    users.add(friendDto.getUserInvited());
+                }else{
+                    users.add(friendDto.getUserWhoInvite());
+                }
+            }
+
+            model.addAttribute("childcareDto", childcareDto);
+            model.addAttribute("friends", users);
+            model.addAttribute("userConnectedId", userConnectedId);
+            model.addAttribute("maxChildren", totalChildren);
+            return "requestChildcareStepOne";
+        }
         childcareDto.setUserDtoInNeed(userProxy.getUserConnected(userConnectedId));
-        childcareDto.setUserDtoWatching(userProxy.getUserConnected(userWatchingId));
+        childcareDto.setUserDtoWatching(userProxy.getUserConnected(userDtoWatchingId));
         ChildcareDto childcareDtoSaved = childcareProxy.saveChildcare(childcareDto);
 
         return "redirect:/save/request/children/" + childcareDtoSaved.getId();
