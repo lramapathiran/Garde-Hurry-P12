@@ -62,4 +62,9 @@ public class FriendController {
         return friendService.findFriendRelationshipByBothUsersId(userInvitedId,userWhoInviteId);
     }
 
+    @GetMapping("user/count/friends/{id}")
+    public Integer getCountOfFriendsByUser(@PathVariable ("id") int userConnectedId) {
+        return friendService.getcountOfFriendsByUser(userConnectedId);
+    }
+
 }

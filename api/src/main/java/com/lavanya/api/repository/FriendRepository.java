@@ -27,4 +27,12 @@ public interface FriendRepository extends JpaRepository<Friend, Integer> {
 
     @Query("select u from Friend u where isAccepted = 1 and ?1 = u.userInvited  or ?1 = u.userWhoInvite")
     List<Friend> findByUserInvitedIdOrUserWhoInviteId(User userConnected);
+
+    /**
+     * Query to retrieve the total amount of friends of a particular user.
+     * @param user for which we need to determine the amount of friends.
+     * @return Integer for the resulting count.
+     */
+    @Query(value = "select count(*) from Friend u where u.isAccepted = 1 and u.userWhoInvite = ?1 or u.userInvited = ?1")
+    Integer countOfFriends(User user);
 }

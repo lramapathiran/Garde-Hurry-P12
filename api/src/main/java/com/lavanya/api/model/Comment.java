@@ -20,13 +20,15 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_commented_id", nullable=false, referencedColumnName = "id")
-    @JsonBackReference
     private User userCommented;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_comment_id", nullable=false, referencedColumnName = "id")
-    @JsonBackReference
     private User userComment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="childcare_id", nullable=false, referencedColumnName = "id")
+    private Childcare childcare;
 
     public Comment() {
     }
@@ -69,5 +71,13 @@ public class Comment {
 
     public void setUserComment(User userComment) {
         this.userComment = userComment;
+    }
+
+    public Childcare getChildcare() {
+        return childcare;
+    }
+
+    public void setChildcare(Childcare childcare) {
+        this.childcare = childcare;
     }
 }

@@ -32,10 +32,11 @@
                                 <div class="col-md-4 float-md-right"  id="tag">
                                     <span th:if="${user.validated} == true">
                                         <img src="https://img.icons8.com/cute-clipart/64/000000/ok-hand.png"/>
-                                        <small>profil vérifié</small>
+                                        <p><small><strong><em>profil vérifié</em></strong></small></p>
                                     </span>
                                     <span th:unless="${user.validated} == true">
-                                        <p><strong><em>Vérification en attente</em></strong></p>
+                                        <p><img th:src="@{/img/profil-non-vérifié-64.png}"/></p>
+                                        <p><small><strong><em>non-vérifié</em></strong></small></p>
                                     </span>
                                 </div>
                         </div>

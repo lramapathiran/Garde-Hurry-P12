@@ -2,3 +2,19 @@
 	color: red;
 }
 
+.commentButton {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+        border: none;
+        cursor:pointer;
+        overflow: hidden;
+        outline:none;
+}
+
+.commentButton:hover {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+        border-color:black;
+        cursor:pointer;
+        overflow: hidden;
+}

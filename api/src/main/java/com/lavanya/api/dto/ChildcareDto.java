@@ -3,6 +3,7 @@ package com.lavanya.api.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -26,7 +27,11 @@ public class ChildcareDto {
     private UserDto userDtoWatching;
     private Integer numberOfChildren;
     private Boolean isValidated;
+    private  Boolean isAccomplished;
+    private Boolean inNeedComment;
+    private Boolean inChargeComment;
     private List<ChildrenDto> childrenToWatch;
+    private List<CommentDto> commentDtos;
 
     public Integer getId() {
         return id;
@@ -108,11 +113,43 @@ public class ChildcareDto {
         isValidated = validated;
     }
 
+    public Boolean getAccomplished() {
+        return isAccomplished;
+    }
+
+    public void setAccomplished(Boolean accomplished) {
+        isAccomplished = accomplished;
+    }
+
+    public Boolean getInNeedComment() {
+        return inNeedComment;
+    }
+
+    public void setInNeedComment(Boolean inNeedComment) {
+        this.inNeedComment = inNeedComment;
+    }
+
+    public Boolean getInChargeComment() {
+        return inChargeComment;
+    }
+
+    public void setInChargeComment(Boolean inChargeComment) {
+        this.inChargeComment = inChargeComment;
+    }
+
     public List<ChildrenDto> getChildrenToWatch() {
         return childrenToWatch;
     }
 
     public void setChildrenToWatch(List<ChildrenDto> childrenToWatch) {
         this.childrenToWatch = childrenToWatch;
+    }
+
+    public List<CommentDto> getCommentDtos() {
+        return commentDtos;
+    }
+
+    public void setCommentDtos(List<CommentDto> commentDtos) {
+        this.commentDtos = commentDtos;
     }
 }

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <title>Gardes à faire</title>
 </head>
@@ -39,8 +40,9 @@
                                             <th>Date</th>
                                             <th>Début</th>
                                             <th>Fin</th>
+                                            <th>Enfant(s) concerné(s)</th>
                                             <th>Faveur demandée par</th>
-                                            <th>Enfants</th>
+                                            <th>Informations</th>
                                             <th>Réponse</th>
                                         </tr>
                                         </thead>
@@ -49,12 +51,13 @@
                                             <td th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}">...</td>
                                             <td  th:utext = "${childcare.timeStart}">...</td>
                                             <td  th:utext = "${childcare.timeEnd}">...</td>
-                                            <td th:utext = "${childcare.userDtoInNeed.firstName} + ' ' + ${childcare.userDtoInNeed.lastName}"></td>
                                             <td>
                                                 <ul th:each="children: ${childcare.childrenToWatch}" style="list-style-type:none;">
                                                     <li  th:utext="${children.name} + ' - ' + ${children.age} +' an(s)'"></li>
                                                 </ul>
                                             </td>
+                                            <td th:utext = "${childcare.userDtoInNeed.firstName} + ' ' + ${childcare.userDtoInNeed.lastName}"></td>
+                                            <td th:utext = "${childcare.description}"></td>
                                             <td>
                                                 <form action="#" th:action="@{/validateChildcare}" th:object="${validateChildcare}" th:method="post">
                                                     <input type="hidden" name="childcareToValidateId" th:value = "${childcare.id}"/>
@@ -69,7 +72,7 @@
 
                                                     </div>
 
-                                                    <button type="submit" class="float-md-right"><img src="https://img.icons8.com/color/30/000000/save.png"/></button>
+                                                    <button type="submit" class="float-md-right commentButton"><img th:src="@{/img/transférer-60.png}"/></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -106,6 +109,8 @@
                                             <th>Enfant(s) de</th>
                                             <th>Informations</th>
                                             <th>Supprimer</th>
+                                            <th>Garde Terminé</th>
+                                            <th>Avis</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -120,14 +125,29 @@
                                             </td>
                                             <td th:utext = "${childcare.userDtoInNeed.firstName} + ' ' + ${childcare.userDtoInNeed.lastName}">...</td>
                                             <td th:utext = "${childcare.description}"></td>
-                                            <td>
+                                            <td th:if= "${childcare.accomplished}==true"><img th:src="@{/img/prohibited-48.png}"/></td>
+                                            <td th:if= "${childcare.accomplished}==false">
                                                 <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                     <input type="hidden" name="id" th:value = "${childcare.id}"/>
                                                     <input type="hidden" name="userConnectedId" th:value = "${childcare.userDtoInNeed.id}"/>
+                                                    <input type="hidden" name="personWhoDelete" th:value = "babysitter"/>
                                                     <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
                                                 </form>
 
                                             </td>
+                                            <td th:if= "${childcare.accomplished}==true"><img th:src="@{/img/coche-36.png}"/></td>
+                                            <td th:unless= "${childcare.accomplished}==true">
+                                                <form action="#" th:action="@{/markAccomplishedChildcare}" th:method="post">
+                                                    <input type="hidden" name="childcareAccomplishedId" th:value = "${childcare.id}"/>
+                                                    <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
+                                                    <button type="submit" class="btn btn-primary commentButton"><img th:src="@{/img/en-cours-36.png}"/></button>
+                                                </form>
+                                            </td>
+                                            <td th:if= "${childcare.accomplished}==true and ${childcare.inChargeComment}==false">
+                                                <a th:href="@{/feedback/{id}(id=${childcare.id}, value='babysitter')}"><img th:src="@{/img/feedback-40.png}"/></a>
+                                            </td>
+                                            <td th:if= "${childcare.accomplished}==true and ${childcare.inChargeComment}==true"><img th:src="@{/img/coche-36.png}"/></td>
+                                            <td th:if= "${childcare.accomplished}==false"><img th:src="@{/img/prohibited-48.png}"/></td>
                                         </tr>
                                         </tbody>
                                     </table>

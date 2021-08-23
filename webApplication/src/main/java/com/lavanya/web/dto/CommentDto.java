@@ -2,6 +2,9 @@ package com.lavanya.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class CommentDto {
@@ -10,9 +13,14 @@ public class CommentDto {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
+
+    @NotBlank(message="Veuillez remplir ce champs")
+    @Size(min = 5, max = 600, message
+            = "votre message doit comprendre entre 5 et 600 caractères!")
     private String content;
     private UserDto userCommented;
     private UserDto userComment;
+    private ChildcareDto childcareDto;
 
     public CommentDto() {
     }
@@ -55,5 +63,13 @@ public class CommentDto {
 
     public void setUserComment(UserDto userComment) {
         this.userComment = userComment;
+    }
+
+    public ChildcareDto getChildcareDto() {
+        return childcareDto;
+    }
+
+    public void setChildcareDto(ChildcareDto childcareDto) {
+        this.childcareDto = childcareDto;
     }
 }

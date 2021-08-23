@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
     <title>Mon tableau de bord</title>
 </head>
 
@@ -87,6 +88,9 @@
                                                 <th>Date</th>
                                                 <th>Début</th>
                                                 <th>Fin</th>
+                                                <th>Enfant(s) concerné(s)</th>
+                                                <th>Parent en charge</th>
+                                                <th>Informations</th>
                                                 <th>Supprimer</th>
                                             </tr>
                                         </thead>
@@ -95,6 +99,13 @@
                                                 <td th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}">...</td>
                                                 <td  th:utext = "${childcare.timeStart}">...</td>
                                                 <td  th:utext = "${childcare.timeEnd}">...</td>
+                                                <td>
+                                                    <ul th:each="children: ${childcare.childrenToWatch}" style="list-style-type:none;">
+                                                        <li  th:utext="${children.name} + ' - ' + ${children.age} +' an(s)'"></li>
+                                                    </ul>
+                                                </td>
+                                                <td th:utext = "${childcare.userDtoWatching.firstName} + ' ' + ${childcare.userDtoWatching.lastName}">...</td>
+                                                <td th:utext = "${childcare.description}"></td>
                                                 <td>
                                                     <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                         <input type="hidden" name="id" th:value = "${childcare.id}"/>
@@ -137,6 +148,7 @@
                                             <th>Parent en charge</th>
                                             <th>Informations</th>
                                             <th>Supprimer</th>
+                                            <th>Avis</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -151,14 +163,21 @@
                                             </td>
                                             <td th:utext = "${childcare.userDtoWatching.firstName} + ' ' + ${childcare.userDtoWatching.lastName}">...</td>
                                             <td th:utext = "${childcare.description}"></td>
-                                            <td>
+                                            <td th:if= "${childcare.accomplished}==true"><img th:src="@{/img/prohibited-48.png}"/></td>
+                                            <td th:if= "${childcare.accomplished}==false">
                                                 <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                     <input type="hidden" name="id" th:value = "${childcare.id}"/>
                                                     <input type="hidden" name="userConnectedId" th:value = "${childcare.userDtoInNeed.id}"/>
+                                                    <input type="hidden" name="personWhoDelete" th:value = "childParent"/>
                                                     <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
                                                 </form>
 
                                             </td>
+                                            <td th:if= "${childcare.accomplished}==true and ${childcare.inNeedComment}==false">
+                                                <a th:href="@{/feedback/{id}(id=${childcare.id}, value='childParent')}"><img th:src="@{/img/feedback-40.png}"/></a>
+                                            </td>
+                                            <td th:if= "${childcare.accomplished}==true and ${childcare.inNeedComment}==true"><img th:src="@{/img/coche-36.png}"/></td>
+                                            <td th:if= "${childcare.accomplished}==false"><img th:src="@{/img/prohibited-48.png}"/></td>
                                         </tr>
                                         </tbody>
                                     </table>

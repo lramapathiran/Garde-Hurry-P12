@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lavanya.web.configuration.SimplePageImpl;
+import com.lavanya.web.dto.ChildcareDto;
 import com.lavanya.web.dto.FriendDto;
 import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.dto.Validate;
+import com.lavanya.web.proxies.ChildcareProxy;
 import com.lavanya.web.proxies.FriendProxy;
 import com.lavanya.web.proxies.UserProxy;
 import org.apache.catalina.User;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +35,42 @@ public class UserController {
     @Autowired
     FriendProxy friendProxy;
 
+    @Autowired
+    ChildcareProxy childcareProxy;
+
+    @GetMapping("/user/homePage/{id}")
+    public String showUserConnectedMainDashboard(@PathVariable ("id") int userConnectedId, Model model){
+
+        int positiveBadges = childcareProxy.countOfPositiveBadgesByUserId(userConnectedId);
+        int negativeBadges = childcareProxy.countOfNegativeBadgesByUserId(userConnectedId);
+
+        Integer userBadges = positiveBadges - negativeBadges;
+
+        int userBadgesMean = 0;
+
+        if(userBadges < 0){
+            userBadgesMean = -userBadges;
+            model.addAttribute("negativeBadgesNumber", userBadgesMean);
+
+        }else{
+            userBadgesMean = userBadges;
+            model.addAttribute("positiveBadgesNumber", userBadgesMean);
+        }
+
+        Integer countOfFriends = friendProxy.getCountOfFriendsByUser(userConnectedId);
+
+        UserDto userDto = userProxy.getUserConnected(userConnectedId);
+
+        List<ChildcareDto> listOfRequests = childcareProxy.getChildcaresUserInNeedNotCommented(userDto);
+        List<ChildcareDto> listOfMissions = childcareProxy.getChildcaresUserInChargeNotCommented(userDto);
+
+        model.addAttribute("NumberOfFriends",countOfFriends);
+        model.addAttribute("user",userDto);
+        model.addAttribute("requests", listOfRequests);
+        model.addAttribute("missions", listOfMissions);
+
+        return "mainDashboard";
+    }
 
     /**
      * GET requests for /users endpoint.

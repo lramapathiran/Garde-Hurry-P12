@@ -1,11 +1,14 @@
 package com.lavanya.api.controller;
 
 import com.lavanya.api.dto.ChildcareDto;
+import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.ChildrenToWatchAlreadyExistException;
 import com.lavanya.api.service.ChildcareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Rest Controller to control all the requests related to Childcare object.
@@ -27,7 +30,7 @@ public class ChildcareController {
         return childcareService.getChildcareById(childcareId);
     }
 
-    @PostMapping(value="/saveChildrenToWatch/{childrenToWatchId}/{childcareId}")
+    @PostMapping("/saveChildrenToWatch/{childrenToWatchId}/{childcareId}")
     void saveChildrenToWatchToChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId){
 
         try{
@@ -38,25 +41,48 @@ public class ChildcareController {
 
     }
 
-    @PostMapping(value="/deleteChildrenToWatch/{childrenToWatchId}/{childcareId}")
+    @PostMapping("/deleteChildrenToWatch/{childrenToWatchId}/{childcareId}")
     void deleteChildrenToWatchInChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId) {
         childcareService.deleteChildrenToWatch(childrenToWatchId,childcareId);
     }
 
-    @PostMapping(value="validate/request/childcare/{childcareId}")
+    @PostMapping("validate/request/childcare/{childcareId}")
     void completeChildcareRequest(@PathVariable("childcareId") int childcareId) {
         childcareService.completeRequest(childcareId);
     }
 
-    @PostMapping(value="/validate/childcare")
+    @PostMapping("/validate/childcare")
     void validateOrNotChildcare(@RequestBody ChildcareDto childcareDto){
         childcareService.updateChildcareValidationStatus(childcareDto);
     }
 
-    @PostMapping(value="/deleteChildcare/{childcareId}")
+    @PostMapping("/deleteChildcare/{childcareId}")
     void deleteChildcare(@PathVariable("childcareId") int childcareId) {
         childcareService.deleteChildcare(childcareId);
     }
 
+    @PostMapping("/accomplish/childcare/{childcareId}")
+    void accomplishChildcare(@PathVariable("childcareId") int childcareId){
+        childcareService.accomplishChildcare(childcareId);
+    }
 
+    @PostMapping("/userInNeed/childcares/Uncommented")
+    List<ChildcareDto> getChildcaresUserInNeedNotCommented(@RequestBody UserDto userInNeedDto){
+        return childcareService.getChildcaresListOfUserInNeedUnCommented(userInNeedDto);
+    }
+
+    @PostMapping("/userInCharge/childcares/Uncommented")
+    List<ChildcareDto> getChildcaresUserInChargeNotCommented(@RequestBody UserDto userInChargeDto){
+        return childcareService.getChildcaresListOfUserInChargeUnCommented(userInChargeDto);
+    }
+
+    @GetMapping("/user/count/positiveBadges/{id}")
+    Integer countOfPositiveBadgesByUserId(@PathVariable("id") int userId){
+        return childcareService.getCountOfChildcaresAccomplishedOfUserWatching(userId);
+    }
+
+    @GetMapping("/user/count/negativeBadges/{id}")
+    Integer countOfNegativeBadgesByUserId(@PathVariable("id") int userId){
+        return childcareService.getCountOfChildcaresAccomplishedOfUserInNeed(userId);
+    }
 }

@@ -3,6 +3,7 @@ package com.lavanya.web.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -32,7 +33,11 @@ public class ChildcareDto {
     @NotNull(message = "Ce champs est obligatoire")
     private Integer numberOfChildren;
     private Boolean isValidated;
+    private  Boolean isAccomplished;
+    private Boolean inNeedComment;
+    private Boolean inChargeComment;
     private List<ChildrenDto> childrenToWatch;
+    private List<CommentDto> commentDtos;
 
     public ChildcareDto() {
     }
@@ -117,11 +122,43 @@ public class ChildcareDto {
         isValidated = validated;
     }
 
+    public Boolean getAccomplished() {
+        return isAccomplished;
+    }
+
+    public Boolean getInNeedComment() {
+        return inNeedComment;
+    }
+
+    public void setInNeedComment(Boolean inNeedComment) {
+        this.inNeedComment = inNeedComment;
+    }
+
+    public Boolean getInChargeComment() {
+        return inChargeComment;
+    }
+
+    public void setInChargeComment(Boolean inChargeComment) {
+        this.inChargeComment = inChargeComment;
+    }
+
+    public void setAccomplished(Boolean accomplished) {
+        isAccomplished = accomplished;
+    }
+
     public List<ChildrenDto> getChildrenToWatch() {
         return childrenToWatch;
     }
 
     public void setChildrenToWatch(List<ChildrenDto> childrenToWatch) {
         this.childrenToWatch = childrenToWatch;
+    }
+
+    public List<CommentDto> getCommentDtos() {
+        return commentDtos;
+    }
+
+    public void setCommentDtos(List<CommentDto> commentDtos) {
+        this.commentDtos = commentDtos;
     }
 }

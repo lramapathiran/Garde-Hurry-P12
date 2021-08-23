@@ -12,6 +12,7 @@ import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.ChildcareRepository;
 import com.lavanya.api.repository.ChildrenRepository;
+import com.lavanya.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class ChildcareService {
     ChildcareMapper childcareMapper;
 
     @Autowired
+    UserMapper userMapper;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -41,11 +45,17 @@ public class ChildcareService {
     @Autowired
     ChildrenRepository childrenRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public ChildcareDto saveChildcare(ChildcareDto childcareDto) {
 
         Childcare childcare = childcareMapper.childcareDtoToChildcare(childcareDto);
-        childcare.setValidated(false);
+//        childcare.setValidated(false);
         childcare.setComplete(false);
+        childcare.setAccomplished(false);
+        childcare.setInChargeComment(false);
+        childcare.setInNeedComment(false);
         Childcare childcareSaved = childcareRepository.save(childcare);
         ChildcareDto childcareDtoSaved = childcareMapper.INSTANCE.childcareToChildcareDto(childcareSaved);
 
@@ -115,5 +125,38 @@ public class ChildcareService {
     public void updateChildcareValidationStatus(ChildcareDto childcareDto) {
         Childcare childcare = childcareMapper.INSTANCE.childcareDtoToChildcare(childcareDto);
         childcareRepository.save(childcare);
+    }
+
+    public void accomplishChildcare(int childcareId) {
+        Childcare childcare = childcareRepository.findById(childcareId).get();
+        childcare.setAccomplished(true);
+        childcareRepository.save(childcare);
+    }
+
+    public List<ChildcareDto> getChildcaresListOfUserInNeedUnCommented(UserDto userDtoInNeed) {
+        User userInNeed = userMapper.userDtoToUser(userDtoInNeed);
+        List<Childcare> list = childcareRepository.findChildcaresListOfUserInNeedNotCommentedYet(userInNeed);
+        List<ChildcareDto> listDto = childcareMapper.listChildcareToListChildcareDto(list);
+
+        return listDto;
+    }
+
+    public List<ChildcareDto> getChildcaresListOfUserInChargeUnCommented(UserDto userDtoInCharge) {
+
+        User userInCharge = userMapper.userDtoToUser(userDtoInCharge);
+        List<Childcare> list = childcareRepository.findChildcaresListOfUserInChargeNotCommentedYet(userInCharge);
+        List<ChildcareDto> listDto = childcareMapper.listChildcareToListChildcareDto(list);
+
+        return listDto;
+    }
+
+    public Integer getCountOfChildcaresAccomplishedOfUserWatching(int userWatchingId){
+        User user = userRepository.findById(userWatchingId).get();
+        return childcareRepository.numberOfChildcaresAccomplishedByUserWatchingId(user);
+    }
+
+    public Integer getCountOfChildcaresAccomplishedOfUserInNeed(int userInNeedId){
+        User user = userRepository.findById(userInNeedId).get();
+        return childcareRepository.numberOfChildcaresAskedByUserInNeedIdAndAccomplished(user);
     }
 }

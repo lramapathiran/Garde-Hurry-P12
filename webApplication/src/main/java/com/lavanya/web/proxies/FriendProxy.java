@@ -34,4 +34,7 @@ public interface FriendProxy {
     @GetMapping("/users/friend/{userInvitedId}/{userWhoInviteId}")
     public FriendDto getFriendByIds(@PathVariable("userInvitedId") int userInvited, @PathVariable("userWhoInviteId") int userWhoInviteId);
 
+    @GetMapping("user/count/friends/{id}")
+    public Integer getCountOfFriendsByUser(@PathVariable ("id") int userConnectedId);
+
 }

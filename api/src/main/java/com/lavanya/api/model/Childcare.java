@@ -48,8 +48,20 @@ public class Childcare {
     @Column(name = "childcare_validated")
     private Boolean isValidated;
 
+    @Column(name="is_accomplished")
+    private  Boolean isAccomplished;
+
+    @Column(name="user_in_need_feedback")
+    private Boolean inNeedComment;
+
+    @Column(name="user_in_charge_feedback")
+    private Boolean inChargeComment;
+
     @ManyToMany(mappedBy = "childcares")
     private List<Children> childrenToWatch;
+
+    @OneToMany(mappedBy="childcare")
+    private List<Comment> comments;
 
     public Childcare() {
     }
@@ -134,11 +146,43 @@ public class Childcare {
         isValidated = validated;
     }
 
+    public Boolean getAccomplished() {
+        return isAccomplished;
+    }
+
+    public void setAccomplished(Boolean accomplished) {
+        isAccomplished = accomplished;
+    }
+
+    public Boolean getInNeedComment() {
+        return inNeedComment;
+    }
+
+    public void setInNeedComment(Boolean inNeedComment) {
+        this.inNeedComment = inNeedComment;
+    }
+
+    public Boolean getInChargeComment() {
+        return inChargeComment;
+    }
+
+    public void setInChargeComment(Boolean inChargeComment) {
+        this.inChargeComment = inChargeComment;
+    }
+
     public List<Children> getChildrenToWatch() {
         return childrenToWatch;
     }
 
     public void setChildrenToWatch(List<Children> childrenToWatch) {
         this.childrenToWatch = childrenToWatch;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -146,4 +146,9 @@ public class FriendService {
 
         return friendMapper.INSTANCE.listFriendToListFriendDto(list);
     }
+
+    public Integer getcountOfFriendsByUser(int userConnectedId){
+        User user = userRepository.findById(userConnectedId).get();
+        return friendRepository.countOfFriends(user);
+    }
 }

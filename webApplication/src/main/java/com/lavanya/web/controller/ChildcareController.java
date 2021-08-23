@@ -173,14 +173,13 @@ public class ChildcareController {
 
         List<ChildcareDto> uncompleteChildcareDtosRequests = new ArrayList<>();
         List<ChildcareDto> unvalidatedChildcareDtosRequests = new ArrayList<>();
-        List<ChildcareDto> validatedChildcareDtosRequests = new ArrayList<>();
+        List<ChildcareDto> validatedChildcareDtosRequests = childcareProxy.getChildcaresUserInNeedNotCommented(userDto);
 
         for(ChildcareDto childcareDto : childcareDtosRequests) {
             if(childcareDto.getComplete()==false) {
                 uncompleteChildcareDtosRequests.add(childcareDto);
-            }else if(childcareDto.getValidated()){
-                validatedChildcareDtosRequests.add(childcareDto);
-            }else {
+            }
+            if(childcareDto.getValidated()==null){
                 unvalidatedChildcareDtosRequests.add(childcareDto);
             }
         }
@@ -201,12 +200,10 @@ public class ChildcareController {
         List<ChildcareDto> childcareDtosMissions = userDto.getChildcareDtosMissions();
 
         List<ChildcareDto> awaitingChildcareDtosMissions = new ArrayList<>();
-        List<ChildcareDto> acceptedChildcareDtosMissions = new ArrayList<>();
+        List<ChildcareDto> acceptedChildcareDtosMissions = childcareProxy.getChildcaresUserInChargeNotCommented(userDto);
 
         for(ChildcareDto childcareDto : childcareDtosMissions) {
-            if(childcareDto.getComplete() && childcareDto.getValidated()) {
-                acceptedChildcareDtosMissions.add(childcareDto);
-            }else{
+            if(childcareDto.getComplete() && childcareDto.getValidated()==null) {
                 awaitingChildcareDtosMissions.add(childcareDto);
             }
         }
@@ -236,9 +233,22 @@ public class ChildcareController {
     }
 
     @PostMapping("/delete/childcare")
-    public String deleteChildcare(@ModelAttribute ("id") int childcareId, @ModelAttribute ("userConnectedId") int userId) {
+    public String deleteChildcare(@ModelAttribute ("id") int childcareId, @ModelAttribute ("userConnectedId") int userId, @ModelAttribute ("personWhoDelete") String personWhoDelete) {
         childcareProxy.deleteChildcare(childcareId);
-        return "redirect:/requests/childcares/" + userId;
+
+        if(personWhoDelete.equals("childParent")) {
+            return "redirect:/requests/childcares/" + userId;
+        }else{
+            return "redirect:/missions/childcares/" + userId;
+        }
+    }
+
+    @PostMapping("/markAccomplishedChildcare")
+    public String markChildcareAsAccomplished(@ModelAttribute ("childcareAccomplishedId") int childcareId, @ModelAttribute ("userConnectedId") int userId) {
+
+        childcareProxy.accomplishChildcare(childcareId);
+        return "redirect:/missions/childcares/" + userId;
+
     }
 
 
