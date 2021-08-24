@@ -1,17 +1,20 @@
 package com.lavanya.api.service;
 
 import com.lavanya.api.dto.CommentDto;
+import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.mapper.ChildcareMapper;
 import com.lavanya.api.mapper.CommentMapper;
 import com.lavanya.api.mapper.UserMapper;
 import com.lavanya.api.model.Childcare;
 import com.lavanya.api.model.Comment;
+import com.lavanya.api.model.User;
 import com.lavanya.api.repository.ChildcareRepository;
 import com.lavanya.api.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Service provider for all business functionalities related to Comment class.
@@ -64,5 +67,14 @@ public class CommentService {
 //        end of delete
 
         return  commentDtoSaved;
+    }
+
+    public List<CommentDto> geCommentsOnUserByUserId(UserDto userDto) {
+
+        User user = userMapper.userDtoToUser(userDto);
+        List<Comment> list = commentRepository.findByUserCommentedOrderByTimeDesc(user);
+        List<CommentDto> listDtos = commentMapper.listCommentToCommentDto(list);
+
+        return listDtos;
     }
 }

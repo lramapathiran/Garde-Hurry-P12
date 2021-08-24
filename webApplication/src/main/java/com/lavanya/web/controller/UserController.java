@@ -4,14 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lavanya.web.configuration.SimplePageImpl;
-import com.lavanya.web.dto.ChildcareDto;
-import com.lavanya.web.dto.FriendDto;
-import com.lavanya.web.dto.UserDto;
-import com.lavanya.web.dto.Validate;
+import com.lavanya.web.dto.*;
 import com.lavanya.web.proxies.ChildcareProxy;
+import com.lavanya.web.proxies.CommentProxy;
 import com.lavanya.web.proxies.FriendProxy;
 import com.lavanya.web.proxies.UserProxy;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.*;
@@ -20,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller used in MVC architecture to control all the requests related to User object.
@@ -37,6 +36,9 @@ public class UserController {
 
     @Autowired
     ChildcareProxy childcareProxy;
+
+    @Autowired
+    CommentProxy commentProxy;
 
     @GetMapping("/user/homePage/{id}")
     public String showUserConnectedMainDashboard(@PathVariable ("id") int userConnectedId, Model model){
@@ -176,6 +178,10 @@ public class UserController {
         model.addAttribute("userConnected", userDtoWhoInvite);
         model.addAttribute("userConnectedId", userConnectedId);
         model.addAttribute("isMyFriend", isMyFriend);
+
+        List<CommentDto> userCommentsReceived = commentProxy.getListOfCommentsByUserId(id);
+
+        model.addAttribute("comments",userCommentsReceived);
 
         return "userProfileToVisit";
     }
