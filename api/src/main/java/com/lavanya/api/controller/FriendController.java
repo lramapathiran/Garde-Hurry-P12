@@ -3,6 +3,7 @@ package com.lavanya.api.controller;
 import com.lavanya.api.dto.FriendDto;
 import com.lavanya.api.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,21 +30,23 @@ public class FriendController {
 
     }
 
-    @GetMapping(value="/isFriend/{userConnectedId}/{userProfileVisitedId}")
-    public Boolean isMyfriend(@PathVariable ("userConnectedId") int userConnectedId, @PathVariable ("userProfileVisitedId") int userProfileVisitedId) {
+    @GetMapping(value="/isFriend/{userProfileVisitedId}")
+    public Boolean isMyfriend(@PathVariable ("userProfileVisitedId") int userProfileVisitedId) {
 
-        return  friendService.isUsersFriends(userConnectedId,userProfileVisitedId);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return  friendService.isUsersFriends(username,userProfileVisitedId);
     }
 
-    @GetMapping(value="/friendsRequest/{id}")
-    public List<FriendDto> getFriendRequestsByUser(@PathVariable("id") int userConnected) {
-        return friendService.getListOfFriendRequests(userConnected);
+    @GetMapping(value="/friendsRequest")
+    public List<FriendDto> getFriendRequestsByUser() {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return friendService.getListOfFriendRequests(username);
     }
 
-    @GetMapping(value="/friends/{id}")
-    public List<FriendDto> getFriendsListByUser(@PathVariable("id") int userConnected) {
-
-        return friendService.getListOfAllFriendsByUser(userConnected);
+    @GetMapping(value="/friends")
+    public List<FriendDto> getFriendsListByUser() {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return friendService.getListOfAllFriendsByUser(username);
 
     }
 
@@ -57,14 +60,18 @@ public class FriendController {
         friendService.deleteFriend(id);
     }
 
-    @GetMapping("/users/friend/{userInvitedId}/{userWhoInviteId}")
-    public FriendDto getFriendByIds(@PathVariable("userWhoInviteId") int userWhoInviteId, @PathVariable("userInvitedId") int userInvitedId) {
-        return friendService.findFriendRelationshipByBothUsersId(userInvitedId,userWhoInviteId);
+    @GetMapping("/users/friend/{userInvitedId}")
+    public FriendDto getFriendById(@PathVariable("userInvitedId") int userInvitedId) {
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return friendService.findFriendRelationshipByBothUsersId(userInvitedId,username);
     }
 
-    @GetMapping("user/count/friends/{id}")
-    public Integer getCountOfFriendsByUser(@PathVariable ("id") int userConnectedId) {
-        return friendService.getcountOfFriendsByUser(userConnectedId);
+    @GetMapping("user/count/friends")
+    public Integer getCountOfFriendsByUser() {
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return friendService.getcountOfFriendsByUser(username);
     }
 
 }

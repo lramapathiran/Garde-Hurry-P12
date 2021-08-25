@@ -26,7 +26,7 @@ public class FriendService {
     FriendRepository friendRepository;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     FriendMapper friendMapper;
@@ -62,13 +62,16 @@ public class FriendService {
 
     /**
      * method to verify if a friend relationship exists between two users even if this relation is still awaiting a validation from one of the parties.
-     * @param userConnectedId id of one the user concerned.
+     * @param username of the user concerned.
      * @param userProfileVisitedId id of the second user involved
      */
-    public Boolean isUsersFriends(int userConnectedId, int userProfileVisitedId) {
+    public Boolean isUsersFriends(String username, int userProfileVisitedId) {
 
-        User userWhoInvite =  userRepository.findById(userConnectedId).get();
-        User userInvited = userRepository.findById(userProfileVisitedId).get();
+        User userWhoInvite =  userService.findUserByUsername(username);
+
+        UserDto userDtoInvited = userService.getUserById(userProfileVisitedId);
+        User userInvited = userMapper.userDtoToUser(userDtoInvited);
+
 
         Boolean response1 = friendRepository.existsByUserWhoInviteAndByUserInvited(userWhoInvite,userInvited);
         Boolean response2 = friendRepository.existsByUserInvitedAndUserWhoInvite(userWhoInvite, userInvited);
@@ -79,9 +82,11 @@ public class FriendService {
         }
     }
 
-    public List<FriendDto> getListOfFriendRequests(int userConnectedId) {
+    public List<FriendDto> getListOfFriendRequests(String username) {
 
-        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
+        User userInvited =  userService.findUserByUsername(username);
+
+        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userInvited.getId());
         List<Friend> friendsRequestsList = new ArrayList<>();
         for(Friend friend : friendsList){
             if(!friend.getAccepted()){
@@ -94,37 +99,22 @@ public class FriendService {
         return friendDtos;
     }
 
-//    public List<FriendDto> getListOfFriends(int userConnectedId) {
-//
-//        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userConnectedId);
-//        List<Friend> friendsRequestsList = new ArrayList<>();
-//        for(Friend friend : friendsList){
-//            if(friend.getAccepted()){
-//                friendsRequestsList.add(friend);
-//            }
-//
-//        }
-//        List<FriendDto> friendDtos = friendMapper.INSTANCE.listFriendToListFriendDto(friendsRequestsList);
-//
-//        return friendDtos;
-//    }
-
     public void updateFriend(int id) {
-        Friend friend = friendRepository.getById(id);
+        Friend friend = friendRepository.findById(id).get();
         friend.setAccepted(true);
         friendRepository.save(friend);
     }
 
     public void deleteFriend(int id) {
-        Friend friend = friendRepository.getById(id);
+        Friend friend = friendRepository.findById(id).get();
         friendRepository.delete(friend);
     }
 
-    public FriendDto findFriendRelationshipByBothUsersId(int userInvitedId, int userWhoInviteId){
+    public FriendDto findFriendRelationshipByBothUsersId(int userInvitedId, String username){
 
-
-        Friend friend1 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvitedId,userWhoInviteId);
-        Friend friend2 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userWhoInviteId,userInvitedId);
+        User userWhoInvite =  userService.findUserByUsername(username);
+        Friend friend1 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvitedId,userWhoInvite.getId());
+        Friend friend2 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userWhoInvite.getId(),userInvitedId);
 
         FriendDto friendDto = new FriendDto();
         if(friend1 == null && friend2 !=null) {
@@ -138,17 +128,17 @@ public class FriendService {
         return friendDto;
     }
 
-    public List<FriendDto> getListOfAllFriendsByUser(int userConnectedId){
+    public List<FriendDto> getListOfAllFriendsByUser(String username){
 
-        User user = userRepository.getById(userConnectedId);
+        User user = userService.findUserByUsername(username);
         List<Friend> list = friendRepository.findByUserInvitedIdOrUserWhoInviteId(user);
 
 
         return friendMapper.INSTANCE.listFriendToListFriendDto(list);
     }
 
-    public Integer getcountOfFriendsByUser(int userConnectedId){
-        User user = userRepository.findById(userConnectedId).get();
+    public Integer getcountOfFriendsByUser(String username){
+        User user = userService.findUserByUsername(username);
         return friendRepository.countOfFriends(user);
     }
 }

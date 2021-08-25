@@ -27,7 +27,6 @@
                         </div>
                         <div class="card-body">
                             <form class="form-horizontal" action="#" th:action="@{/saveChildren}" th:object="${childrenDto}" method="post" enctype="utf8">
-                                <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
                                 <div class="form-group row" >
                                     <label class="col-sm-3 col-form-label" for="name">Prénom</label>
                                     <div class="col-sm-8">
@@ -66,7 +65,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-md5  mx-auto d-block">
-                                        <a th:href="@{/user/{id}(id=${userConnectedId})}"><button type="button" class="btn btn-secondary">Retour</button></a>
+                                        <a th:href="@{/user}"><button type="button" class="btn btn-secondary">Retour</button></a>
                                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                                     </div>
                                 </div>

@@ -34,8 +34,6 @@
                         </div>
                         <div class="card-body">
                             <form class="form-horizontal" action="#" th:action="@{/saveChildcare}" th:object="${childcareDto}" id="childcareForm" method="post" enctype="utf8">
-                                <input type="hidden" name="id" th:value = "${userConnectedId}"/>
-
                                 <div class="form-group row ${#fields.hasErrors('date')}? has-error" >
                                     <label class="col-sm-3 col-form-label" for="date">Date</label>
                                     <div class="col-sm-8">

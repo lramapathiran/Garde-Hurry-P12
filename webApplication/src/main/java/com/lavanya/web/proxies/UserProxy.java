@@ -1,5 +1,6 @@
 package com.lavanya.web.proxies;
 
+import com.lavanya.web.dto.AuthBodyDto;
 import com.lavanya.web.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
@@ -15,30 +16,33 @@ import java.util.List;
 @FeignClient(name = "userApi", url = "localhost:9090")
 public interface UserProxy {
 
-    @GetMapping("/user/{id}")
-    UserDto getUserConnected(@PathVariable("id") int id);
+    @GetMapping("/user")
+    UserDto getUserConnected(@RequestHeader(name = "Authorization") String token);
 
-//    @PostMapping(value="/api/auth/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-//    String login(@RequestBody AuthBodyDto data);
+    @GetMapping("/user/{id}")
+    UserDto getUser(@PathVariable(name = "id") int userId, @RequestHeader(name = "Authorization") String token);
+
+    @PostMapping(value="/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    String login(@RequestBody AuthBodyDto data);
 
     @GetMapping("/users/{pageNumber}")
-    Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage);
+    Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage, @RequestHeader(name = "Authorization") String token);
 
     @GetMapping(value="/users", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    List<UserDto> showUsersList();
+    List<UserDto> showUsersList(@RequestHeader(name = "Authorization") String token);
 
     @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void saveUser(@RequestBody UserDto userDto);
 
     @PostMapping (value="/updateUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void updateUser(@RequestBody UserDto userDto);
+    void updateUser(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);
 
     @GetMapping("/loadUserByUsername/{username}")
     UserDto loadUserByUsername(@PathVariable ("username") String username);
 
     @PostMapping("/delete/user/{userToDeleteId}")
-    void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId);
+    void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/validate/profile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void validateOrNotUserProfile(@RequestBody UserDto userDto);
+    void validateOrNotUserProfile(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);
 }

@@ -102,7 +102,7 @@
 
                         <div class="form-group row">
                             <div class="col-md5  mx-auto d-block" th:if="${leftChildren} > 0">
-                                <a th:href="@{/requests/childcares/{id}(id=${userConnectedId})}"><button type="button" class="btn btn-secondary">Retour</button></a>
+                                <a th:href="@{/requests/childcares}"><button type="button" class="btn btn-secondary">Retour</button></a>
                                 <button type="submit" class="btn btn-primary">Enregistrer</button>
                             </div>
                         </div>
@@ -114,8 +114,7 @@
             <div class="col-md5  mx-auto d-block" th:unless="${leftChildren} > 0">
                 <form class="form-horizontal" action="#" th:action="@{/validate/request/childcare}" method="post" enctype="utf8">
                     <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
-                    <input type="hidden" name="userConnectedId" th:value = "${childcare.userDtoInNeed.id}"/>
-                    <a th:href="@{/requests/childcares/{id}(id=${userConnectedId})}"><button type="button" class="btn btn-secondary">Retour</button></a>
+                    <a th:href="@{/requests/childcares}"><button type="button" class="btn btn-secondary">Retour</button></a>
                     <button type="submit" class="btn btn-primary">Valider</button>
                 </form>
             </div>

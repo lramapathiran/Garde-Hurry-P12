@@ -43,20 +43,18 @@
                                         </thead>
                                         <tbody>
                                         <tr th:each="friendDto: ${requests}">
-                                            <td><a target="_blank" th:href="@{/profile/user/{id}/{userConnectedId}(id = ${friendDto.userWhoInvite.id},userConnectedId=${userConnectedId})}" th:utext = "${friendDto.userWhoInvite.firstName}"></a></td>
+                                            <td><a target="_blank" th:href="@{/profile/user/{id}(id = ${friendDto.userWhoInvite.id})}" th:utext = "${friendDto.userWhoInvite.firstName}"></a></td>
                                             <td th:utext = "${friendDto.userWhoInvite.lastName}">...</td>
 
                                             <td>
                                                 <form action="#" th:action="@{/request/response}" th:method="post">
                                                     <input type="hidden" name="id" th:value = "${friendDto.id}"/>
-                                                    <input type="hidden" name="userConnectedId" th:value = "${friendDto.userInvited.id}"/>
                                                     <button type="submit" class="float-md-right"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form action="#" th:action="@{/delete/request}" th:method="post">
                                                     <input type="hidden" name="id" th:value = "${friendDto.id}"/>
-                                                    <input type="hidden" name="userConnectedId" th:value = "${friendDto.userInvited.id}"/>
                                                     <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
                                                 </form>
 
@@ -82,10 +80,10 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div th:if="${friendDtos.empty}" class="d-flex justify-content-center">
+                                    <div th:if="${friendDtosMap.empty}" class="d-flex justify-content-center">
                                         <p><strong>Aucun Amis pour le moment!</strong></p>
                                     </div>
-                                    <table th:unless="${friendDtos.empty}" class="table table-striped table-hover card-text">
+                                    <table th:unless="${friendDtosMap.empty}" class="table table-striped table-hover card-text">
                                         <thead>
                                         <!--                                        <tr>-->
                                         <!--                                            <th>Nom</th>-->
@@ -94,16 +92,12 @@
                                         <!--                                        </tr>-->
                                         </thead>
                                         <tbody>
-                                        <tr th:each="friendDto: ${friendDtos}">
-                                            <td th:if="${friendDto.userWhoInvite.id} == userConnectedId"><a target="_blank" th:href="@{/profile/user/{id}/{userConnectedId}(id = ${friendDto.userInvited.id},userConnectedId=${userConnectedId})}" th:utext = "${friendDto.userInvited.firstName}"></a></td>
-                                            <td th:if="${friendDto.userWhoInvite.id} == userConnectedId" th:utext = "${friendDto.userInvited.lastName}">...</td>
-                                            <td th:unless="${friendDto.userWhoInvite.id} == userConnectedId"><a target="_blank" th:href="@{/profile/user/{id}/{userConnectedId}(id = ${friendDto.userWhoInvite.id},userConnectedId=${userConnectedId})}" th:utext = "${friendDto.userWhoInvite.firstName}"></a></td>
-                                            <td th:unless="${friendDto.userWhoInvite.id} == userConnectedId" th:utext = "${friendDto.userWhoInvite.lastName}">...</td>
+                                        <tr th:each="instance,iterator : ${friendDtosMap}">
+                                            <td><a target="_blank" th:href="@{/profile/user/{id}(id = ${instance.key.id})}" th:utext = "${instance.key.firstName} + ' ' + ${instance.key.lastName}"></a></td>
 
                                             <td>
                                                 <form action="#" th:action="@{/delete/request}" th:method="post">
-                                                    <input type="hidden" name="id" th:value = "${friendDto.id}"/>
-                                                    <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
+                                                    <input type="hidden" name="id" th:value = "${instance.value.id}"/>
                                                     <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
                                                 </form>
 

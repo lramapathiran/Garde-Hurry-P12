@@ -44,7 +44,7 @@
                                             </thead>
                                             <tbody>
                                             <tr th:each="user : ${usersPage}">
-                                                <td scope="row"><a target="_blank" th:href="@{/profile/user/{id}/{userConnectedId}(id = ${user.id},userConnectedId=${userConnectedId})}" th:utext = "${user.lastName}"></a></td>
+                                                <td scope="row"><a target="_blank" th:href="@{/profile/user/{id}(id = ${user.id})}" th:utext = "${user.lastName}"></a></td>
                                                 <td th:utext = "${user.firstName}" scope="row">...</td>
                                                 <td th:utext = "${user.email}" scope="row">...</td>
                                                 <td scope="row" th:if="${user.roles} == 'USER'">Utilisateur</td>
@@ -58,7 +58,6 @@
                                                 <td scope="row" >
                                                     <form action="#" th:action="@{/validateProfile}" th:object="${validate}" th:method="post">
                                                         <input type="hidden" name="userToValidateId" th:value = "${user.id}"/>
-                                                        <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
 
                                                         <div th:if="${user.validated}">
                                                             <input type="checkbox" checked name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
@@ -75,7 +74,6 @@
                                                 <td scope="row">
                                                     <form action="#" th:action="@{/delete/user}" th:method="post">
                                                         <input type="hidden" name="id" th:value = "${user.id}"/>
-                                                        <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
                                                         <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
                                                     </form>
                                                 </td>

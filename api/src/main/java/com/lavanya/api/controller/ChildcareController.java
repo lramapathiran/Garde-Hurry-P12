@@ -6,6 +6,7 @@ import com.lavanya.api.error.ChildrenToWatchAlreadyExistException;
 import com.lavanya.api.service.ChildcareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class ChildcareController {
 
     @PostMapping("/saveChildcare")
     ChildcareDto saveChildcare(@RequestBody ChildcareDto childcareDto){
-        return childcareService.saveChildcare(childcareDto);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.saveChildcare(childcareDto, username);
     }
 
     @GetMapping("/childcare/{id}")
@@ -66,23 +68,31 @@ public class ChildcareController {
         childcareService.accomplishChildcare(childcareId);
     }
 
-    @PostMapping("/userInNeed/childcares/Uncommented")
-    List<ChildcareDto> getChildcaresUserInNeedNotCommented(@RequestBody UserDto userInNeedDto){
-        return childcareService.getChildcaresListOfUserInNeedUnCommented(userInNeedDto);
+    @GetMapping("/userInNeed/childcares/Uncommented")
+    List<ChildcareDto> getChildcaresOfUserInNeedNotCommented(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getChildcaresListOfUserInNeedUnCommented(username);
     }
 
-    @PostMapping("/userInCharge/childcares/Uncommented")
-    List<ChildcareDto> getChildcaresUserInChargeNotCommented(@RequestBody UserDto userInChargeDto){
-        return childcareService.getChildcaresListOfUserInChargeUnCommented(userInChargeDto);
+    @GetMapping("/userInCharge/childcares/Uncommented")
+    List<ChildcareDto> getChildcaresOfUserInChargeNotCommented(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getChildcaresListOfUserInChargeUnCommented(username);
     }
 
-    @GetMapping("/user/count/positiveBadges/{id}")
-    Integer countOfPositiveBadgesByUserId(@PathVariable("id") int userId){
-        return childcareService.getCountOfChildcaresAccomplishedOfUserWatching(userId);
+    @GetMapping("/user/count/positiveBadges")
+    Integer countOfPositiveBadgesByUserId(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getCountOfChildcaresAccomplishedOfUserWatching(username);
     }
 
-    @GetMapping("/user/count/negativeBadges/{id}")
-    Integer countOfNegativeBadgesByUserId(@PathVariable("id") int userId){
-        return childcareService.getCountOfChildcaresAccomplishedOfUserInNeed(userId);
+    @GetMapping("/user/count/negativeBadges")
+    Integer countOfNegativeBadgesByUserId(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getCountOfChildcaresAccomplishedOfUserInNeed(username);
     }
 }

@@ -31,13 +31,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Boolean existsByEmail(String email);
 
     /**
-     * Query to retrieve a specific user using his email address.
-     * @param email used to identify the user searched in database.
-     * @return the User of interest.
-     */
-//    Optional<User> findByEmail(String email);
-
-    /**
      * Query to retrieve list of all users registered and ordered by lastname.
      * @return list of all Users.
      */

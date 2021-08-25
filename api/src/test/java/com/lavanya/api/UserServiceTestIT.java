@@ -2,6 +2,7 @@ package com.lavanya.api;
 
 import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.UserAlreadyExistException;
+import com.lavanya.api.mapper.UserMapper;
 import com.lavanya.api.model.User;
 
 import org.junit.Assert;
@@ -40,6 +41,9 @@ public class UserServiceTestIT {
    @Autowired
    private UserService userService;
 
+   @Autowired
+   private UserMapper userMapper;
+
     @Test
     public void saveUserSucceedTest() {
         UserDto userDto = new UserDto();
@@ -59,7 +63,7 @@ public class UserServiceTestIT {
     @Test
     public void findUserByUsernameTest() {
 
-        UserDto userInDatabase = userService.findUserByUsername("l.fernand@gmail.com");
+        User userInDatabase = userService.findUserByUsername("l.fernand@gmail.com");
 
         Assert.assertEquals("l.fernand@gmail.com",userInDatabase.getEmail());
     }
@@ -84,14 +88,16 @@ public class UserServiceTestIT {
 
     @Test
     public void updateUserTest() {
-        UserDto userDto = userService.findUserByUsername("l.fernand@gmail.com");
+        User user = userService.findUserByUsername("l.fernand@gmail.com");
+        UserDto userDto = userMapper.userToUserDto(user);
+
         String userAddress = userDto.getAddress();
 
         userDto.setAddress("2 rue des Roses");
 
         userService.updateUser(userDto);
 
-        UserDto userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
+        User userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
         String updatedUserAddress = userUpdated.getAddress();
 
         Assert.assertEquals("1 rue des Roses",userAddress);
@@ -102,13 +108,16 @@ public class UserServiceTestIT {
     @Test
     public void validateUserProfileByAdminTest() {
 
-        UserDto userDto = userService.findUserByUsername("l.fernand@gmail.com");
-        Boolean userProfileValidation = userDto.getValidated();
+        User user = userService.findUserByUsername("l.fernand@gmail.com");
+        user.setValidated(false);
+        Boolean userProfileValidation = user.getValidated();
+
+        UserDto userDto = userMapper.userToUserDto(user);
 
         userService.validateUserProfileByAdmin(userDto);
 
-        UserDto userUpdated = userService.findUserByUsername("l.fernand@gmail.com");
-        Boolean userProfileActivation = userUpdated.getValidated();
+        User userValidated = userService.findUserByUsername("l.fernand@gmail.com");
+        Boolean userProfileActivation = userValidated.getValidated();
 
         Assert.assertNotEquals(userProfileValidation,userProfileActivation);
 

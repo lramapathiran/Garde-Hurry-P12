@@ -1,5 +1,7 @@
 package com.lavanya.web.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.*;
 import com.lavanya.web.proxies.ChildcareProxy;
 import com.lavanya.web.proxies.ChildrenProxy;
@@ -12,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import java.io.UnsupportedEncodingException;
@@ -46,19 +50,30 @@ public class ChildcareController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @GetMapping("request/childcare/{userConnectedId}")
-    public String showChildcareRequestForm(@PathVariable ("userConnectedId") int userConnectedId, Model model) {
+    @GetMapping("request/childcare")
+    public String showChildcareRequestForm(HttpSession session, Model model) {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+
+        model.addAttribute("fullname", fullname);
 
         ChildcareDto childcareDto = new ChildcareDto();
-        List<FriendDto> friendDtos = friendProxy.getFriendsListByUser(userConnectedId);
-        UserDto userConnected = userProxy.getUserConnected(userConnectedId);
+        List<FriendDto> friendDtos = friendProxy.getFriendsListByUser(token);
+        UserDto userConnected = userProxy.getUserConnected(token);
         int totalChildren = userConnected.getChildrenDtos().size();
 
         List<UserDto> users = new ArrayList<>();
 
         for(FriendDto friendDto : friendDtos) {
 
-            if(friendDto.getUserWhoInvite().getId() == userConnectedId){
+            if(friendDto.getUserWhoInvite().getEmail() == userConnected.getEmail()){
                 users.add(friendDto.getUserInvited());
             }else{
                 users.add(friendDto.getUserWhoInvite());
@@ -67,7 +82,6 @@ public class ChildcareController {
 
         model.addAttribute("childcareDto", childcareDto);
         model.addAttribute("friends", users);
-        model.addAttribute("userConnectedId", userConnectedId);
         model.addAttribute("maxChildren", totalChildren);
 
         return "requestChildcareStepOne";
@@ -75,18 +89,23 @@ public class ChildcareController {
 
     @PostMapping("/saveChildcare")
     public String saveChildcare(@Valid @ModelAttribute ("childcareDto") ChildcareDto childcareDto, BindingResult result,
-                                @ModelAttribute ("id") int userConnectedId, @ModelAttribute ("userDtoWatchingId") int userDtoWatchingId, Model model){
+                                @ModelAttribute ("userDtoWatchingId") int userDtoWatchingId, HttpSession session,Model model){
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
 
         if (result.hasErrors()) {
-            List<FriendDto> friendDtos = friendProxy.getFriendsListByUser(userConnectedId);
-            UserDto userConnected = userProxy.getUserConnected(userConnectedId);
+            List<FriendDto> friendDtos = friendProxy.getFriendsListByUser(token);
+            UserDto userConnected = userProxy.getUserConnected(token);
             int totalChildren = userConnected.getChildrenDtos().size();
 
             List<UserDto> users = new ArrayList<>();
 
             for(FriendDto friendDto : friendDtos) {
 
-                if(friendDto.getUserWhoInvite().getId() == userConnectedId){
+                if(friendDto.getUserWhoInvite().getEmail() == userConnected.getEmail()){
                     users.add(friendDto.getUserInvited());
                 }else{
                     users.add(friendDto.getUserWhoInvite());
@@ -95,20 +114,30 @@ public class ChildcareController {
 
             model.addAttribute("childcareDto", childcareDto);
             model.addAttribute("friends", users);
-            model.addAttribute("userConnectedId", userConnectedId);
             model.addAttribute("maxChildren", totalChildren);
             return "requestChildcareStepOne";
         }
-        childcareDto.setUserDtoInNeed(userProxy.getUserConnected(userConnectedId));
-        childcareDto.setUserDtoWatching(userProxy.getUserConnected(userDtoWatchingId));
-        ChildcareDto childcareDtoSaved = childcareProxy.saveChildcare(childcareDto);
+
+        childcareDto.setUserDtoWatching(userProxy.getUser(userDtoWatchingId,token));
+        ChildcareDto childcareDtoSaved = childcareProxy.saveChildcare(childcareDto,token);
 
         return "redirect:/save/request/children/" + childcareDtoSaved.getId();
     }
 
     @GetMapping("/save/request/children/{id}")
     public String completeChildcare(@PathVariable ("id") int childcareId, @RequestParam(value = "error", required = false) String error,
-                                @RequestParam(value = "name", required = false) String name,Model model){
+                                @RequestParam(value = "name", required = false) String name, HttpSession session, Model model){
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+
+        model.addAttribute("fullname", fullname);
 
         String errorMessage = null;
         if(error != null) {
@@ -116,11 +145,8 @@ public class ChildcareController {
         }
         model.addAttribute("errorMessage", errorMessage);
 
-        ChildcareDto childcareDto = childcareProxy.getChildcareById(childcareId);
+        ChildcareDto childcareDto = childcareProxy.getChildcareById(childcareId,token);
         model.addAttribute("childcare", childcareDto);
-
-        int userId = childcareDto.getUserDtoInNeed().getId();
-        model.addAttribute("userConnectedId", userId);
 
         int leftChildren = childcareDto.getNumberOfChildren() - childcareDto.getChildrenToWatch().size();
         model.addAttribute("leftChildren", leftChildren);
@@ -136,13 +162,19 @@ public class ChildcareController {
     }
 
     @PostMapping("/saveChildrenToWatch")
-    public String saveChildrenToWatchToChildcare(@ModelAttribute("childrenToWatchId") int childrenToWatchId, @ModelAttribute("childcareId") int childcareId) throws UnsupportedEncodingException {
+    public String saveChildrenToWatchToChildcare(@ModelAttribute("childrenToWatchId") int childrenToWatchId, @ModelAttribute("childcareId") int childcareId,
+                                                 HttpSession session) throws UnsupportedEncodingException {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
 
         try{
-            childcareProxy.saveChildrenToWatchToChildcare(childrenToWatchId,childcareId);
+            childcareProxy.saveChildrenToWatchToChildcare(childrenToWatchId,childcareId, token);
             return "redirect:/save/request/children/" + childcareId;
         }catch(Exception e){
-            String name = childrenProxy.getChildrenById(childrenToWatchId).getName();
+            String name = childrenProxy.getChildrenById(childrenToWatchId,token).getName();
             String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
             String capNameEncoded = URLEncoder.encode(capName, "Utf-8");
 
@@ -153,27 +185,50 @@ public class ChildcareController {
     }
 
     @PostMapping("/delete/childrenToWatch")
-    public String deleteChildrenToWatchInChildcare(@ModelAttribute("childrenToWatchId") int childrenToWatchId, @ModelAttribute("childcareId") int childcareId){
+    public String deleteChildrenToWatchInChildcare(@ModelAttribute("childrenToWatchId") int childrenToWatchId,
+                                                   @ModelAttribute("childcareId") int childcareId, HttpSession session){
 
-        childcareProxy.deleteChildrenToWatchInChildcare(childrenToWatchId,childcareId);
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        childcareProxy.deleteChildrenToWatchInChildcare(childrenToWatchId,childcareId,token);
         return "redirect:/save/request/children/" + childcareId;
     }
 
     @PostMapping("/validate/request/childcare")
-    public String completeChildcareRequest(@ModelAttribute("childcareId") int childcareId, @ModelAttribute("userConnectedId") int userId) {
-        childcareProxy.completeChildcareRequest(childcareId);
-        return "redirect:/requests/childcares/" + userId;
+    public String completeChildcareRequest(@ModelAttribute("childcareId") int childcareId, HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        childcareProxy.completeChildcareRequest(childcareId,token);
+        return "redirect:/requests/childcares";
     }
 
-    @GetMapping("/requests/childcares/{id}")
-    public String showUserChildcaresRequestsDashboard(@PathVariable("id") int userConnectedId,Model model) {
+    @GetMapping("/requests/childcares")
+    public String showUserChildcaresRequestsDashboard(HttpSession session, Model model) {
 
-        UserDto userDto = userProxy.getUserConnected(userConnectedId);
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+
+        model.addAttribute("fullname", fullname);
+
+        UserDto userDto = userProxy.getUserConnected(token);
         List<ChildcareDto> childcareDtosRequests = userDto.getChildcareDtosRequests();
 
         List<ChildcareDto> uncompleteChildcareDtosRequests = new ArrayList<>();
         List<ChildcareDto> unvalidatedChildcareDtosRequests = new ArrayList<>();
-        List<ChildcareDto> validatedChildcareDtosRequests = childcareProxy.getChildcaresUserInNeedNotCommented(userDto);
+        List<ChildcareDto> validatedChildcareDtosRequests = childcareProxy.getChildcaresOfUserInNeedNotCommented(token);
 
         for(ChildcareDto childcareDto : childcareDtosRequests) {
             if(childcareDto.getComplete()==false) {
@@ -187,20 +242,29 @@ public class ChildcareController {
         model.addAttribute("validatedChildcares", validatedChildcareDtosRequests);
         model.addAttribute("unvalidatedChildcares", unvalidatedChildcareDtosRequests);
 
-        model.addAttribute("userConnectedId", userConnectedId);
-
         return "childcaresRequestsDashboard";
     }
 
-    @GetMapping("/missions/childcares/{id}")
-    public String showUserChildcaresMissionsDashboard(@PathVariable("id") int userConnectedId,Model model) {
+    @GetMapping("/missions/childcares")
+    public String showUserChildcaresMissionsDashboard(HttpSession session, Model model) {
 
-        UserDto userDto = userProxy.getUserConnected(userConnectedId);
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+
+        model.addAttribute("fullname", fullname);
+
+        UserDto userDto = userProxy.getUserConnected(token);
 
         List<ChildcareDto> childcareDtosMissions = userDto.getChildcareDtosMissions();
 
         List<ChildcareDto> awaitingChildcareDtosMissions = new ArrayList<>();
-        List<ChildcareDto> acceptedChildcareDtosMissions = childcareProxy.getChildcaresUserInChargeNotCommented(userDto);
+        List<ChildcareDto> acceptedChildcareDtosMissions = childcareProxy.getChildcaresOfUserInChargeNotCommented(token);
 
         for(ChildcareDto childcareDto : childcareDtosMissions) {
             if(childcareDto.getComplete() && childcareDto.getValidated()==null) {
@@ -211,14 +275,18 @@ public class ChildcareController {
         model.addAttribute("childcaresMissions", acceptedChildcareDtosMissions);
         model.addAttribute("unvalidatedChildcaresMissions", awaitingChildcareDtosMissions);
 
-        model.addAttribute("userConnectedId", userConnectedId);
-
         return "childcaresMissionsDashboard";
     }
 
     @PostMapping("/validateChildcare")
-    public String validateProfile(ValidateChildcare validateChildcare){
-        ChildcareDto childcareDto = childcareProxy.getChildcareById(validateChildcare.getChildcareToValidateId());
+    public String validateProfile(ValidateChildcare validateChildcare, HttpSession session){
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        ChildcareDto childcareDto = childcareProxy.getChildcareById(validateChildcare.getChildcareToValidateId(),token);
 
         if(validateChildcare.getChildcareStatus()==null){
             childcareDto.setValidated(false);
@@ -227,27 +295,38 @@ public class ChildcareController {
         }
 
 
-        childcareProxy.validateOrNotChildcare(childcareDto);
+        childcareProxy.validateOrNotChildcare(childcareDto,token);
 
-        return "redirect:/missions/childcares/" + validateChildcare.getUserConnectedId();
+        return "redirect:/missions/childcares";
     }
 
     @PostMapping("/delete/childcare")
-    public String deleteChildcare(@ModelAttribute ("id") int childcareId, @ModelAttribute ("userConnectedId") int userId, @ModelAttribute ("personWhoDelete") String personWhoDelete) {
-        childcareProxy.deleteChildcare(childcareId);
+    public String deleteChildcare(@ModelAttribute ("id") int childcareId, @ModelAttribute ("personWhoDelete") String personWhoDelete, HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        childcareProxy.deleteChildcare(childcareId,token);
 
         if(personWhoDelete.equals("childParent")) {
-            return "redirect:/requests/childcares/" + userId;
+            return "redirect:/requests/childcares";
         }else{
-            return "redirect:/missions/childcares/" + userId;
+            return "redirect:/missions/childcares";
         }
     }
 
     @PostMapping("/markAccomplishedChildcare")
-    public String markChildcareAsAccomplished(@ModelAttribute ("childcareAccomplishedId") int childcareId, @ModelAttribute ("userConnectedId") int userId) {
+    public String markChildcareAsAccomplished(@ModelAttribute ("childcareAccomplishedId") int childcareId, HttpSession session) {
 
-        childcareProxy.accomplishChildcare(childcareId);
-        return "redirect:/missions/childcares/" + userId;
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        childcareProxy.accomplishChildcare(childcareId,token);
+        return "redirect:/missions/childcares";
 
     }
 

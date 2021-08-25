@@ -77,13 +77,10 @@
                                 <p th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
                                 <form th:if="${isMyFriend} and ${friend.accepted}" action="#" th:action="@{/delete/request}" th:method="post">
                                     <input type="hidden" name="id" th:value = "${friend.id}"/>
-                                    <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
                                     <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
                                 </form>
                                 <form th:unless="${isMyFriend}" action="#" th:action="@{/request/friend}" th:method="post">
                                     <input type="hidden" name="userInvitedId" th:value = "${user.id}"/>
-                                    <input type="hidden" name="userWhoInviteId" th:value = "${userConnectedId}"/>
-
                                     <button type="submit" class="btn btn-primary"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
                                 </form>
 

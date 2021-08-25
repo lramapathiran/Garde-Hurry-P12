@@ -45,13 +45,12 @@ public class ChildcareService {
     @Autowired
     ChildrenRepository childrenRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    public ChildcareDto saveChildcare(ChildcareDto childcareDto, String username) {
 
-    public ChildcareDto saveChildcare(ChildcareDto childcareDto) {
+        User userInNeed = userService.findUserByUsername(username);
 
         Childcare childcare = childcareMapper.childcareDtoToChildcare(childcareDto);
-//        childcare.setValidated(false);
+        childcare.setUserInNeed(userInNeed);
         childcare.setComplete(false);
         childcare.setAccomplished(false);
         childcare.setInChargeComment(false);
@@ -133,30 +132,30 @@ public class ChildcareService {
         childcareRepository.save(childcare);
     }
 
-    public List<ChildcareDto> getChildcaresListOfUserInNeedUnCommented(UserDto userDtoInNeed) {
-        User userInNeed = userMapper.userDtoToUser(userDtoInNeed);
+    public List<ChildcareDto> getChildcaresListOfUserInNeedUnCommented(String username) {
+        User userInNeed = userService.findUserByUsername(username);
         List<Childcare> list = childcareRepository.findChildcaresListOfUserInNeedNotCommentedYet(userInNeed);
         List<ChildcareDto> listDto = childcareMapper.listChildcareToListChildcareDto(list);
 
         return listDto;
     }
 
-    public List<ChildcareDto> getChildcaresListOfUserInChargeUnCommented(UserDto userDtoInCharge) {
+    public List<ChildcareDto> getChildcaresListOfUserInChargeUnCommented(String username) {
 
-        User userInCharge = userMapper.userDtoToUser(userDtoInCharge);
+        User userInCharge = userService.findUserByUsername(username);
         List<Childcare> list = childcareRepository.findChildcaresListOfUserInChargeNotCommentedYet(userInCharge);
         List<ChildcareDto> listDto = childcareMapper.listChildcareToListChildcareDto(list);
 
         return listDto;
     }
 
-    public Integer getCountOfChildcaresAccomplishedOfUserWatching(int userWatchingId){
-        User user = userRepository.findById(userWatchingId).get();
+    public Integer getCountOfChildcaresAccomplishedOfUserWatching(String username){
+        User user = userService.findUserByUsername(username);
         return childcareRepository.numberOfChildcaresAccomplishedByUserWatchingId(user);
     }
 
-    public Integer getCountOfChildcaresAccomplishedOfUserInNeed(int userInNeedId){
-        User user = userRepository.findById(userInNeedId).get();
+    public Integer getCountOfChildcaresAccomplishedOfUserInNeed(String username){
+        User user = userService.findUserByUsername(username);
         return childcareRepository.numberOfChildcaresAskedByUserInNeedIdAndAccomplished(user);
     }
 }

@@ -1,5 +1,8 @@
 package com.lavanya.web.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lavanya.web.comparator.UserDtoLastNameComparator;
 import com.lavanya.web.dto.FriendDto;
 import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.FriendProxy;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Controller used in MVC architecture to control all the requests related to Friend object.
@@ -36,62 +41,86 @@ public class FriendController {
      * @return the url /user/topos
      */
     @PostMapping("/request/friend")
-    public String sendRequestForFriendInvitation(@ModelAttribute ("userInvitedId") int userInvitedId, @ModelAttribute ("userWhoInviteId") int userWhoInviteId) {
+    public String sendRequestForFriendInvitation(@ModelAttribute ("userInvitedId") int userInvitedId, HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
 
         FriendDto friendDto = new FriendDto();
-        UserDto userInvited = userProxy.getUserConnected(userInvitedId);
-        UserDto userWhoInvite = userProxy.getUserConnected(userWhoInviteId);
+        UserDto userInvited = userProxy.getUser(userInvitedId,token);
+        UserDto userWhoInvite = userProxy.getUserConnected(token);
 
         friendDto.setUserInvited(userInvited);
         friendDto.setUserWhoInvite(userWhoInvite);
 
-        friendProxy.save(friendDto);
+        friendProxy.save(friendDto,token);
 
-        return "redirect:/profile/user/" + userInvitedId + "/" + userWhoInviteId;
+        return "redirect:/profile/user/" + userInvitedId;
     }
 
-    @GetMapping("/user/friends/{id}")
-    public String showlistOfFriendsByUser(@PathVariable ("id") int id, Model model) {
+    @GetMapping("/user/friends")
+    public String showlistOfFriendsByUser(HttpSession session, Model model) {
 
-        List<FriendDto> friendDtos1 = friendProxy.getFriendRequestsByUser(id);
-        List<FriendDto> friendDtos2 = friendProxy.getFriendsListByUser(id);
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
 
-//      2nd way to send lsit of friends
-//        List<UserDto> friendsUserDtos = new ArrayList<>();
-//
-//        for(FriendDto friendDto : friendDtos2){
-//           int userInvitedId = friendDto.getUserInvited().getId();
-//           int userWhoInviteId = friendDto.getUserWhoInvite().getId();
-//           if(userInvitedId == id ){
-//               UserDto userDto = userProxy.getUserConnected(userWhoInviteId);
-//               friendsUserDtos.add(userDto);
-//           }
-//        }
-//        model.addAttribute("friendsUserDtos", friendsUserDtos);
-//     end of 2nd way
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
 
+        model.addAttribute("fullname", fullname);
+
+        UserDto userConnected = userProxy.getUserConnected(token);
+
+        List<FriendDto> friendDtos1 = friendProxy.getFriendRequestsByUser(token);
+        List<FriendDto> friendDtos2 = friendProxy.getFriendsListByUser(token);
+
+        TreeMap<UserDto, FriendDto> mapOfFriendRequestWithUser = new TreeMap<>(new UserDtoLastNameComparator());
+
+        for(FriendDto friendDto : friendDtos2){
+            if(friendDto.getUserWhoInvite().getEmail().equals(userConnected.getEmail())){
+                UserDto user = friendDto.getUserInvited();
+                mapOfFriendRequestWithUser.put(user,friendDto);
+            }else{
+                UserDto user = friendDto.getUserWhoInvite();
+                mapOfFriendRequestWithUser.put(user,friendDto);
+            }
+        }
 
         model.addAttribute("requests", friendDtos1);
-        model.addAttribute("friendDtos", friendDtos2);
-        model.addAttribute("userConnectedId",id);
+        model.addAttribute("friendDtosMap", mapOfFriendRequestWithUser);
 
         return "friendsDashboard";
     }
 
     @PostMapping("/request/response")
-    public String acceptFriendRequest(@ModelAttribute ("id") int id, @ModelAttribute ("userConnectedId") int userConnectedId){
+    public String acceptFriendRequest(HttpSession session, @ModelAttribute ("id") int id){
 
-        friendProxy.acceptFriendInvitation(id);
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
 
-        return "redirect:/user/friends/" + userConnectedId;
+        friendProxy.acceptFriendInvitation(id,token);
+
+        return "redirect:/user/friends";
 
     }
 
     @PostMapping("/delete/request")
-    public String refuseFriendRequest(@ModelAttribute("id") int id, @ModelAttribute ("userConnectedId") int userConnectedId) {
+    public String refuseFriendRequest(@ModelAttribute("id") int id, HttpSession session) {
 
-        friendProxy.refuseFriendInvitation(id);
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
 
-        return "redirect:/user/friends/" + userConnectedId;
+        friendProxy.refuseFriendInvitation(id,token);
+
+        return "redirect:/user/friends";
     }
 }

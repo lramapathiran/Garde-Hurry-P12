@@ -16,38 +16,38 @@ import java.util.List;
 public interface ChildcareProxy {
 
     @PostMapping(value="/saveChildcare", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    ChildcareDto saveChildcare(@RequestBody ChildcareDto childcareDto);
+    ChildcareDto saveChildcare(@RequestBody ChildcareDto childcareDto, @RequestHeader(name = "Authorization") String token);
 
     @GetMapping("/childcare/{id}")
-    ChildcareDto getChildcareById(@PathVariable("id") int childcareId);
+    ChildcareDto getChildcareById(@PathVariable("id") int childcareId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/saveChildrenToWatch/{childrenToWatchId}/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void saveChildrenToWatchToChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId);
+    void saveChildrenToWatchToChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/deleteChildrenToWatch/{childrenToWatchId}/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void deleteChildrenToWatchInChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId);
+    void deleteChildrenToWatchInChildcare(@PathVariable("childrenToWatchId") int childrenToWatchId, @PathVariable("childcareId") int childcareId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="validate/request/childcare/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void completeChildcareRequest(@PathVariable("childcareId") int childcareId);
+    void completeChildcareRequest(@PathVariable("childcareId") int childcareId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/deleteChildcare/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void deleteChildcare(@PathVariable("childcareId") int childcareId);
+    void deleteChildcare(@PathVariable("childcareId") int childcareId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/validate/childcare", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void validateOrNotChildcare(@RequestBody ChildcareDto childcareDto);
+    void validateOrNotChildcare(@RequestBody ChildcareDto childcareDto, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="accomplish/childcare/{childcareId}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void accomplishChildcare(@PathVariable("childcareId") int childcareId);
+    void accomplishChildcare(@PathVariable("childcareId") int childcareId, @RequestHeader(name = "Authorization") String token);
 
-    @PostMapping("/userInNeed/childcares/Uncommented")
-    List<ChildcareDto> getChildcaresUserInNeedNotCommented(@RequestBody UserDto userInNeedDto);
+    @GetMapping("/userInNeed/childcares/Uncommented")
+    List<ChildcareDto> getChildcaresOfUserInNeedNotCommented(@RequestHeader(name = "Authorization") String token);
 
-    @PostMapping("/userInCharge/childcares/Uncommented")
-    List<ChildcareDto> getChildcaresUserInChargeNotCommented(@RequestBody UserDto userInChargeDto);
+    @GetMapping("/userInCharge/childcares/Uncommented")
+    List<ChildcareDto> getChildcaresOfUserInChargeNotCommented(@RequestHeader(name = "Authorization") String token);
 
-    @GetMapping("/user/count/positiveBadges/{id}")
-    Integer countOfPositiveBadgesByUserId(@PathVariable("id") int userId);
+    @GetMapping("/user/count/positiveBadges")
+    Integer countOfPositiveBadgesByUserId(@RequestHeader(name = "Authorization") String token);
 
-    @GetMapping("/user/count/negativeBadges/{id}")
-    Integer countOfNegativeBadgesByUserId(@PathVariable("id") int userId);
+    @GetMapping("/user/count/negativeBadges")
+    Integer countOfNegativeBadgesByUserId(@RequestHeader(name = "Authorization") String token);
 }

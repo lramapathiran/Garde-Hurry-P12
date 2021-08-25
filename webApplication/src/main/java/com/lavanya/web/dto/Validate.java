@@ -4,7 +4,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 
 public class Validate {
 
-    private Integer userConnectedId;
     private Integer userToValidateId;
     private Boolean profileStatus;
 
@@ -12,17 +11,8 @@ public class Validate {
 
     }
 
-    public Validate(Integer userConnectedId, Integer userToValidateId) {
-        this.userConnectedId = userConnectedId;
+    public Validate(Integer userToValidateId) {
         this.userToValidateId = userToValidateId;
-    }
-
-    public Integer getUserConnectedId() {
-        return userConnectedId;
-    }
-
-    public void setUserConnectedId(Integer userConnectedId) {
-        this.userConnectedId = userConnectedId;
     }
 
     public Integer getUserToValidateId() {

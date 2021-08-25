@@ -61,7 +61,6 @@
                                             <td>
                                                 <form action="#" th:action="@{/validateChildcare}" th:object="${validateChildcare}" th:method="post">
                                                     <input type="hidden" name="childcareToValidateId" th:value = "${childcare.id}"/>
-                                                    <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
 
                                                     <div th:if="${childcare.validated}">
                                                         <input type="checkbox" checked name="childcareStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
@@ -129,7 +128,6 @@
                                             <td th:if= "${childcare.accomplished}==false">
                                                 <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                     <input type="hidden" name="id" th:value = "${childcare.id}"/>
-                                                    <input type="hidden" name="userConnectedId" th:value = "${childcare.userDtoInNeed.id}"/>
                                                     <input type="hidden" name="personWhoDelete" th:value = "babysitter"/>
                                                     <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
                                                 </form>
@@ -139,7 +137,6 @@
                                             <td th:unless= "${childcare.accomplished}==true">
                                                 <form action="#" th:action="@{/markAccomplishedChildcare}" th:method="post">
                                                     <input type="hidden" name="childcareAccomplishedId" th:value = "${childcare.id}"/>
-                                                    <input type="hidden" name="userConnectedId" th:value = "${userConnectedId}"/>
                                                     <button type="submit" class="btn btn-primary commentButton"><img th:src="@{/img/en-cours-36.png}"/></button>
                                                 </form>
                                             </td>

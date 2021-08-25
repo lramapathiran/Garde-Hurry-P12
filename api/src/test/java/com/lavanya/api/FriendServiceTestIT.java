@@ -25,10 +25,10 @@ public class FriendServiceTestIT {
     @Test
     public void isUsersFriendsTestSucceed() {
 
-        int userConnected = 95;
+        String userConnectedUsername = "s.Monthy@gmail.com";
         int userProfileVisitedId = 3;
 
-        Boolean response = friendService.isUsersFriends(userConnected,userProfileVisitedId);
+        Boolean response = friendService.isUsersFriends(userConnectedUsername,userProfileVisitedId);
 
         Assert.assertTrue(response);
 
@@ -37,26 +37,26 @@ public class FriendServiceTestIT {
     @Test
     public void isUsersFriendsTestFailed() {
 
-        int userConnected = 3;
+        String userConnectedUsername = "l.fernand@gmail.com";
         int userProfileVisitedId = 100;
 
-        Boolean response = friendService.isUsersFriends(userConnected,userProfileVisitedId);
+        Boolean response = friendService.isUsersFriends(userConnectedUsername,userProfileVisitedId);
 
         Assert.assertFalse(response);
     }
 
     @Test
     public void findFriendRelationshipByBothUsersIdTest() {
-        int userWhoInviteId1 = 3;
+        String userConnectedUsername1 = "l.fernand@gmail.com";
         int userInvitedId1 = 95;
 
-        int userWhoInviteId2 = 95;
+        String userConnectedUsername2 = "s.Monthy@gmail.com";
         int userInvitedId2 = 3;
 
 
 
-        FriendDto friendDto1 = friendService.findFriendRelationshipByBothUsersId(userInvitedId1,userWhoInviteId1);
-        FriendDto friendDto2 = friendService.findFriendRelationshipByBothUsersId(userInvitedId2,userWhoInviteId2);
+        FriendDto friendDto1 = friendService.findFriendRelationshipByBothUsersId(userInvitedId1,userConnectedUsername1);
+        FriendDto friendDto2 = friendService.findFriendRelationshipByBothUsersId(userInvitedId2,userConnectedUsername2);
 
         assertEquals(111,friendDto1.getId());
         assertEquals(111,friendDto2.getId());
