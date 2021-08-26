@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<head th:insert="fragments/componentsRessources.html :: headVisit">-->
+<head>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
+    <title>sign-in</title>
+</head>
+<body>
+
+<section th:if="${session.isEmpty()}" class="bg-light py-5 py-md-8" id="about">
+
+    <div class="container" id="sign-in">
+        <div class="row align-items-center" id="sign-in">
+<!--            <div class="col-md px-xl-7 p-xxl-8 order-md-1 mb-4 mb-md-0 pl-md-4">-->
+<!--                <h2>De sacrés avantages!<br /><span class="text-success mt-2 d-block">En faisant vos emprunts en ligne</span></h2>-->
+<!--                <p class="text-muted">C'est la garantie d'emprunter de façon instantanée votre livre, de voir si un ouvrage est présent ou non et de prolonger les livres déjà empruntés! et tout cela sans se déplacer!</p>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-auto pr-xl-6">-->
+<!--                        <div class="d-flex"><span class="mr-2">-->
+<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
+<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
+<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
+<!--                      </svg></span>-->
+<!--                            <p class="text-success">Un gain de temps</p>-->
+<!--                        </div>-->
+<!--                        <div class="d-flex"><span class="mr-2">-->
+<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
+<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
+<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
+<!--                      </svg></span>-->
+<!--                            <p class="text-success">Voir en temps réel la disponibilité d'un ouvrage</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-auto">-->
+<!--                        <div class="d-flex"><span class="mr-2">-->
+<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
+<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
+<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
+<!--                      </svg></span>-->
+<!--                            <p class="text-success">Une emprunt immédiat</p>-->
+<!--                        </div>-->
+<!--                        <div class="d-flex"><span class="mr-2">-->
+<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
+<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
+<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
+<!--                      </svg></span>-->
+<!--                            <p class="text-success">Prolongation de la date de retour</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="col-lg-auto col-md-5">
+                <div class="card hover-top-shadow hover-top-shadow-lg border-0 card-form"><img class="card-img-top card-img-curve" src="assets/img/gallery/photo-2b.png" alt="" />
+                    <div class="card-body p-4 pt-5">
+                        <form id="loginForm" th:action="@{/login}" th:object="${authBodyDto}" method="post">
+                            <div class="mb-4">
+                                <input class="form-control" id="username" th:field="*{username}" required type="text" placeholder="Identifiant" />
+                            </div>
+                            <div class="mb-4">
+                                <input class="form-control" id="password" th:field="*{password}" required type="password" placeholder="Mot de passe" />
+                            </div>
+                            <button class="btn btn-block btn-success text-white" type="submit">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
+
+    </div>
+    <!-- end of .container-->
+
+</section>
+<!-- <section> close ============================-->
+<!-- ============================================-->
+
+<!-- end of .container-->
+
+</section>
+
+
+<!-- JavaScript files-->
+<!--<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>-->
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</body>
+</html>
