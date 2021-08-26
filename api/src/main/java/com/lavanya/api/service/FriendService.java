@@ -110,13 +110,13 @@ public class FriendService {
 //    }
 
     public void updateFriend(int id) {
-        Friend friend = friendRepository.getById(id);
+        Friend friend = friendRepository.findById(id).get();
         friend.setAccepted(true);
         friendRepository.save(friend);
     }
 
     public void deleteFriend(int id) {
-        Friend friend = friendRepository.getById(id);
+        Friend friend = friendRepository.findById(id).get();
         friendRepository.delete(friend);
     }
 
@@ -140,7 +140,7 @@ public class FriendService {
 
     public List<FriendDto> getListOfAllFriendsByUser(int userConnectedId){
 
-        User user = userRepository.getById(userConnectedId);
+        User user = userRepository.findById(userConnectedId).get();
         List<Friend> list = friendRepository.findByUserInvitedIdOrUserWhoInviteId(user);
 
 
