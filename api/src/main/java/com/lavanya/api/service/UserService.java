@@ -134,10 +134,12 @@ public class UserService implements UserDetailsService {
     public void updateUser(UserDto userDto) {
 
         User user = userMapper.INSTANCE.userDtoToUser(userDto);
-        user.setPassword(bCryptPasswordEncoder.encode(this.getUser(user.getEmail()).getPassword()));
-        user.setRoles(this.getUser(user.getEmail()).getRoles());
+        User originalUser = this.userRepository.findByEmail(user.getEmail());
+
+        user.setPassword(bCryptPasswordEncoder.encode(originalUser.getPassword()));
+        user.setRoles(originalUser.getRoles());
         user.setActive(true);
-        user.setValidated(this.getUser(user.getEmail()).getValidated());
+        user.setValidated(originalUser.getValidated());
         userRepository.save(user);
     }
 

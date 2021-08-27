@@ -238,7 +238,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("updateProfile")
+    @GetMapping("/updateProfile")
     public String showUserProfileFormToUpdate(Model model,HttpSession session){
 
         String token = (String) session.getAttribute("token");
@@ -304,6 +304,8 @@ public class UserController {
 
         UserDto userDto = userProxy.getUser(id, token);
         UserDto userDtoWhoInvite = userProxy.getUserConnected(token);
+
+        Boolean isUsersMatch = userDto.getEmail().equals(userDtoWhoInvite.getEmail());
         int totalChildren = userDto.getChildrenDtos().size();
 
         Boolean isMyFriend = friendProxy.isMyfriend(token,id);
@@ -316,6 +318,7 @@ public class UserController {
         model.addAttribute("numberOfChildren", totalChildren);
         model.addAttribute("userConnected", userDtoWhoInvite);
         model.addAttribute("isMyFriend", isMyFriend);
+        model.addAttribute("usersMatch", isUsersMatch);
 
         List<CommentDto> userCommentsReceived = commentProxy.getListOfCommentsByUserId(id,token);
 
@@ -324,8 +327,8 @@ public class UserController {
         return "userProfileToVisit";
     }
 
-    @PostMapping("/validateProfile")
-    public String validateProfile(Validate validate, HttpSession session){
+    @PostMapping("/validateProfile/{pageNumber}")
+    public String validateProfile(Validate validate, @PathVariable("pageNumber") int currentPage, HttpSession session){
 
         String token = (String) session.getAttribute("token");
         if(token==null) {
@@ -343,7 +346,7 @@ public class UserController {
 
         userProxy.validateOrNotUserProfile(userDto, token);
 
-        return "redirect:/users/1";
+        return "redirect:/users/" + currentPage;
     }
 
 

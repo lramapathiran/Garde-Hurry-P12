@@ -6,6 +6,7 @@ public class Validate {
 
     private Integer userToValidateId;
     private Boolean profileStatus;
+    private Integer currentPage;
 
     public Validate() {
 
@@ -29,5 +30,13 @@ public class Validate {
 
     public void setProfileStatus(Boolean profileStatus) {
         this.profileStatus = profileStatus;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
     }
 }

@@ -56,7 +56,7 @@
                                                 <td scope="row" th:if="${user.validated}">Oui</td>
                                                 <td scope="row" th:unless="${user.validated}">Non</td>
                                                 <td scope="row" >
-                                                    <form action="#" th:action="@{/validateProfile}" th:object="${validate}" th:method="post">
+                                                    <form action="#" th:action="@{/validateProfile/{pageNumber}(pageNumber=${currentPage})}" th:object="${validate}" th:method="post">
                                                         <input type="hidden" name="userToValidateId" th:value = "${user.id}"/>
 
                                                         <div th:if="${user.validated}">

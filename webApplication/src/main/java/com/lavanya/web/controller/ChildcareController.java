@@ -279,7 +279,7 @@ public class ChildcareController {
     }
 
     @PostMapping("/validateChildcare")
-    public String validateProfile(ValidateChildcare validateChildcare, HttpSession session){
+    public String validateChildcareByUserInCharge(ValidateChildcare validateChildcare, HttpSession session){
 
         String token = (String) session.getAttribute("token");
         if(token==null) {
