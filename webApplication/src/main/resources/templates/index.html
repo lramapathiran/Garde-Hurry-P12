@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<!--<head th:insert="fragments/componentsRessources.html :: headVisit">-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
@@ -41,40 +38,22 @@
 <!--    Main Content-->
 <!-- ===============================================-->
 <main class="main">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0">
-        <div class="container"><a class="navbar-brand text-primary font-weight-bold" href="index.html"> Bridge </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0 fixed-top">
+        <div class="container headerLogo">
+            <a class="mainToolBar navbar-brand text-primary font-weight-bold col-lg-3" th:href="@{/homePage}">
+                <span><img id = "logo"  th:src="@{assets/img/gallery/logo.png}" alt="" /></span>
+                <span>Garde Hurry</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" href="index.html">Landing</a></li>
-                    <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdown" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Elements</a>
-                        <ul class="dropdown-menu navbar-dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#feature">Feature</a></li>
-                            <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#about">About </a></li>
-                            <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#testimonial">Testimonilas</a></li>
-                            <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#pricing">Pricing</a></li>
-                            <li><a class="dropdown-item text-secondary p-3" href="index.html#faq">FAQ </a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
-                    <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Documentation</a>
-                        <div class="dropdown-menu navbar-dropdown-menu" aria-labelledby="navbarDropdowndoc">
-                            <div class="list-group list-group-flush"><a class="list-group-item py-3 d-flex align-items-center" href="documentation.html"><img src="assets/img/gallery/document.png" alt="" />
-                                <div class="ml-3"><span class="font-weight-bold text-uppercase text-primary">Documentation</span>
-                                    <p class="text-secondary mb-0">Customizing and building</p>
-                                </div>
-                            </a><a class="list-group-item py-3 d-flex align-items-center" href="#"><img src="assets/img/gallery/components.png" alt="" />
-                                <div class="ml-3"><span class="font-weight-bold text-uppercase text-primary">Components</span>
-                                    <p class="text-secondary mb-0">Full list of components</p>
-                                </div>
-                            </a><a class="list-group-item py-3 d-flex align-items-center" href="#"><img src="assets/img/gallery/bar_chart.png" alt="" />
-                                <div class="ml-3"><span class="font-weight-bold text-uppercase text-primary">Changelog <span class="badge badge-secondary bg-light text-primary">1.1.3</span></span>
-                                    <p class="text-secondary mb-0">Keep track of changes</p>
-                                </div>
-                            </a></div>
-                        </div>
-                    </li>
-                </ul><a class="btn btn-primary ml-auto hover-top-shadow" href="#!">Buy now</a>
+            <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent header-button">
+                <ul th:unless="${session.isEmpty()}" class="navbar-nav ml-auto" id="navbar">
+                    <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/homePage}">Mon espace</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/showUsers/1}">Rechercher</a></li>
+                    <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>
+                </ul>
+                <span th:unless="${session.isEmpty()}" class="ml-auto hover-top-shadow name username"><strong>
+			      	<span th:utext="${fullname}"></span></strong>
+	            </span>
+                <a th:if="${session.isEmpty()}" class="btn btn-primary ml-auto hover-top-shadow" id="connectButton" href="#sign-in">Se connecter</a>
             </div>
         </div>
     </nav>
@@ -86,7 +65,7 @@
 
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-5 col-lg-6 order-md-1"><img class="img-fluid mb-5 mb-md-0" src="assets/img/gallery/illustration-4.png" alt="" /></div>
+                <div class="col-md-5 col-lg-6 order-md-1"><img class="img-fluid mb-5 mb-md-0" src="assets/img/gallery/happy_family.jpg" alt="" /></div>
                 <div class="col-md-7 col-lg-6">
                     <h1 class="display-6 text-center text-md-left">Welcome to <span class="text-primary">Bridge</span>. <br />Lets create the future.</h1>
                     <p class="lead text-center text-md-left text-muted mb-3">Build beautiful websites with flexible layouts with Bridge. The first and most compelling latest <br class="d-none d-xl-block d-xxl-none" />Bootstrap 5 theme.</p>
@@ -163,7 +142,7 @@
     <!-- <section> begin ============================-->
     <section th:if="${session.isEmpty()}" class="bg-light py-5 py-md-8">
 
-        <div class="container">
+        <div class="container" id="sign-in">
             <div class="row align-items-center">
                 <div class="col-md px-xl-7 p-xxl-8 order-md-1 mb-4 mb-md-0 pl-md-4">
                     <h2>Start your project <br /><span class="text-success mt-2 d-block">Why choose us? </span></h2>
@@ -202,6 +181,7 @@
                             </div>
                         </div>
                     </div>
+                    <h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
                 </div>
                 <div class="col-lg-auto col-md-5">
                     <div class="card hover-top-shadow hover-top-shadow-lg border-0 card-form"><img class="card-img-top card-img-curve" src="assets/img/gallery/empruntes.jpg" alt="" />
@@ -566,7 +546,7 @@
     <!-- <section> begin ============================-->
     <section class="text-center border-top footer-text py-3">
 
-        <div class="container">Made with ❤️ by <a class="text-500 text-decoration-none" href="https://themewagon.com/"> ThemeWagon </a>
+        <div class="container">Made with ❤️ by <a class="text-500 text-decoration-none" href="https://themewagon.com/"> Lavanya Mouhamadouvahap </a>
         </div>
         <!-- end of .container-->
 
@@ -579,106 +559,6 @@
 <!-- ===============================================-->
 <!--    End of Main Content-->
 <!-- ===============================================-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<section th:if="${session.isEmpty()}" class="bg-light py-5 py-md-8" id="about">
-
-    <div class="container" >
-        <div class="row align-items-center" id="sign-in">
-<!--            <div class="col-md px-xl-7 p-xxl-8 order-md-1 mb-4 mb-md-0 pl-md-4">-->
-<!--                <h2>De sacrés avantages!<br /><span class="text-success mt-2 d-block">En faisant vos emprunts en ligne</span></h2>-->
-<!--                <p class="text-muted">C'est la garantie d'emprunter de façon instantanée votre livre, de voir si un ouvrage est présent ou non et de prolonger les livres déjà empruntés! et tout cela sans se déplacer!</p>-->
-<!--                <div class="row">-->
-<!--                    <div class="col-md-auto pr-xl-6">-->
-<!--                        <div class="d-flex"><span class="mr-2">-->
-<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
-<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
-<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
-<!--                      </svg></span>-->
-<!--                            <p class="text-success">Un gain de temps</p>-->
-<!--                        </div>-->
-<!--                        <div class="d-flex"><span class="mr-2">-->
-<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
-<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
-<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
-<!--                      </svg></span>-->
-<!--                            <p class="text-success">Voir en temps réel la disponibilité d'un ouvrage</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-md-auto">-->
-<!--                        <div class="d-flex"><span class="mr-2">-->
-<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
-<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
-<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
-<!--                      </svg></span>-->
-<!--                            <p class="text-success">Une emprunt immédiat</p>-->
-<!--                        </div>-->
-<!--                        <div class="d-flex"><span class="mr-2">-->
-<!--                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">-->
-<!--                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>-->
-<!--                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>-->
-<!--                      </svg></span>-->
-<!--                            <p class="text-success">Prolongation de la date de retour</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-            <div class="col-lg-auto col-md-5">
-                <div class="card hover-top-shadow hover-top-shadow-lg border-0 card-form"><img class="card-img-top card-img-curve" src="assets/img/gallery/photo-2b.png" alt="" />
-                    <div class="card-body p-4 pt-5">
-                        <form id="loginForm" th:action="@{/login}" th:object="${authBodyDto}" method="post">
-                            <div class="mb-4">
-                                <input class="form-control" id="username" th:field="*{username}" required type="text" placeholder="Identifiant" />
-                            </div>
-                            <div class="mb-4">
-                                <input class="form-control" id="password" th:field="*{password}" required type="password" placeholder="Mot de passe" />
-                            </div>
-                            <button class="btn btn-block btn-success text-white" type="submit">Valider</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
-
-    </div>
-    <!-- end of .container-->
-
-</section>
-<!-- <section> close ============================-->
-<!-- ============================================-->
-
-<!-- end of .container-->
-
 </section>
 
 

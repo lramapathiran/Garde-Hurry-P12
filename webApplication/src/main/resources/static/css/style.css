@@ -1,20 +1,121 @@
-.fieldError, .errorMessage, .warningMessage {
+.fieldError, .errorMessage, .warningMessage, #error {
 	color: red;
 }
 
 .commentButton {
     background-color: Transparent;
     background-repeat:no-repeat;
-        border: none;
-        cursor:pointer;
-        overflow: hidden;
-        outline:none;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
 }
 
 .commentButton:hover {
     background-color: Transparent;
     background-repeat:no-repeat;
-        border-color:black;
-        cursor:pointer;
-        overflow: hidden;
+    border-color:black;
+    cursor:pointer;
+    overflow: hidden;
 }
+
+#logo {
+    max-height: 100%;
+    max-width: 100%;
+    width: 6.75rem;
+    height: 7.2rem;
+    }
+
+.mainToolBar{
+    margin-top: -16.4rem;
+    margin-bottom: -18.9rem;
+    margin-left: -0.8rem;
+}
+
+#navbarSupportedContent{
+    margin-left: 0rem;
+    margin-right: 6.4rem;
+}
+
+#navbar-connected-gardehurry{
+    margin-right: 24.4rem;
+}
+
+#nav-connected-gardehurry{
+    margin-left: 38rem;
+}
+
+#navbar{
+    margin-right: 1.4rem;
+}
+
+.navbar{
+margin-right: -3.2rem;
+}
+
+#connectButton{
+    margin-bottom: -0.3px;
+    padding-bottom: 0.375rem;
+    margin-top: 1.25rem;
+    margin-right: -1rem;
+}
+
+.username{
+    margin-right: -4.5rem;
+}
+
+.headerLogo{
+    margin-bottom: 2.2rem;
+    font-size: 1.2rem;
+}
+
+.headerLogoConnected{
+    margin-right: -0.8rem;
+    margin-left: 26.7rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+    }
+
+.headerLogoConnected ul li{
+  font-size: inherit;
+  margin-left: inherit;
+  margin-bottom: inherit;
+  }
+
+#header-logo-name {
+    margin-right: 85.4375rem;
+}
+
+#header-button{
+    margin-top: O.5rem;
+}
+
+#navbar{
+    margin-right: 8.4rem;
+}
+
+.logoConnected {
+    max-height: 100%;
+    max-width: 100%;
+    width: 6.75rem;
+    height: 7.2rem;
+    margin-right: -1.3rem;
+}
+
+.logoConnectedFooter {
+    max-height: 100%;
+    max-width: 100%;
+    width: 6.75rem;
+    height: 7.2rem;
+    margin-right: 0rem;
+}
+
+.sidebar-toggler {
+    margin-left: 1.4rem;
+}
+
+
+
+
+
+

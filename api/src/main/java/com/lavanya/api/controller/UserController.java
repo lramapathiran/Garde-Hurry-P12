@@ -112,15 +112,6 @@ public class UserController {
 
     }
 
-//    @GetMapping("/loadUserByUsername/{username}")
-//    public UserDto loadUserByUsername(@PathVariable ("username") String username) {
-//
-//        UserDto userDto = userService.findUserByUsername(username);
-//
-//        return userDto;
-//
-//    }
-
     @PostMapping("/validate/profile")
     void validateOrNotUserProfile(@RequestBody UserDto userDto) {
         userService.updateUserProfileValidationStatus(userDto);

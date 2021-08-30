@@ -36,4 +36,28 @@ public interface ChildcareRepository extends JpaRepository<Childcare, Integer> {
      */
     @Query(value = "select count(*) from Childcare u where u.isAccomplished = 1 and u.userInNeed = ?1")
     Integer numberOfChildcaresAskedByUserInNeedIdAndAccomplished(User user);
+
+    /**
+     * Query to retrieve the total amount of childcares accomplished but not commented yet for the user who whatched over the children.
+     * @param user for which we need to determine the amount of childcares made.
+     * @return Integer for the resulting count.
+     */
+    @Query(value = "select count(*) from Childcare u where u.isAccomplished = 1 and inChargeComment = 0 and u.userWatching = ?1")
+    Integer numberOfChildcaresAccomplishedByUserWatchingIdNotCommentedYet(User user);
+
+    /**
+     * Query to retrieve the total amount of childcares accomplished but not commented yet for the user who required the childcare.
+     * @param user for which we need to determine the amount of childcares made.
+     * @return Integer for the resulting count.
+     */
+    @Query(value = "select count(*) from Childcare u where u.isAccomplished = 1 and inNeedComment = 0 and u.userInNeed = ?1")
+    Integer numberOfChildcaresAccomplishedByUserInNeedIdNotCommentedYet(User user);
+
+    /**
+     * Query to retrieve the total amount of childcares awaiting for validation by the user in charge.
+     * @param user for which we need to determine the amount of childcares awaiting.
+     * @return Integer for the resulting count.
+     */
+    @Query(value = "select count(*) from Childcare u where u.isValidated = 0 and u.userWatching = ?1")
+    Integer numberOfChildcaresToValidateByUserInCharge(User user);
 }

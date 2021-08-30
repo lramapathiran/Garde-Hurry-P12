@@ -96,7 +96,7 @@ public class UserController {
             session.setAttribute("token", token);
             return "redirect:/user/homePage";
         }catch (Exception e) {
-            return "redirect:/homePage?error=true";
+            return "redirect:/homePage?error=true#sign-in";
         }
 
     }
@@ -152,10 +152,15 @@ public class UserController {
         List<ChildcareDto> listOfRequests = childcareProxy.getChildcaresOfUserInNeedNotCommented(token);
         List<ChildcareDto> listOfMissions = childcareProxy.getChildcaresOfUserInChargeNotCommented(token);
 
+        int countOfChildcaresToComment = childcareProxy.countOfChildcaresToCommentByUserInChargeId(token) + childcareProxy.countOfChildcaresToCommentByUserInNeedId(token);
+        int countOfChildcaresToValidate = childcareProxy.countOfChildcaresToValidateByUserInChargeId(token);
+
         model.addAttribute("NumberOfFriends",countOfFriends);
         model.addAttribute("user",userDto);
         model.addAttribute("requests", listOfRequests);
         model.addAttribute("missions", listOfMissions);
+        model.addAttribute("countOfChildcaresToComment", countOfChildcaresToComment);
+        model.addAttribute("countOfChildcaresToValidate", countOfChildcaresToValidate);
 
         return "mainDashboard";
     }
@@ -275,6 +280,7 @@ public class UserController {
         userProxy.deleteUser(userDtoToDeleteId, token);
         return "redirect:/users/1";
     }
+
     @GetMapping("/user")
     public String showUserProfile(HttpSession session, Model model) {
 

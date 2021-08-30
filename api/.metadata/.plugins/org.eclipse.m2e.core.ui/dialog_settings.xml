@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\Utilisateur\Desktop\Development\Garde-Hurry-P12\api"/>
 			<item value="C:\Users\Utilisateur\Desktop\Development\OCR-P12"/>
 		</list>
 		<list key="projectNameTemplate">

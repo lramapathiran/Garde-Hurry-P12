@@ -1,1 +1,350 @@
 /* your styles go here */
+
+.fieldError, .message {
+	color: red;
+}
+.sidebar {
+	background: white;
+}
+
+.row {
+	padding-top: 10px;
+}
+
+
+.form-horizontal {
+	margin: 0px 50px;
+}
+
+.col-sm-3 {
+	margin: 0px;
+	padding: 7px 0px;
+}
+
+.nav-admin {
+	padding: 0.56rem 0rem 0.125rem 18.75rem;
+	margin-left: 30rem;
+}
+
+.nav-visit {
+	padding: 0rem;
+	margin: 0rem 3rem;
+} 
+
+.navigation-visit {
+	padding: 0px;
+	margin: 0px 0px 0px -1%;
+} 
+
+.menu {
+	margin-right: -18rem;
+}
+
+#header.header-scrolled {
+	padding: 0px;
+}
+
+.logo-visit {
+	padding: 0rem 1rem 0.5rem 2rem;
+}
+
+.logo-name {
+	margin-left: 0.5rem;
+}
+
+.logo-connected {
+	margin-left: 0rem;
+}
+
+.side-menu {
+	margin-top: 7rem;
+}
+
+#site {
+	margin: auto;
+	padding-top : 7.5rem;
+	width: 50%;	
+}
+
+.site-card {
+	margin: 20% auto 0% auto;
+}
+
+.col-lg-9 {
+	margin:0px auto;
+}
+
+.dashboard-data {
+	margin: 1.5% -1% 0% -1%;
+}
+
+.btn-secondary {
+	background-color: #897f7d;
+	border-color: #212529;
+}
+
+
+.col-md-5 {
+	padding: 0% 1% 0% 5%;
+}
+.add .remove {
+	margin-top: 2%;
+}
+
+h4 {
+	padding: 0.2rem 0.2rem 0rem 0rem;
+}
+
+.add-button {
+	padding: 0.3rem 0.9rem;
+	background-color: #897f7d;
+	border-color: #212529;
+}
+
+.add-button:hover {
+	background-color: #343a40;
+	border-color: #343a40;
+}
+
+.display-data {
+	margin: 0rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.go-to-form-site {
+	padding: 0rem 1rem 0rem 4.5rem;
+	position-left:1.3rem;
+}
+
+.go-to-form-title-site {
+	padding-top:0.5rem;
+	padding-right:0.5rem;
+}
+
+.go-to-form-topo {
+	padding: 0rem 0rem 0rem 2.8rem;
+	margin: 0rem;
+}
+
+.go-to-form-title-topo {
+	margin-top:0.4rem;
+	padding-right:0.4rem;
+}
+
+.description {
+	text-align: justify;
+}
+
+.reservation{
+	font-family:"Courier New", Courier, monospace, sans-serif, "Times New Roman", Times, serif;
+}
+
+#available {
+	color: blue;
+}
+
+#reserved {
+	color: green;
+}
+
+#unavailable {
+	color: red;
+}
+
+#in-progress {
+	color: grey;
+}
+
+li {
+	font-size:medium;
+}
+
+.col-lg-3 {
+	margin : 0px auto;
+}
+
+.city-1 {
+	left:1%;
+}
+
+.city-2 {
+	left:2%;
+}
+
+.city-3 {
+	left:3%;
+}
+
+.city-4 {
+	left:4%;
+}
+
+.table-responsive {
+	margin-top : 5%;
+}
+
+#tag {
+	font-size:60%;
+    text-align: center;
+}
+
+.user-name {
+	margin: 0rem auto;
+	padding: 0rem 0rem 0rem 10.5rem;
+	color:gray;
+}
+
+.user-name-home {
+	position:relative;
+	float: right;
+	color:white;
+}
+
+.user-name-home a{
+	color: white;
+}
+
+.nav-home-connected {
+	padding : 0.2rem 0rem 0.1rem 19rem; 
+}
+
+.email {
+	color: #444444;
+	font-size:1.2vw;
+}
+
+.logo-footer {
+	width:5%;
+	max-width: 100%;
+	height: auto;
+}
+
+.contact-footer {
+	text-decoration:underline;
+}
+
+#footer {
+	padding-top : 2rem;
+/* 	margin-top: 9.5rem; */
+}
+
+.comment {
+	margin-top: -5.6rem;
+}
+
+.a-comment:hover {
+	color:white;
+}
+
+.commentaire {
+	margin: -5rem auto 0rem auto;
+}
+
+.form-add {
+	padding-left: 8rem;	
+}
+
+.form-update {
+	padding : 3rem 0rem 3rem 4rem;	
+}
+
+.comment-section {
+	margin-top: -6rem;
+}
+
+.comment-delete {
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+.search > form {
+	width: 50%;
+  	margin: 2.5rem auto;
+}
+
+.search-element {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.selectWrapper {
+	border-radius:36px;
+  	border:1px solid #cccccc;
+}
+
+.buttonWrapper {
+	border-radius:17px;
+  	border:1.5px solid #cccccc;
+}
+
+#clearWrapper {
+	background:#9db8f3;
+}
+
+#searchWrapper {
+	background:#b3c3cf;
+}
+
+.mobile-nav {
+	background: #e8e8e8;
+}
+
+.mobile-nav a {
+	color: #535456;
+}
+
+.icofont-navigation-menu {
+	margin-right: -35%;
+}
+
+#count-two {
+    padding-left: 5.6rem;
+}
+
+#count-three {
+    padding-left: 8.7rem;
+}
+
+#count-three > p {
+    margin-left: 4rem;
+	margin-right: -7.6rem;
+}
+
+.img-home {
+  background-image: url(/assets/img/hero-bg.jpg);
+  width: 100%;
+  height: 28rem;
+  background-position: center;
+  /* Make the background image cover the area of the <div>, and clip the excess */
+  background-size: cover;
+  margin-top: -1rem;
+}
+
+.welcome {
+	text-align:center;
+	margin-top: -0.5rem;
+}
+
+.topo-card {
+	margin-top: 2rem;
+}
+
+#card {
+	margin-top: -5rem;
+}
+
+#page {
+	min-height:100vh; /* 1 */
+	display:flex; /* 2 */
+	flex-direction:column; /* 3 */
+}
+
+#content {
+	flex:1; /* 4 */
+}
+
+}

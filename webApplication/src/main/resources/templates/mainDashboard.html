@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<!--<head th:insert="fragments/componentsRessources.html :: headVisit">-->
+<!--<head  th:insert="fragments/componentsRessources.html :: headVisit">-->
 <head>
     <meta content="" name="description">
     <meta content="" name="keywords">
@@ -8,7 +8,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+<!--    resources header garde hurry-->
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/img/favicons/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/img/favicons/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/img/favicons/favicon-16x16.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicons/favicon.ico}">
+    <link rel="manifest" th:href="@{/assets/img/favicons/manifest.json}">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300&amp;display=swap" rel="stylesheet">
+    <link th:href="@{/assets/css/theme.css}" rel="stylesheet">
+<!--    end resources header garde hurry-->
+
+
+
+<!--    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/admin/vendor/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" th:href="@{/admin/css/orionicons.css}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" th:href="@{/admin/css/style.default.css}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" th:href="@{/admin/css/custom.css}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/admin/img/favicon.png?3}">
+
+    <link th:href="@{/admin/assets/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
     <title>Tableau de Bord</title>
 </head>
@@ -16,47 +55,15 @@
 <body>
 <!-- navbar-->
 <div id="page">
-<!--    <header id="header2" class="fixed-top" th:insert="fragments/componentsAdmin.html :: headerVisitAdmin"></header>-->
+    <header class="fixed-top" th:insert="fragments/componentsVisit.html :: headerVisitAdmin"></header>
 
     <div class="d-flex align-items-stretch" id="content">
-<!--        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsAdmin.html :: sidebar-connected"></div>-->
+        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsAdmin.html :: sidebar-connected"></div>
         <div class="page-holder w-100 d-flex flex-wrap">
             <div class="container-fluid px-xl-5">
-<!--                <section class="py-5" th:insert="fragments/componentsAdmin.html :: dashboard-data"></section>-->
+                <section class="py-5" th:insert="fragments/componentsAdmin.html :: dashboard-data"></section>
+                
 
-
-                <div class="col-md-12 welcome">
-                    <h6 class="text-uppercase mb-0">Bienvenue
-                        <span th:text="${user.firstName}"></span>&nbsp;
-                        <span th:text="${user.lastName}"></span>!
-                    </h6>
-                </div>
-
-                <section>
-                    <h5>Mes badges</h5>
-                    <p th:if="${negativeBadgesNumber}">
-                        <span th:text="${negativeBadgesNumber}"></span>
-                        <span><img th:src="@{/img/badgeNeg-40.png}"/></span>
-                        <small><strong>Il est temps de rendre la pareil!</strong></small>
-                    </p>
-                    <p th:if="${positiveBadgesNumber}">
-                        <span th:text="${positiveBadgesNumber}"></span>
-                        <span><img th:src="@{/img/badgePos-40.png}"/></span>
-                        <small><strong>Bravo et merci pour votre solidarité!</strong></small>
-                    </p>
-                    <p th:if="${positiveBadgesNumber}==0">
-                        <span><img th:src="@{/img/woman-shrugging-40.png}"/></span>
-                        <small><strong>Aucun badge pour l'instant!</strong></small>
-                    </p>
-                </section>
-                <section>
-                    <h5>Mes amis</h5>
-                    <p th:if="${NumberOfFriends} > 0">
-                        <span th:text="${NumberOfFriends}"></span>
-                        <span> contacts</span>
-                    </p>
-                    <p th:if="${NumberOfFriends} == 0">Aucun contact!</p>
-                </section>
                 <section>
                     <div class="col-5 col-lg-12 mx-auto mb-5 mb-lg-0">
                         <div class="pr-lg-5 img-fluid img-home"></div>
@@ -163,12 +170,24 @@
 
         </div>
     </div>
-<!--    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>-->
+    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
 </div>
 <!-- JavaScript files-->
 <!--<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>-->
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
+
+
+<!--<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>-->
+<!--<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>-->
+<!--<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>-->
+
+<script th:src="@{/admin/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/vendor/popper.js/umd/popper.min.js}"> </script>
+<script th:src="@{/admin/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+<script th:src="@{/admin/vendor/chart.js/Chart.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script th:src="@{/admin/js/charts-home.js}"></script>
+<script th:src="@{/admin/js/front.js}"></script>
 </body>
 </html>

@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<head></head>
+	<body>
+		  
+		  	  <!-- ======= Header for Home page once connected======= -->
+	      <div class="navbar2 row d-flex" th:fragment="headerHomePageConnected">
+	
+	        <div class="logo row navigation-visit">
+	      	  <a th:href="@{/homePage}" class="logo-visit"><img th:src="@{/assets/img/gallery/logo.png}" alt="" class="img-fluid-visit"></a>
+	        </div>
+	
+	        <div>
+		        <nav class="nav-home-connected nav-menu menu d-none d-lg-block">
+		          <ul>
+		            <li class="active"><a href="/">Accueil</a></li>
+		            <li><a th:href="@{/showSites/1}">Les Sites</a></li>
+		            <li><a th:href="@{/showTopos(pageNumber=1)}">Les Topos</a></li>
+		            <li><a href="#footer">Contacts</a></li>
+		
+		          </ul>
+		        </nav><!-- .nav-menu -->
+		   	</div>
+		        
+	        <div class="ml-auto d-flex align-items-center list-unstyled mb-0 user-name-home">
+		      <div><a th:href="@{/user}">
+			      <span th:utext="${fullname}"></span></a>
+	          </div>
+	          <span><a th:href="@{/logout}" ><img th:src="@{/assets/img/icons8-déconnexion-arrondi-40.png}" alt="none" class="img-fluid-visit"></a></span>
+		    </div>	
+	      </div><!-- End Header for Home page once connected -->
+
+<!--			  header garde hurry-->
+<!--		<div th:fragment="headerVisitAdmin">-->
+<!--			<div><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a></div>-->
+<!--			<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0 fixed-top">-->
+<!--				<div class="container headerLogo">-->
+<!--					<a class="mainToolBar navbar-brand text-primary font-weight-bold col-lg-3" th:href="@{/homePage}">-->
+<!--						<span><img id = "logo"  th:src="@{/assets/img/gallery/logo.png}" alt="" /></span>-->
+<!--						<span>Garde Hurry</span></a>-->
+<!--					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>-->
+<!--					<div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent header-button">-->
+<!--						<ul th:unless="${session.isEmpty()}" class="navbar-nav ml-auto" id="navbar">-->
+<!--							<li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/homePage}">Mon espace</a></li>-->
+<!--							<li class="nav-item"><a class="nav-link" th:href="@{/showUsers/1}">Rechercher</a></li>-->
+<!--							<li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>-->
+<!--						</ul>-->
+<!--						<span th:unless="${session.isEmpty()}" class="ml-auto hover-top-shadow name username"><strong>-->
+<!--			      			<span th:utext="${fullname}"></span></strong>-->
+<!--	            		</span>-->
+<!--						<a th:if="${session.isEmpty()}" class="btn btn-primary ml-auto hover-top-shadow" id="connectButton" href="#sign-in">Se connecter</a>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</nav>-->
+<!--		</div>-->
+<!--			  fin header garde hurry-->
+
+
+<!--	header mix garde hurry/escalade-->
+			<div class="main" th:fragment="headerVisitAdmin">
+<!--				<div><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a></div>-->
+<!--			  	<div class="row navbar-brand text-primary font-weight-bold">-->
+<!--			  		<a th:href="@{/homePage}"><img id="logo" th:src="@{/assets/img/gallery/logo.png}" alt="" /></a>-->
+<!--					<span>Garde Hurry</span></a>-->
+<!--				</div>-->
+				<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0 fixed-top">
+					<div><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a></div>
+					<div class="row navbar-brand text-primary font-weight-bold">
+						<a th:href="@{/homePage}"><img class="logoConnected" th:src="@{/assets/img/gallery/logo.png}" alt="" /></a>
+						<span id="header-logo-name" class="text-primary font-weight-bold">Garde Hurry</span>
+					</div>
+					<div class="row container headerLogoConnected">
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+						<div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent nav-connected-gardehurry">
+							<ul class="navbar-nav ml-auto" id="navbar-connected-gardehurry">
+								<li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/homePage}">Mon espace</a></li>
+								<li class="nav-item"><a class="nav-link" th:href="@{/showUsers/1}">Rechercher</a></li>
+								<li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>
+							</ul>
+							<span class="ml-auto hover-top-shadow name username"><strong th:utext="${fullname}"></strong></span>
+						</div>
+					</div>
+				</nav>
+
+
+<!--			  	<nav class="nav-admin nav-menu mr-auto d-none d-lg-block text-gray">-->
+<!--			  		<ul>-->
+<!--			  	    	<li class="active"><a href="/">Accueil</a></li>-->
+<!--			  	        <li><a th:href="@{/showSites/1}">Les Sites</a></li>-->
+<!--			  	        <li><a th:href="@{/showTopos(pageNumber=1)}">Les Topos</a></li>-->
+<!--			  	        <li><a href="#footer">Contacts</a></li>-->
+<!--					</ul>-->
+<!--				</nav>&lt;!&ndash; .nav-menu &ndash;&gt;-->
+
+<!--				<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0 fixed-top">-->
+<!--					<div><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a></div>-->
+<!--					<div class="container headerLogo">-->
+<!--						<a class="mainToolBar navbar-brand text-primary font-weight-bold col-lg-3" th:href="@{/homePage}">-->
+<!--							<span><img th:src="@{/assets/img/gallery/logo.png}" alt="" /></span>-->
+<!--							<span>Garde Hurry</span></a>-->
+<!--						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>-->
+<!--						<div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent header-button">-->
+<!--							<ul class="navbar-nav ml-auto" id="navbar">-->
+<!--								<li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/homePage}">Mon espace</a></li>-->
+<!--								<li class="nav-item"><a class="nav-link" th:href="@{/showUsers/1}">Rechercher</a></li>-->
+<!--								<li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>-->
+<!--							</ul>-->
+<!--							<span class="ml-auto hover-top-shadow name username"><strong th:utext="${fullname}"></strong></span>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</nav>-->
+
+<!--			  	<div class="user-name d-flex align-items-center list-unstyled mb-0">-->
+<!--			  		<span th:utext="${fullname}"></span>-->
+<!--				</div>-->
+			</div><!-- End Header mix garde hurry/escalade-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	      <!-- ======= Header mix admin/visit ======= -->
+<!--	    <div class="navbar2" th:fragment="headerVisitAdmin">-->
+<!--		  <div><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a></div>-->
+<!--	      <div class="row p-2">-->
+<!--	      	<a th:href="@{/homePage}"><img class="logo" th:src="@{/assets/img/gallery/logo.png}" alt="" /></a>-->
+<!--		  </div>-->
+<!--	      <nav class="nav-admin nav-menu mr-auto d-none d-lg-block text-gray">-->
+<!--	        <ul>-->
+<!--	          <li class="active"><a href="/">Accueil</a></li>-->
+<!--	          <li><a th:href="@{/showSites/1}">Les Sites</a></li>-->
+<!--	          <li><a th:href="@{/showTopos(pageNumber=1)}">Les Topos</a></li>-->
+<!--	          <li><a href="#footer">Contacts</a></li>-->
+<!--	-->
+<!--	        </ul>	        -->
+<!--	      </nav>&lt;!&ndash; .nav-menu &ndash;&gt;-->
+<!--	      -->
+<!--	      <div class="user-name d-flex align-items-center list-unstyled mb-0">-->
+<!--	      	<span th:utext="${fullname}"></span>-->
+<!--	      </div>-->
+<!--	    </div>&lt;!&ndash; End Header mix admin/visit&ndash;&gt;	-->
+	
+	      
+<!-- 	      sidebar -->
+		  <div  th:fragment = "sidebar-connected">
+	        <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family side-menu">MENU</div>
+	        <ul class="sidebar-menu list-unstyled">
+	              <li class="sidebar-list-item"><a th:href="@{/user}" class="sidebar-link text-muted active"><i class="o-home-1 mr-3 text-gray"></i><span>Home</span></a></li>
+	              <li class="sidebar-list-item"><a th:href="@{/user/sites}" class="sidebar-link text-muted"><i class="fas fa-map-marked-alt mr-3 text-gray"></i><span>Mes Sites</span></a></li>
+	              <li class="sidebar-list-item"><a th:href="@{/user/topos}" class="sidebar-link text-muted"><i class="fas fa-book-open mr-3 text-gray"></i><span>Mes Topos</span></a></li>
+	              <li class="sidebar-list-item"><a th:href="@{/logout}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Déconnexion</span></a></li>
+	        </ul>
+	        <div sec:authorize="hasAuthority('ADMIN')">
+		        <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">MEMBRE</div>
+		        <ul class="sidebar-menu list-unstyled">
+		              <li class="sidebar-list-item"><a th:href="@{/users(pageNumber=1)}" class="sidebar-link text-muted"><i class="o-database-1 mr-3 text-gray"></i><span>Les Utilisateurs</span></a></li>
+		              <li class="sidebar-list-item"><a th:href="@{/sites(pageNumber=1)}" class="sidebar-link text-muted"><i class="fas fa-map-marked-alt mr-3 text-gray"></i><span>Les Sites</span></a></li>
+		              <li class="sidebar-list-item"><a th:href="@{/topos(pageNumber=1)}" class="sidebar-link text-muted"><i class="fas fa-book-open mr-3 text-gray"></i><span>Les Topos</span></a></li>
+		        </ul>
+	        </div>
+      	  </div>
+      	  
+<!--       	  top data on dashboard -->
+		  <div class="row dashboard-data" th:fragment = "dashboard-data">
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+              <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                <div class="flex-grow-1 d-flex align-items-center">
+                  <div class="dot mr-3 bg-violet"></div>
+                  <div th:if="${negativeBadgesNumber}" class="text">
+                    <h6 class="mb-0">Badges à mon actif</h6>
+					  <span>- </span>
+					  <span th:text="${negativeBadgesNumber}"></span>
+<!--					  <span><img th:src="@{/img/badgeNeg-40.png}"/></span>-->
+					  </br>
+					  <small><strong>Il est temps de rendre la pareil!</strong></small>
+                  </div>
+				  <div th:if="${positiveBadgesNumber}" class="text">
+					<h6 class="mb-0">Badges à mon actif</h6>
+					  <span th:text="${positiveBadgesNumber}"></span>
+<!--					  <span><img th:src="@{/img/badgePos-40.png}"/></span>-->
+					  </br>
+					  <small><strong>Bravo et merci pour votre solidarité!</strong></small>
+				  </div>
+                </div>
+                <div th:if="${negativeBadgesNumber}" class="icon text-white"><span><img th:src="@{/img/badgeNeg-40.png}"/></span></div>
+				<div th:if="${positiveBadgesNumber}" class="icon text-white"><span><img th:src="@{/img/badgePos-40.png}"/></span></div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+              <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                <div class="flex-grow-1 d-flex align-items-center">
+                  <div class="dot mr-3 bg-green"></div>
+                  <div class="text">
+                    <h6 class="mb-0">Mes Amis</h6>
+                    <span th:if="${NumberOfFriends} > 0" class="text-gray" th:text="${NumberOfFriends}"></span>
+                    <span th:if="${NumberOfFriends} == 0">Aucun</span>
+                  </div>
+                </div>
+                <div class="icon text-white bg-green"><i class="fas fa-map"></i></div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+              <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                <div class="flex-grow-1 d-flex align-items-center">
+                  <div class="dot mr-3 bg-blue"></div>
+                  <div class="text">
+                    <h6 class="mb-0">Gardes en attente</h6>
+                    <span th:if = "${countOfChildcaresToValidate} > 0" class="text-gray" th:utext="${countOfChildcaresToValidate}"></span>
+                    <span th:unless = "${countOfChildcaresToValidate} > 0" class="text-gray">Aucune</span>
+                  </div>
+                </div>
+                <div class="icon text-white bg-blue"><i class="fas fa-comment-alt"></i></div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+              <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                <div class="flex-grow-1 d-flex align-items-center">
+                  <div class="dot mr-3 bg-red"></div>
+                  <div class="text">
+                    <h6 class="mb-0">Gardes à commenter</h6>
+                    <span th:if = "${countOfChildcaresToComment} > 0" class="text-gray" th:utext="${countOfChildcaresToComment}"></span>
+                    <span th:unless = "${countOfChildcaresToComment} > 0" class="text-gray">Aucune</span>
+                    
+                  </div>
+                </div>
+                <div class="icon text-white bg-red"><i class="far fa-calendar-check"></i></div>
+              </div>
+            </div>
+          </div>
+	      
+<!-- 	      Javascript  -->
+	      <th:block th:fragment="js-script">      
+		    <script th:src="@{/admin/vendor/jquery/jquery.min.js}"></script>
+		    <script th:src="@{/admin/vendor/popper.js/umd/popper.min.js}"> </script>
+		    <script th:src="@{/admin/vendor/bootstrap/js/bootstrap.min.js}"></script>
+		    <script th:src="@{/admin/vendor/jquery.cookie/jquery.cookie.js}"> </script>
+		    <script th:src="@{/admin/vendor/chart.js/Chart.min.js}"></script>
+		    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+		    <script th:src="@{/admin/js/charts-home.js}"></script>
+		    <script th:src="@{/admin/js/front.js}"></script>
+		  </th:block>
+	    
+	</body>
+</html>

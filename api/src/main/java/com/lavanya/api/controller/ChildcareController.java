@@ -95,4 +95,26 @@ public class ChildcareController {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         return childcareService.getCountOfChildcaresAccomplishedOfUserInNeed(username);
     }
+
+    @GetMapping("/userInCharge/count/childcaresToComment")
+    Integer countOfChildcaresToCommentByUserInChargeId(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getCountOfChildcaresAccomplishedAndNotCommentedOfUserWatching(username);
+    }
+
+    @GetMapping("/userInNeed/count/childcaresToComment")
+    Integer countOfChildcaresToCommentByUserInNeedId(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getCountOfChildcaresAccomplishedAndNotCommentedOfUserInNeed(username);
+    }
+
+    @GetMapping("/userInCharge/count/childcaresToValidate")
+    Integer countOfChildcaresToValidateByUserInChargeId(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getCountOfChildcaresToValidateOfUserInCharge(username);
+    }
+
 }

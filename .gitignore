@@ -102,3 +102,4 @@ buildNumber.properties
 .flattened-pom.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+iml,java-web,maven
+/.metadata/

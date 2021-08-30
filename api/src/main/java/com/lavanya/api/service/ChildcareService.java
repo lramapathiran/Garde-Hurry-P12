@@ -1,7 +1,6 @@
 package com.lavanya.api.service;
 
 import com.lavanya.api.dto.ChildcareDto;
-import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.ChildrenToWatchAlreadyExistException;
 import com.lavanya.api.mapper.ChildcareMapper;
@@ -12,12 +11,10 @@ import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.ChildcareRepository;
 import com.lavanya.api.repository.ChildrenRepository;
-import com.lavanya.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.Arrays;
+
 import java.util.List;
 
 /**
@@ -157,5 +154,20 @@ public class ChildcareService {
     public Integer getCountOfChildcaresAccomplishedOfUserInNeed(String username){
         User user = userService.findUserByUsername(username);
         return childcareRepository.numberOfChildcaresAskedByUserInNeedIdAndAccomplished(user);
+    }
+
+    public Integer getCountOfChildcaresAccomplishedAndNotCommentedOfUserWatching(String username){
+        User user = userService.findUserByUsername(username);
+        return childcareRepository.numberOfChildcaresAccomplishedByUserWatchingIdNotCommentedYet(user);
+    }
+
+    public Integer getCountOfChildcaresAccomplishedAndNotCommentedOfUserInNeed(String username){
+        User user = userService.findUserByUsername(username);
+        return childcareRepository.numberOfChildcaresAccomplishedByUserInNeedIdNotCommentedYet(user);
+    }
+
+    public Integer getCountOfChildcaresToValidateOfUserInCharge(String username){
+        User user = userService.findUserByUsername(username);
+        return childcareRepository.numberOfChildcaresToValidateByUserInCharge(user);
     }
 }

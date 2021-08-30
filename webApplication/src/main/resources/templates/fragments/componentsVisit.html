@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head></head>
+	<body>
+
+        <!--	header mix garde hurry/escalade-->
+        <div class="main" th:fragment="headerVisitAdmin">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0 fixed-top">
+                <div><a href="#" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead"><i class="fas fa-align-left"></i></a></div>
+                <div class="row navbar-brand text-primary font-weight-bold">
+                    <a th:href="@{/homePage}"><img class="logoConnected" th:src="@{/assets/img/gallery/logo.png}" alt="" /></a>
+                    <span id="header-logo-name" class="text-primary font-weight-bold">Garde Hurry</span>
+                </div>
+                <div class="row container headerLogoConnected">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse col-lg-9" id="navbarSupportedContent nav-connected-gardehurry">
+                        <ul class="navbar-nav ml-auto" id="navbar-connected-gardehurry">
+                            <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/homePage}">Mon espace</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/showUsers/1}">Rechercher</a></li>
+                            <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>
+                        </ul>
+                        <span class="ml-auto hover-top-shadow name username"><strong th:utext="${fullname}"></strong></span>
+                    </div>
+                </div>
+            </nav>
+        </div><!-- End Header mix garde hurry/escalade-->
+
+
+        <div class="container-fluid" th:fragment = "footerVisit">
+          <div>
+            <div class="col-md-12 text-center text-md-center text-primary">
+              <p class="email contact-footer">Contact</p>
+              <p class="mb-2 mb-md-0 email">renseignements@gardehurry.com</p>
+            </div>
+            <br>
+            <div class="col-md-12 text-center text-md-center">
+              <p class="mb-0">
+              	<span><img class="logoConnectedFooter" th:src="@{/assets/img/gallery/logo.png}" alt="" /></span>
+                  <span class="text-primary">Garde Hurry</span><span>&copy; 2021</span>
+              </p>
+            </div>
+
+          </div>
+        </div>	    
+	
+	    
+	
+	  
+	</body>
+
+</html>
+

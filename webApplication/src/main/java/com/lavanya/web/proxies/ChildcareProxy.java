@@ -50,4 +50,13 @@ public interface ChildcareProxy {
 
     @GetMapping("/user/count/negativeBadges")
     Integer countOfNegativeBadgesByUserId(@RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/userInCharge/count/childcaresToComment")
+    Integer countOfChildcaresToCommentByUserInChargeId(@RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/userInNeed/count/childcaresToComment")
+    Integer countOfChildcaresToCommentByUserInNeedId(@RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/userInCharge/count/childcaresToValidate")
+    Integer countOfChildcaresToValidateByUserInChargeId(@RequestHeader(name = "Authorization") String token);
 }
