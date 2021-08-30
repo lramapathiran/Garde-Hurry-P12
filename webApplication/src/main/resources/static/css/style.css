@@ -61,7 +61,7 @@ margin-right: -3.2rem;
 }
 
 .username{
-    margin-right: -4.5rem;
+    margin-right: -6.5rem;
 }
 
 .headerLogo{
@@ -112,6 +112,10 @@ margin-right: -3.2rem;
 
 .sidebar-toggler {
     margin-left: 1.4rem;
+}
+
+.dashboard-gardehurry {
+    margin-top: 8rem;
 }
 
 

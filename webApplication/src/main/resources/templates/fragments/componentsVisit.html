@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-	<head></head>
-	<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head></head>
+<body>
 
         <!--	header mix garde hurry/escalade-->
         <div class="main" th:fragment="headerVisitAdmin">
@@ -25,6 +27,91 @@
                 </div>
             </nav>
         </div><!-- End Header mix garde hurry/escalade-->
+
+        <!-- 	      sidebar -->
+        <div  th:fragment = "sidebar-connected">
+            <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family side-menu">MENU</div>
+            <ul class="sidebar-menu list-unstyled">
+                <li class="sidebar-list-item"><a th:href="@{/user/homePage}" class="sidebar-link text-muted active"><i class="fas fa-list-ul mr-3 text-gray"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-list-item"><a th:href="@{/user}" class="sidebar-link text-muted"><i class="fas fa-id-card mr-3 text-gray"></i><span>Mon Profil</span></a></li>
+                <li class="sidebar-list-item"><a th:href="@{/user/friends}" class="sidebar-link text-muted"><i class="fas fa-user-friends mr-3 text-gray"></i><span>Mes Amis</span></a></li>
+                <li class="sidebar-list-item"><a th:href="@{/requests/childcares}" class="sidebar-link text-muted"><i class="fas fa-child mr-3 text-gray"></i><span>Mes Demandes</span></a></li>
+                <li class="sidebar-list-item"><a th:href="@{/missions/childcares}" class="sidebar-link text-muted"><i class="fas fa-tasks mr-3 text-gray"></i><span>Mes Missions</span></a></li>
+                <li class="sidebar-list-item"><a th:href="@{/logout}" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Déconnexion</span></a></li>
+            </ul>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">MEMBRE</div>
+                <ul class="sidebar-menu list-unstyled">
+                    <li class="sidebar-list-item"><a th:href="@{/users/1}" class="sidebar-link text-muted"><i class="fas fa-users mr-3 text-gray"></i><span>Les Utilisateurs</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--       	  top data on dashboard -->
+        <div class="row dashboard-data" th:fragment = "dashboard-data">
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                    <div class="flex-grow-1 d-flex align-items-center">
+                        <div class="dot mr-3 bg-violet"></div>
+                        <div th:if="${negativeBadgesNumber}" class="text">
+                            <h6 class="mb-0">Badges à mon actif</h6>
+                            <span>- </span>
+                            <span th:text="${negativeBadgesNumber}"></span>
+                            </br>
+                            <small><strong>Il est temps de rendre la pareil!</strong></small>
+                        </div>
+                        <div th:if="${positiveBadgesNumber}" class="text">
+                            <h6 class="mb-0">Badges à mon actif</h6>
+                            <span th:text="${positiveBadgesNumber}"></span>
+                            </br>
+                            <small><strong>Bravo et merci pour votre solidarité!</strong></small>
+                        </div>
+                    </div>
+                    <div th:if="${negativeBadgesNumber}" class="icon text-white"><span><img th:src="@{/img/badgeNeg-40.png}"/></span></div>
+                    <div th:if="${positiveBadgesNumber}" class="icon text-white"><span><img th:src="@{/img/badgePos-40.png}"/></span></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                    <div class="flex-grow-1 d-flex align-items-center">
+                        <div class="dot mr-3 bg-green"></div>
+                        <div class="text">
+                            <h6 class="mb-0">Mes Amis</h6>
+                            <span th:if="${NumberOfFriends} > 0" class="text-gray" th:text="${NumberOfFriends}"></span>
+                            <span th:if="${NumberOfFriends} == 0">Aucun</span>
+                        </div>
+                    </div>
+                    <div class="icon text-white bg-green"><i class="fas fa-user-friends"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                    <div class="flex-grow-1 d-flex align-items-center">
+                        <div class="dot mr-3 bg-blue"></div>
+                        <div class="text">
+                            <h6 class="mb-0">Gardes en attente</h6>
+                            <span th:if = "${countOfChildcaresToValidate} > 0" class="text-gray" th:utext="${countOfChildcaresToValidate}"></span>
+                            <span th:unless = "${countOfChildcaresToValidate} > 0" class="text-gray">Aucune</span>
+                        </div>
+                    </div>
+                    <div class="icon text-white bg-blue"><i class="fas fa-hourglass-half"></i></div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 mb-4 mb-xl-0">
+                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                    <div class="flex-grow-1 d-flex align-items-center">
+                        <div class="dot mr-3 bg-red"></div>
+                        <div class="text">
+                            <h6 class="mb-0">Gardes à commenter</h6>
+                            <span th:if = "${countOfChildcaresToComment} > 0" class="text-gray" th:utext="${countOfChildcaresToComment}"></span>
+                            <span th:unless = "${countOfChildcaresToComment} > 0" class="text-gray">Aucune</span>
+
+                        </div>
+                    </div>
+                    <div class="icon text-white bg-red"><i class="fas fa-comments"></i></div>
+                </div>
+            </div>
+        </div>
 
 
         <div class="container-fluid" th:fragment = "footerVisit">
