@@ -1,132 +1,146 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head  th:insert="fragments/componentsRessources.html :: headVisit">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-    <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
     <title>Profile</title>
 </head>
 
 <body>
+<!-- navbar-->
+<div id="page">
+    <header class="fixed-top" th:insert="fragments/componentsVisit.html :: headerVisitAdmin"></header>
+
+    <div class="d-flex align-items-stretch" id="content">
+        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsVisit.html :: sidebar-connected"></div>
+        <div class="page-holder w-100 d-flex flex-wrap">
+            <div class="container-fluid px-xl-5">
+                <div class="d-flex justify-content-center ">
+                    <div class="page-holder w-100 d-flex flex-wrap">
+                        <div class="container-fluid px-xl-4 view">
+                            <section class="py-6 d-flex justify-content-center">
+                                <div class="row mb-4">
+                                    <div class="col-lg-9 mb-4 mb-lg-0 site-card">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-md-8 text-center">
+                                                        <h2 class="text-uppercase mb-0">
+                                                            <span class="float-md-left" th:utext="${user.firstName}"></span>
+                                                            <span class="float-md-left" th:utext = "${user.lastName}"></span>
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-md-4 float-md-right"  id="tag">
+                                                        <span th:if="${user.validated} == true">
+                                                            <img src="https://img.icons8.com/cute-clipart/64/000000/ok-hand.png"/>
+                                                            <p><small><strong><em>profil vérifié</em></strong></small></p>
+                                                        </span>
+                                                        <span th:unless="${user.validated} == true">
+                                                            <p><img th:src="@{/img/profil-non-vérifié-64.png}"/></p>
+                                                            <p><small><strong><em>non-vérifié</em></strong></small></p>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <div>
+                                                    <p class="col-sm-8"><strong>Adresse </strong>:
+                                                        <span th:utext="${user.city}"></span>
+                                                    </p>
+                                                    <p class="col-sm-8"><strong>Secteur </strong>: <span th:utext="${user.area}"></span></p>
+                                                    <p class="col-sm-8"><strong>Situation </strong>:
+                                                        <span th:if="${user.situation} == true">En activité</span>
+                                                        <span th:if="${user.situation} == false">Sans activité</span>
+                                                    </p>
+                                                    <p class="col-sm-12">J'ai
+                                                        <strong><span th:text="${numberOfChildren}"></span></strong> enfant(s) qui sont:
+                                                        <ul th:each="child : ${user.childrenDtos}">
+                                                            <li>
+                                                                <span th:switch="${child.school}">
+                                                                    <span th:case="${T(com.lavanya.web.dto.School).N}">
+                                                                        Non Scolarisé</span>
+                                                                    <span th:case="${T(com.lavanya.web.dto.School).M}">
+                                                                        En Maternelle</span>
+                                                                    <span id="unavailable" th:case="${T(com.lavanya.web.dto.School).P}">
+                                                                        Au Primaire</span>
+                                                                    <span id="in-progress" th:case="${T(com.lavanya.web.dto.School).C}">
+                                                                        Au Collège</span>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </p>
+                                                </div>
+
+                                                <br>
+                                                <div th:unless="${usersMatch}">
+                                                    <p th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
+                                                    <form th:if="${isMyFriend} and ${friend.accepted}" action="#" th:action="@{/delete/request}" th:method="post">
+                                                        <input type="hidden" name="id" th:value = "${friend.id}"/>
+                                                        <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
+                                                    </form>
+                                                    <form th:unless="${isMyFriend}" action="#" th:action="@{/request/friend}" th:method="post">
+                                                        <input type="hidden" name="userInvitedId" th:value = "${user.id}"/>
+                                                        <button type="submit" class="btn btn-primary"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
+                                                    </form>
+
+                                                </div>
 
 
-<!-- ======= Hero Section ======= -->
-<div class="d-flex align-items-stretch justify-content-center">
-    <div id="sidebar" class="sidebar py-3"></div>
-    <div class="page-holder w-100 d-flex flex-wrap">
-
-        <section>
-
-            <div class="row mb-4">
-                <div class="col-lg-9 mb-4 mb-lg-0 site-card">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-md-8 text-center">
-                                    <h2 class="text-uppercase mb-0">
-                                        <span class="float-md-left" th:utext="${user.firstName}"></span>
-                                        <span class="float-md-left" th:utext = "${user.lastName}"></span>
-                                    </h2>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 float-md-right"  id="tag">
-                                    <span th:if="${user.validated} == true">
-                                        <img src="https://img.icons8.com/cute-clipart/64/000000/ok-hand.png"/>
-                                        <p><small><strong><em>profil vérifié</em></strong></small></p>
-                                    </span>
-                                    <span th:unless="${user.validated} == true">
-                                        <p><img th:src="@{/img/profil-non-vérifié-64.png}"/></p>
-                                        <p><small><strong><em>non-vérifié</em></strong></small></p>
-                                    </span>
+                            </section>
+
+                            <section class="col-lg-12 comment-section">
+
+                                <div class="col-lg-12">
+                                    <div th:if="${comments.empty}" class="message card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
+                                        <div class="text-md-center">
+                                            <p><strong>Aucun commentaire à ce jour!</strong></p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
+                                <div th:unless="${comments.empty}" th:each="comment : ${comments}" class="col-lg-12">
 
-                            <div>
-                                <p class="col-sm-8"><strong>Adresse </strong>:
-                                    <span th:utext="${user.city}"></span>
-                                </p>
-                                <p class="col-sm-8"><strong>Secteur </strong>: <span th:utext="${user.area}"></span></p>
-                                <p class="col-sm-8"><strong>Situation </strong>:
-                                    <span th:if="${user.situation} == true">En activité</span>
-                                    <span th:if="${user.situation} == false">Sans activité</span>
-                                </p>
-                                <p class="col-sm-12">J'ai
-                                    <strong><span th:text="${numberOfChildren}"></span></strong> enfant(s) qui sont:
-                                    <ul th:each="child : ${user.childrenDtos}">
-                                        <li>
-                                            <span th:switch="${child.school}">
-											    <span th:case="${T(com.lavanya.web.dto.School).N}">
-											    	Non Scolarisé</span>
-                                                <span th:case="${T(com.lavanya.web.dto.School).M}">
-											    	En Maternelle</span>
-                                                <span id="unavailable" th:case="${T(com.lavanya.web.dto.School).P}">
-											    	Au Primaire</span>
-                                                <span id="in-progress" th:case="${T(com.lavanya.web.dto.School).C}">
-											    	Au Collège</span>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </p>
-                            </div>
+                                        <div class="col-lg-12 text-md-right">
+                                            <p><strong><em th:utext="${#temporals.format(comment.time, 'dd/MM/yy HH:mm')}"></em></strong></p>
+                                        </div>
 
-                            <br>
-                            <div th:unless="${usersMatch}">
-                                <p th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
-                                <form th:if="${isMyFriend} and ${friend.accepted}" action="#" th:action="@{/delete/request}" th:method="post">
-                                    <input type="hidden" name="id" th:value = "${friend.id}"/>
-                                    <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
-                                </form>
-                                <form th:unless="${isMyFriend}" action="#" th:action="@{/request/friend}" th:method="post">
-                                    <input type="hidden" name="userInvitedId" th:value = "${user.id}"/>
-                                    <button type="submit" class="btn btn-primary"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
-                                </form>
-
-                            </div>
-
-
+                                        <div class="col-lg-12 message card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style row">
+                                                <div class="col-lg-12 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
+                                                    <h6 class="col-lg-2 mb-0 mt-3 mt-lg-0">
+                                                        <span th:utext="${comment.userComment.firstName}"></span>
+                                                        <span th:utext="${comment.userComment.lastName}"></span>
+                                                    </h6>
+                                                    <div class="col-lg-10 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
+                                                        <p class="col-lg-10 mb-0 mt-3 mt-lg-0" th:utext="${comment.content}"></p>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section class="col-lg-12 comment-section">
-
-            <div class="col-lg-12">
-                <div th:if="${comments.empty}" class="message card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
-                    <div class="text-md-center">
-                        <p><strong>Aucun commentaire à ce jour!</strong></p>
-                    </div>
-                </div>
-            </div>
-            <div th:unless="${comments.empty}" th:each="comment : ${comments}" class="col-lg-12">
-
-                    <div class="col-lg-12 text-md-right">
-                        <p><strong><em th:utext="${#temporals.format(comment.time, 'dd/MM/yy HH:mm')}"></em></strong></p>
-                    </div>
-
-                    <div class="col-lg-12 message card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style row">
-                            <div class="col-lg-12 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                <h6 class="col-lg-2 mb-0 mt-3 mt-lg-0">
-                                    <span th:utext="${comment.userComment.firstName}"></span>
-                                    <span th:utext="${comment.userComment.lastName}"></span>
-                                </h6>
-                                <div class="col-lg-10 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                    <p class="col-lg-10 mb-0 mt-3 mt-lg-0" th:utext="${comment.content}"></p>
-                                </div>
-                            </div>
-                    </div>
-            </div>
-        </section>
+        </div>
     </div>
-</div>	<!-- End Hero -->
-
+    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
+</div>
+<!-- JavaScript files-->
+<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
-
 </html>

@@ -15,72 +15,85 @@
 
 </head>
 <body>
+<!-- navbar-->
+<div id="page">
+    <header class="fixed-top" th:insert="fragments/componentsVisit.html :: headerVisitAdmin"></header>
 
-<div class="d-flex justify-content-center ">
-    <div class="page-holder w-100 d-flex flex-wrap">
-        <div class="container-fluid px-xl-4 view">
-            <section class="py-6 d-flex justify-content-center">
+    <div class="d-flex align-items-stretch" id="content">
+        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsVisit.html :: sidebar-connected"></div>
+        <div class="page-holder w-100 d-flex flex-wrap">
+            <div class="container-fluid px-xl-5">
+                <div class="d-flex justify-content-center ">
+                    <div class="page-holder w-100 d-flex flex-wrap">
+                        <div class="container-fluid px-xl-4 view">
+                            <section class="py-6 d-flex justify-content-center">
 
-                <!-- Form Elements -->
-                <div class="col-lg-5 mb-5">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="h6 text-uppercase mb-0">Inscription des enfants</h3>
-                        </div>
-                        <div class="card-body">
-                            <form class="form-horizontal" action="#" th:action="@{/saveChildren}" th:object="${childrenDto}" method="post" enctype="utf8">
-                                <div class="form-group row" >
-                                    <label class="col-sm-3 col-form-label" for="name">Prénom</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" th:field="*{name}" id="name" class="form-control"/>
-                                        <!--                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="fieldError">Données incorrectes</span>-->
+                                <!-- Form Elements -->
+                                <div class="col-lg-5 mb-5">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="h6 text-uppercase mb-0">Inscription des enfants</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <form class="form-horizontal" action="#" th:action="@{/saveChildren}" th:object="${childrenDto}" method="post" enctype="utf8">
+                                                <div class="form-group row" >
+                                                    <label class="col-sm-3 col-form-label" for="name">Prénom</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+                                                        <!--                                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="fieldError">Données incorrectes</span>-->
+                                                    </div>
+                                                </div>
+
+                                                <br></br>
+
+
+                                                <div class="form-group row ${#fields.hasErrors('age')}? has-error">
+                                                    <label class="col-sm-3 col-form-label" for="age">Age</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="number" th:field="*{age}" id="age" class="form-control">
+                                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
+                                                    </div>
+                                                </div>
+
+                                                <br></br>
+
+                                                <div class="form-group row ${#fields.hasErrors('school')}? has-error">
+                                                    <label class="col-sm-3 col-form-label" for="school">Scolarisé</label>
+                                                    <select name="school" th:field="*{school}" id="school">
+                                                        <option th:each="schoolOpt : ${T(com.lavanya.web.dto.School).values()}"
+                                                                th:value="${schoolOpt}" th:text="${schoolOpt.label}"></option>
+                                                    </select>
+
+                                                </div>
+
+                                                <div>
+                                                    <p th:if="${message}" th:text="${message}" class="message"></p>
+                                                </div>
+
+                                                <div class="line"></div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-md5  mx-auto d-block">
+                                                        <a th:href="@{/user}"><button type="button" class="btn btn-secondary">Retour</button></a>
+                                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <br></br>
-
-
-                                <div class="form-group row ${#fields.hasErrors('age')}? has-error">
-                                    <label class="col-sm-3 col-form-label" for="age">Age</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" th:field="*{age}" id="age" class="form-control">
-                                        <!--                                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError"></span>-->
-                                    </div>
-                                </div>
-
-                                <br></br>
-
-                                <div class="form-group row ${#fields.hasErrors('school')}? has-error">
-                                    <label class="col-sm-3 col-form-label" for="school">Scolarisé</label>
-                                    <select name="school" th:field="*{school}" id="school">
-                                        <option th:each="schoolOpt : ${T(com.lavanya.web.dto.School).values()}"
-                                                th:value="${schoolOpt}" th:text="${schoolOpt.label}"></option>
-                                    </select>
-
-                                </div>
-
-                                <div>
-                                    <p th:if="${message}" th:text="${message}" class="message"></p>
-                                </div>
-
-                                <div class="line"></div>
-
-                                <div class="form-group row">
-                                    <div class="col-md5  mx-auto d-block">
-                                        <a th:href="@{/user}"><button type="button" class="btn btn-secondary">Retour</button></a>
-                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                    </div>
-                                </div>
-
-                            </form>
+                            </section>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
+    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
 </div>
-
+<!-- JavaScript files-->
+<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>

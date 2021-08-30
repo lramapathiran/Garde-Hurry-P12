@@ -1,122 +1,128 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head  th:insert="fragments/componentsRessources.html :: headVisit">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <title>Liste des Utilisateurs</title>
 </head>
 <body>
+<!-- navbar-->
 <div id="page">
-    <!-- navbar-->
-<!--    <header id="header2" class="fixed-top" th:insert="fragments/componentsAdmin.html :: headerVisitAdmin"></header>-->
+    <header class="fixed-top" th:insert="fragments/componentsVisit.html :: headerVisitAdmin"></header>
 
     <div class="d-flex align-items-stretch" id="content">
-<!--        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsAdmin.html :: sidebar-connected"></div>-->
+        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsVisit.html :: sidebar-connected"></div>
         <div class="page-holder w-100 d-flex flex-wrap">
             <div class="container-fluid px-xl-5">
+                <div class="d-flex justify-content-center ">
+                    <div class="page-holder w-100 d-flex flex-wrap">
+                        <div class="container-fluid px-xl-4 view">
+                            <section class="py-5" id="card">
+                                <div class="table-responsive">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 mb-5">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h6 class="text-uppercase mb-0">Liste des Uilisateurs</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class="table table-striped table-hover card-text">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Nom</th>
+                                                            <th>Prénom</th>
+                                                            <th>email</th>
+                                                            <th>Droits d'utilisateurs</th>
+                                                            <th>Adresse</th>
+                                                            <th>Profil Validé</th>
+                                                            <th>Action</th>
+                                                            <th>Supprimer</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each="user : ${usersPage}">
+                                                            <td scope="row"><a target="_blank" th:href="@{/profile/user/{id}(id = ${user.id})}" th:utext = "${user.lastName}"></a></td>
+                                                            <td th:utext = "${user.firstName}" scope="row">...</td>
+                                                            <td th:utext = "${user.email}" scope="row">...</td>
+                                                            <td scope="row" th:if="${user.roles} == 'USER'">Utilisateur</td>
+                                                            <td scope="row" th:if="${user.roles} == 'ADMIN'">Administrateur</td>
+                                                            <td scope="row">
+                                                                <span th:utext = "${user.address}"></span>&nbsp;
+                                                                <span th:utext = "${user.city}"></span>
+                                                            </td>
+                                                            <td scope="row" th:if="${user.validated}">Oui</td>
+                                                            <td scope="row" th:unless="${user.validated}">Non</td>
+                                                            <td scope="row" >
+                                                                <form action="#" th:action="@{/validateProfile/{pageNumber}(pageNumber=${currentPage})}" th:object="${validate}" th:method="post">
+                                                                    <input type="hidden" name="userToValidateId" th:value = "${user.id}"/>
 
-<!--                <section class="py-5" th:insert="fragments/componentsAdmin.html :: dashboard-data"></section>-->
+                                                                    <div th:if="${user.validated}">
+                                                                        <input type="checkbox" checked name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
+                                                                    </div>
 
-                <section class="py-5" id="card">
-                    <div class="table-responsive">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-10 mb-5">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h6 class="text-uppercase mb-0">Liste des Uilisateurs</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-striped table-hover card-text">
-                                            <thead>
-                                            <tr>
-                                                <th>Nom</th>
-                                                <th>Prénom</th>
-                                                <th>email</th>
-                                                <th>Droits d'utilisateurs</th>
-                                                <th>Adresse</th>
-                                                <th>Profil Validé</th>
-                                                <th>Action</th>
-                                                <th>Supprimer</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr th:each="user : ${usersPage}">
-                                                <td scope="row"><a target="_blank" th:href="@{/profile/user/{id}(id = ${user.id})}" th:utext = "${user.lastName}"></a></td>
-                                                <td th:utext = "${user.firstName}" scope="row">...</td>
-                                                <td th:utext = "${user.email}" scope="row">...</td>
-                                                <td scope="row" th:if="${user.roles} == 'USER'">Utilisateur</td>
-                                                <td scope="row" th:if="${user.roles} == 'ADMIN'">Administrateur</td>
-                                                <td scope="row">
-                                                    <span th:utext = "${user.address}"></span>&nbsp;
-                                                    <span th:utext = "${user.city}"></span>
-                                                </td>
-                                                <td scope="row" th:if="${user.validated}">Oui</td>
-                                                <td scope="row" th:unless="${user.validated}">Non</td>
-                                                <td scope="row" >
-                                                    <form action="#" th:action="@{/validateProfile/{pageNumber}(pageNumber=${currentPage})}" th:object="${validate}" th:method="post">
-                                                        <input type="hidden" name="userToValidateId" th:value = "${user.id}"/>
+                                                                    <div th:unless="${user.validated}">
+                                                                       <input type="checkbox" name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
 
-                                                        <div th:if="${user.validated}">
-                                                            <input type="checkbox" checked name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
-                                                        </div>
+                                                                    </div>
 
-                                                        <div th:unless="${user.validated}">
-                                                           <input type="checkbox" name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
-
-                                                        </div>
-
-                                                        <button type="submit" class="float-md-right"><img th:src="@{/img/transférer-60.png}"/></button>
-                                                    </form>
-                                                </td>
-                                                <td scope="row">
-                                                    <form action="#" th:action="@{/delete/user}" th:method="post">
-                                                        <input type="hidden" name="id" th:value = "${user.id}"/>
-                                                        <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <br>
-                                        <div class="text-center">
-                                            Total d'Utilisateurs : [[${totalUsers}]] - Page : [[${currentPage}]]/[[${totalPages}]]
-                                            &nbsp; - &nbsp;
-                                            <span>
-			                   		<a th:if="${currentPage > 1}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage - 1})}">Précédent</a>
-			                   		<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
-			                   	</span>
-                                            <span th:each="i: ${#numbers.sequence(1,totalPages)}">
-			                   		<a th:if="${i != currentPage}" th:href="@{/users/{pageNumber}(pageNumber=${i})}">[[${i}]]</a>
-			                   		<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
-			                   	</span>
-                                            <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage + 1})}">Suivant</a>
-			                   		<span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
-			                   	</span>
-                                            <span>
-			                   		<a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${totalPages})}">Dernier</a>
-			                   		<span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
-			                   	</span>
+                                                                    <button type="submit" class="float-md-right"><img th:src="@{/img/transférer-60.png}"/></button>
+                                                                </form>
+                                                            </td>
+                                                            <td scope="row">
+                                                                <form action="#" th:action="@{/delete/user}" th:method="post">
+                                                                    <input type="hidden" name="id" th:value = "${user.id}"/>
+                                                                    <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <br>
+                                                    <div class="text-center">
+                                                        Total d'Utilisateurs : [[${totalUsers}]] - Page : [[${currentPage}]]/[[${totalPages}]]
+                                                        &nbsp; - &nbsp;
+                                                        <span>
+                                                <a th:if="${currentPage > 1}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage - 1})}">Précédent</a>
+                                                <span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
+                                            </span>
+                                                        <span th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                                <a th:if="${i != currentPage}" th:href="@{/users/{pageNumber}(pageNumber=${i})}">[[${i}]]</a>
+                                                <span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
+                                            </span>
+                                                        <span>
+                                                <a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${currentPage + 1})}">Suivant</a>
+                                                <span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
+                                            </span>
+                                                        <span>
+                                                <a th:if="${currentPage != totalPages}" th:href="@{/users/{pageNumber}(pageNumber=${totalPages})}">Dernier</a>
+                                                <span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </section>
                         </div>
                     </div>
-
-
-                </section>
+                </div>
             </div>
-
         </div>
     </div>
-
-
+    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
 </div>
-
+<!-- JavaScript files-->
+<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>

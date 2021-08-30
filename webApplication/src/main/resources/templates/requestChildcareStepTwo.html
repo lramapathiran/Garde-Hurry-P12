@@ -1,125 +1,145 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head  th:insert="fragments/componentsRessources.html :: headVisit">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-    <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
     <title>Enfants à faire garder</title>
 </head>
 <body>
+<!-- navbar-->
+<div id="page">
+    <header class="fixed-top" th:insert="fragments/componentsVisit.html :: headerVisitAdmin"></header>
 
-    <h2>Je renseigne les enfants à faire garder!</h2>
+    <div class="d-flex align-items-stretch" id="content">
+        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsVisit.html :: sidebar-connected"></div>
+        <div class="page-holder w-100 d-flex flex-wrap">
+            <div class="container-fluid px-xl-5">
 
-    <section>
+                <h2>Je renseigne les enfants à faire garder!</h2>
 
-        <div class="row mb-4">
-            <div class="col-lg-9 mb-4 mb-lg-0 site-card">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <h2 class="text-uppercase mb-0">Résumé de la Garde</h2>
+                <section>
+
+                    <div class="row mb-4">
+                        <div class="col-lg-9 mb-4 mb-lg-0 site-card">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <h2 class="text-uppercase mb-0">Résumé de la Garde</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div>
+                                        <p class="col-sm-8"><strong>Date</strong>:
+                                           <span th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}"></span>
+
+                                        </p>
+                                        <p class="col-sm-8"><strong>Début</strong>:
+                                            <span th:utext = "${childcare.timeStart}"></span>
+                                        </p>
+                                        <p class="col-sm-8"><strong>Fin</strong>:
+                                            <span th:utext = "${childcare.timeEnd}"></span>
+                                        </p>
+
+                                        <p class="col-sm-8"><strong>Information </strong>:
+                                            <span th:utext="${childcare.description}"></span>
+                                        </p>
+                                        <p class="col-sm-8"><strong>En charge de la garde </strong>:
+                                            <span th:utext="${childcare.userDtoWatching.firstName} + ' ' + ${childcare.userDtoWatching.lastName}"></span>
+                                        </p>
+                                        <p class="col-sm-8"><strong>Nombre d'enfants à garder</strong>:
+                                            <span th:utext="${childcare.numberOfChildren}"></span>
+                                        </p>
+
+                                        <p class="col-sm-12"><strong>Enfants à faire garder</strong>:
+                                            <ul th:if="${!childcare.childrenToWatch.empty}" th:each="child : ${childcare.childrenToWatch}">
+                                                <li>
+                                                    <span th:text="${child.name}"></span>,&nbsp;
+                                                    <span th:text="${child.age}"></span>&nbsp; an(s),&nbsp;
+                                                                    <form action="#" th:action="@{/delete/childrenToWatch}" th:method="post">
+                                                                        <input type="hidden" name="childrenToWatchId" th:value = "${child.id}"/>
+                                                                        <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
+                                                                        <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                                    </form>
+                                                                </span>
+                                                </li>
+                                            </ul>
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p th:if="${uncompleteAdditionOfChildrenToWatch}" th:text="${uncompleteAdditionOfChildrenToWatch}" class="warningMessage"></p>
+                                    </div>
+                                    <div>
+                                        <p th:if="${completeAdditionOfChildrenToWatch}" th:text="${completeAdditionOfChildrenToWatch}" class="warningMessage"></p>
+                                    </div>
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                </section>
 
-                        <div>
-                            <p class="col-sm-8"><strong>Date</strong>:
-                               <span th:utext="${#temporals.format(childcare.date, 'dd-MM-yyyy')}"></span>
+                <section class="py-6 d-flex justify-content-center">
+                    <div class="col-lg-5 mb-5">
+                        <div class="card" th:if="${leftChildren} > 0">
+                            <div class="card-header">
+                                <h3 class="h6 text-uppercase mb-0">Ajouter un enfant : </h3>
+                            </div>
+                            <div class="card-body">
+                                <form class="form-horizontal" action="#" th:action="@{/saveChildrenToWatch}" method="post" enctype="utf8">
+                                    <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
+                                    <div class="form-group row" >
+                                        <label class="col-sm-3 col-form-label" for="childrenToWatchId">Je souhaite faire garder :</label>
+                                        <select class="col-sm-8" th:name="childrenToWatchId" id="childrenToWatchId">
+                                            <option th:each="child : ${childcare.userDtoInNeed.childrenDtos}" th:value="${child.id}" th:text="${child.name}">
+                                        </select>
+                                    </div>
 
-                            </p>
-                            <p class="col-sm-8"><strong>Début</strong>:
-                                <span th:utext = "${childcare.timeStart}"></span>
-                            </p>
-                            <p class="col-sm-8"><strong>Fin</strong>:
-                                <span th:utext = "${childcare.timeEnd}"></span>
-                            </p>
+                                    <div>
+                                        <p th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></p>
+                                    </div>
 
-                            <p class="col-sm-8"><strong>Information </strong>:
-                                <span th:utext="${childcare.description}"></span>
-                            </p>
-                            <p class="col-sm-8"><strong>En charge de la garde </strong>:
-                                <span th:utext="${childcare.userDtoWatching.firstName} + ' ' + ${childcare.userDtoWatching.lastName}"></span>
-                            </p>
-                            <p class="col-sm-8"><strong>Nombre d'enfants à garder</strong>:
-                                <span th:utext="${childcare.numberOfChildren}"></span>
-                            </p>
+                                    <div class="line"></div>
 
-                            <p class="col-sm-12"><strong>Enfants à faire garder</strong>:
-                                <ul th:if="${!childcare.childrenToWatch.empty}" th:each="child : ${childcare.childrenToWatch}">
-                                    <li>
-                                        <span th:text="${child.name}"></span>,&nbsp;
-                                        <span th:text="${child.age}"></span>&nbsp; an(s),&nbsp;
-                                                        <form action="#" th:action="@{/delete/childrenToWatch}" th:method="post">
-                                                            <input type="hidden" name="childrenToWatchId" th:value = "${child.id}"/>
-                                                            <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
-                                                            <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
-                                                        </form>
-                                                    </span>
-                                    </li>
-                                </ul>
-                            </p>
+                                    <div class="form-group row">
+                                        <div class="col-md5  mx-auto d-block" th:if="${leftChildren} > 0">
+                                            <a th:href="@{/requests/childcares}"><button type="button" class="btn btn-secondary">Retour</button></a>
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
                         </div>
 
-                        <div>
-                            <p th:if="${uncompleteAdditionOfChildrenToWatch}" th:text="${uncompleteAdditionOfChildrenToWatch}" class="warningMessage"></p>
-                        </div>
-                        <div>
-                            <p th:if="${completeAdditionOfChildrenToWatch}" th:text="${completeAdditionOfChildrenToWatch}" class="warningMessage"></p>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-6 d-flex justify-content-center">
-        <div class="col-lg-5 mb-5">
-            <div class="card" th:if="${leftChildren} > 0">
-                <div class="card-header">
-                    <h3 class="h6 text-uppercase mb-0">Ajouter un enfant : </h3>
-                </div>
-                <div class="card-body">
-                    <form class="form-horizontal" action="#" th:action="@{/saveChildrenToWatch}" method="post" enctype="utf8">
-                        <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
-                        <div class="form-group row" >
-                            <label class="col-sm-3 col-form-label" for="childrenToWatchId">Je souhaite faire garder :</label>
-                            <select class="col-sm-8" th:name="childrenToWatchId" id="childrenToWatchId">
-                                <option th:each="child : ${childcare.userDtoInNeed.childrenDtos}" th:value="${child.id}" th:text="${child.name}">
-                            </select>
-                        </div>
-
-                        <div>
-                            <p th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></p>
-                        </div>
-
-                        <div class="line"></div>
-
-                        <div class="form-group row">
-                            <div class="col-md5  mx-auto d-block" th:if="${leftChildren} > 0">
+                        <div class="col-md5  mx-auto d-block" th:unless="${leftChildren} > 0">
+                            <form class="form-horizontal" action="#" th:action="@{/validate/request/childcare}" method="post" enctype="utf8">
+                                <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
                                 <a th:href="@{/requests/childcares}"><button type="button" class="btn btn-secondary">Retour</button></a>
-                                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                            </div>
+                                <button type="submit" class="btn btn-primary">Valider</button>
+                            </form>
                         </div>
-
-                    </form>
-                </div>
-            </div>
-
-            <div class="col-md5  mx-auto d-block" th:unless="${leftChildren} > 0">
-                <form class="form-horizontal" action="#" th:action="@{/validate/request/childcare}" method="post" enctype="utf8">
-                    <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
-                    <a th:href="@{/requests/childcares}"><button type="button" class="btn btn-secondary">Retour</button></a>
-                    <button type="submit" class="btn btn-primary">Valider</button>
-                </form>
+                    </div>
+                </section>
             </div>
         </div>
-    </section>
+    </div>
+    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
+</div>
+<!-- JavaScript files-->
+<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
