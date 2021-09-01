@@ -52,7 +52,7 @@ public class UserController {
      * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
      * @return index.html
      */
-    @GetMapping("/homePage")
+    @GetMapping(value="/homePage")
     public String showLoginAndHomePage (@RequestParam(value = "error", required = false) String error,
                                         HttpSession session, Model model) {
 

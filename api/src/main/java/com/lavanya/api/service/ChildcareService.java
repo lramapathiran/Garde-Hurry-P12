@@ -28,13 +28,7 @@ public class ChildcareService {
     ChildcareMapper childcareMapper;
 
     @Autowired
-    UserMapper userMapper;
-
-    @Autowired
     UserService userService;
-
-    @Autowired
-    ChildrenMapper childrenMapper;
 
     @Autowired
     ChildcareRepository childcareRepository;
