@@ -355,6 +355,49 @@ public class UserController {
         return "redirect:/users/" + currentPage;
     }
 
+    /**
+     * GET requests for /showUsers/{pageNumber} endpoint.
+     * This controller-method retrieves all users searched by keyword, display them as Page to the view "searchUser".
+     * It offers the possibility to search a user with filters.
+     *
+     * @param model to pass data to the view.
+     * @param currentPage an int to specify which page of Users to be displayed.
+     * @param keyword a String attribute from Search object used to filter a search users by keyword.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return "searchUser.html".
+     */
+    @GetMapping("/showUsers/{pageNumber}")
+    public String showUsersFiltered(@PathVariable(value = "pageNumber") int currentPage, HttpSession session,
+    @RequestParam(name="keyword", required=false) String keyword, Model model) {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+
+        model.addAttribute("fullname", fullname);
+
+        Page<UserDto> pageOfUsersFiltered = userProxy.getUserSearchPage(token,currentPage,keyword);
+
+        model.addAttribute("keyword", keyword);
+
+        List<UserDto> usersPage = pageOfUsersFiltered.getContent();
+        int totalPages = pageOfUsersFiltered.getTotalPages();
+        long totalUsers = pageOfUsersFiltered.getTotalElements();
+
+        model.addAttribute("usersPage", usersPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalUsers", totalUsers);
+
+        return "searchUser";
+
+    }
+
 
 
 }

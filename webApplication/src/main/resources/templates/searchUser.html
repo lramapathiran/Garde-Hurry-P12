@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:insert="fragments/componentsRessources.html :: headVisit">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <title>Recherche de Parents</title>
+</head>
+
+<body>
+<!-- navbar-->
+<div id="page">
+    <header class="fixed-top" th:insert="fragments/componentsVisit.html :: headerVisitAdmin"></header>
+    <div class="d-flex align-items-stretch">
+        <div id="sidebar" class="sidebar py-3" th:insert="fragments/componentsVisit.html :: sidebar-connected"></div>
+        <div class="page-holder w-100 d-flex flex-wrap">
+            <div class="container-fluid px-xl-5">
+                <div class="d-flex justify-content-center ">
+
+                    <div class="page-holder w-100 d-flex flex-wrap">
+                        <div class="container-fluid px-xl-4">
+
+                                <div class="page-holder w-100 d-flex flex-wrap">
+                                    <div class="container-fluid px-xl-5">
+                                        <section class="text-center">
+                                            <div class="container text-center col-lg-12">
+                                                <form  th:action="@{/showUsers/1}" th:object="${keyword}" th:method="get">
+                                                    <div class="row col-lg-12" id="search">
+                                                        <label class="col-lg-2">Rechercher : </label>&nbsp;
+                                                        <input class="col-lg-4" type="text" name="keyword" th:value="${keyword}"/>&nbsp;
+                                                        <input id="clearWrapper" class="buttonWrapper col-lg-1" type="button" value="Effacer" onclick="clearFilter()"/>&nbsp;
+                                                        <button id="searchWrapper" class="buttonWrapper col-lg-1" type="submit"><img th:src="@{/img/search-24.png}" alt="search logo"/></button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </section>
+                                        <section class="py-5">
+                                            <div class="container table-responsive">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mb-5">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h6 class="text-uppercase mb-0">Résultats</h6>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div th:if="${usersPage.empty}">
+                                                                    <p>Aucun résultat ne correspond à votre recherche!</p>
+                                                                </div>
+                                                                <div th:unless="${usersPage.empty}">
+                                                                    <table class="table table-striped table-hover card-text">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>N°</th>
+                                                                            <th>Nom</th>
+                                                                            <th>Prénom</th>
+                                                                            <th>Ville</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr th:each="user,iterator : ${usersPage}">
+                                                                            <td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
+                                                                            <td th:utext="${user.firstName}"></td>
+                                                                            <td><a target="_blank" th:href="@{/profile/user/{id}(id = ${user.id})}" th:utext = "${user.lastName}"></a></td>
+                                                                            <td th:utext="${user.city}"></td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                Page : [[${currentPage}]]/[[${totalPages}]]&nbsp; - &nbsp;
+                                                <span>
+                                                    <a th:if="${currentPage > 1}" th:href="@{/showUsers/{pageNumber}(pageNumber=${currentPage - 1}, keyword=${keyword})}">Précédent</a>
+                                                    <span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
+                                                </span>
+                                                <span th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                                    <a th:if="${i != currentPage}" th:href="@{/showUsers/{pageNumber}(pageNumber=${i}, keyword=${keyword})}">[[${i}]]</a>
+                                                    <span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
+                                                </span>
+                                                <span>
+                                                    <a th:if="${currentPage != totalPages}" th:href="@{/showUsers/{pageNumber}(pageNumber=${currentPage + 1}, keyword=${keyword})}">Suivant</a>
+                                                    <span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
+                                                </span>
+                                                <span>
+                                                    <a th:if="${currentPage != totalPages}" th:href="@{/showUsers/{pageNumber}(pageNumber=${totalPages}, keyword=${keyword})}">Dernier</a>
+                                                    <span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
+                                                </span>
+                                            </div>
+                                        </section>
+                                        <!-- <section> close ============================-->
+                                        <!-- ============================================-->
+                                    </div>
+                                </div>
+
+
+                            </section>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer align-self-end py-3 px-xl-5 w-100" th:insert="fragments/componentsVisit.html :: footerVisit" id="footer"></footer>
+</div>
+<!-- JavaScript files-->
+<th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
+<script type="text/javascript">
+    	function clearFilter() {
+    		window.location ='/showUsers/1';
+    	}
+</script>
+</body>
+</html>

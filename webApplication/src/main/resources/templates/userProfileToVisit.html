@@ -77,8 +77,8 @@
                                                 </div>
 
                                                 <br>
-                                                <div th:unless="${usersMatch}">
-                                                    <p class="text-center" th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
+                                                <div th:unless="${usersMatch}" class="text-center">
+                                                    <p  th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
                                                     <form th:if="${isMyFriend} and ${friend.accepted}" action="#" th:action="@{/delete/request}" th:method="post">
                                                         <input type="hidden" name="id" th:value = "${friend.id}"/>
                                                         <button class="img-button" type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>

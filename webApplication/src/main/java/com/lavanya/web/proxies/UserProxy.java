@@ -45,4 +45,8 @@ public interface UserProxy {
 
     @PostMapping(value="/validate/profile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void validateOrNotUserProfile(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/search/users/{pageNumber}")
+    Page<UserDto> getUserSearchPage(@RequestHeader(name = "Authorization") String token, @PathVariable(value = "pageNumber") int currentPage,
+                                           @RequestParam(name="keyword", required=false) String keyword);
 }

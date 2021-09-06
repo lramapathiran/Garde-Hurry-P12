@@ -117,6 +117,29 @@ public class UserController {
         userService.updateUserProfileValidationStatus(userDto);
     }
 
+    /**
+     * GET requests for /search/users/{pageNumber} endpoint.
+     * This controller-method retrieves all users using criteria.
+     *
+     * @param currentPage an int to specify which page of Users to be displayed.
+     * @param keyword a String attribute used to filter a search users by keyword.
+     * @return page of list of books.
+     */
+    @GetMapping("/search/users/{pageNumber}")
+    public Page<UserDto> getUserSearchPage(@PathVariable(value = "pageNumber") int currentPage,
+                                        @RequestParam(name="keyword", required=false) String keyword){
+
+        try {
+            Page<UserDto> page = userService.getAllUsersFiltered(currentPage, keyword);
+            return page;
+
+        } catch (JWTDecodeException e){
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 
 
 

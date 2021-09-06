@@ -1,7 +1,10 @@
 package com.lavanya.api.repository;
 
 import com.lavanya.api.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -35,5 +38,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      * @return list of all Users.
      */
     List<User> findAllByOrderByLastName();
+
+    /**
+     * Query to retrieve a list of users using pagination based or not with the following filter criteria:
+     * keyword that can be lastname, city, area.
+     * @param keyword to specify the element to filter the book search with.
+     * @return Page of Book.
+     */
+    @Query("select u from User u where ?1 is null or concat(u.lastName, u.city, u.area) LIKE %?1% order by lastName")
+    List<User> findFilteredUser(String keyword);
 
 }

@@ -15,10 +15,7 @@ import com.lavanya.api.model.User;
 import com.lavanya.api.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -277,4 +274,32 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
     }
+
+    /**
+     * method to retrieve a list of users resulting after filtering and displayed with pagination.
+     * @param pageNumber, int to access to the number of Users Page to display.
+     * @param keyword, keyword which the search is based on to filter elements in the list of users.
+     * @return Page of User resulting after filtering.
+     */
+    public Page<UserDto> getAllUsersFiltered(int pageNumber, String keyword) {
+
+        List<User> usersList = userRepository.findFilteredUser(keyword);
+        List<UserDto> userDtosList = userMapper.listUserToListUserDto(usersList);
+
+        List<UserDto> listUserDtos;
+
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+
+        int toIndex = Math.min(startItem + pageSize, userDtosList.size());
+        listUserDtos = userDtosList.subList(startItem, toIndex);
+
+        Page<UserDto> page = new PageImpl<UserDto>(listUserDtos, PageRequest.of(currentPage, pageSize), userDtosList.size());
+
+        return page;
+    }
+
 }
