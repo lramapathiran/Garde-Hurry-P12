@@ -58,6 +58,6 @@ public interface ChildcareRepository extends JpaRepository<Childcare, Integer> {
      * @param user for which we need to determine the amount of childcares awaiting.
      * @return Integer for the resulting count.
      */
-    @Query(value = "select count(*) from Childcare u where u.isValidated = 0 and u.userWatching = ?1")
+    @Query(value = "select count(*) from Childcare u where u.isValidated = null and u.userWatching = ?1")
     Integer numberOfChildcaresToValidateByUserInCharge(User user);
 }

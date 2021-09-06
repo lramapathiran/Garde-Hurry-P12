@@ -66,6 +66,10 @@
                             </br>
                             <small><strong>Bravo et merci pour votre solidarité!</strong></small>
                         </div>
+                        <div th:if="${positiveBadgesNumber}==0" class="text">
+                            <h6 class="mb-0">Badges à mon actif</h6>
+                            <span class="text-gray">Aucun</span>
+                        </div>
                     </div>
                     <div th:if="${negativeBadgesNumber}" class="icon text-white"><span><img th:src="@{/img/badgeNeg-40.png}"/></span></div>
                     <div th:if="${positiveBadgesNumber}" class="icon text-white"><span><img th:src="@{/img/badgePos-40.png}"/></span></div>
@@ -78,7 +82,7 @@
                         <div class="text">
                             <h6 class="mb-0">Mes Amis</h6>
                             <span th:if="${NumberOfFriends} > 0" class="text-gray" th:text="${NumberOfFriends}"></span>
-                            <span th:if="${NumberOfFriends} == 0">Aucun</span>
+                            <span th:if="${NumberOfFriends} == 0" class="text-gray">Aucun</span>
                         </div>
                     </div>
                     <div class="icon text-white bg-green"><i class="fas fa-user-friends"></i></div>

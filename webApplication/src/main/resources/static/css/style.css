@@ -2,7 +2,7 @@
 	color: red;
 }
 
-.commentButton {
+.commentButton, .img-button {
     background-color: Transparent;
     background-repeat:no-repeat;
     border: none;
@@ -32,7 +32,7 @@
     margin-left: -0.8rem;
 }
 
-#navbarSupportedContent{
+.homePage-header{
     margin-left: 0rem;
     margin-right: 6.4rem;
 }
@@ -117,11 +117,49 @@ margin-right: -3.2rem;
 
 
 .page-holder{
-    margin-top: 14rem;
+    margin-top: 9rem;
     }
 
 .homePageSection{
     margin-top: 9.3rem;
+}
+
+.sidebar {
+    margin-top: 5.4rem;
+}
+
+.side-menu {
+    margin-top: 8rem;
+}
+
+.arc-modified {
+    margin-top: -9rem;
+}
+
+.register-header{
+    margin-top: 1.25rem;
+}
+
+.title-register{
+    font-size:1.5rem;
+    padding-right: 40.5rem;
+    }
+
+.bg-faq {
+    background-color:#091A2B;
+}
+
+.friend-form, .go-to-form-childcare {
+    text-align: end;
+}
+
+a {
+color:black;
+}
+
+.step-two {
+    font-size:1.5rem;
+
 }
 
 

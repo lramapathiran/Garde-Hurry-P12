@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head  th:insert="fragments/componentsRessources.html :: headVisit">
     <meta content="" name="description">
@@ -9,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
     <title>Enfants à faire garder</title>
 </head>
 <body>
@@ -23,7 +20,7 @@
         <div class="page-holder w-100 d-flex flex-wrap">
             <div class="container-fluid px-xl-5">
 
-                <h2>Je renseigne les enfants à faire garder!</h2>
+                <h2 class="text-center">Je renseigne les enfants à faire garder!</h2>
 
                 <section>
 
@@ -69,7 +66,7 @@
                                                                     <form action="#" th:action="@{/delete/childrenToWatch}" th:method="post">
                                                                         <input type="hidden" name="childrenToWatchId" th:value = "${child.id}"/>
                                                                         <input type="hidden" name="childcareId" th:value = "${childcare.id}"/>
-                                                                        <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                                        <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                     </form>
                                                                 </span>
                                                 </li>
@@ -113,7 +110,7 @@
 
                                     <div class="line"></div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row text-center">
                                         <div class="col-md5  mx-auto d-block" th:if="${leftChildren} > 0">
                                             <a th:href="@{/requests/childcares}"><button type="button" class="btn btn-secondary">Retour</button></a>
                                             <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -140,8 +137,5 @@
 </div>
 <!-- JavaScript files-->
 <th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>

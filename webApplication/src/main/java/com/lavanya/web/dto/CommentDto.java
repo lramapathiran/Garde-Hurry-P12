@@ -16,7 +16,7 @@ public class CommentDto {
 
     @NotBlank(message="Veuillez remplir ce champs")
     @Size(min = 5, max = 600, message
-            = "votre message doit comprendre entre 5 et 600 caractères!")
+            = "Votre message doit comprendre entre 5 et 600 caractères!")
     private String content;
     private UserDto userCommented;
     private UserDto userComment;

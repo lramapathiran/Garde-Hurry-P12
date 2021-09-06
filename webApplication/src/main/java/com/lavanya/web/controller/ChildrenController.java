@@ -41,7 +41,11 @@ public class ChildrenController {
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
 
+        UserDto userDto = userProxy.getUserConnected(token);
+        int numberOfChildren = userDto.getChildrenDtos().size();
+
         model.addAttribute("fullname", fullname);
+        model.addAttribute("totalChildren", numberOfChildren);
 
         ChildrenDto childrenDto = new ChildrenDto();
         model.addAttribute("childrenDto", childrenDto);

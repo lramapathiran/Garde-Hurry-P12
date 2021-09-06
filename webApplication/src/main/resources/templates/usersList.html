@@ -1,8 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<!--<head  th:insert="fragments/componentsRessources.html :: headVisit">-->
 <head>
     <meta content="" name="description">
     <meta content="" name="keywords">
@@ -10,9 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300&amp;display=swap" rel="stylesheet">
+    <link th:href="@{/assets/css/theme.css}" rel="stylesheet">
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/admin/vendor/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <!-- orion icons-->
+    <link rel="stylesheet" th:href="@{/admin/css/orionicons.css}">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" th:href="@{/admin/css/style.default.css}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" th:href="@{/admin/css/custom.css}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" th:href="@{/admin/img/favicon.png}">
+
+    <link th:href="@{/admin/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" type="text/css" th:rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <title>Liste des Utilisateurs</title>
 </head>
@@ -26,6 +42,7 @@
         <div class="page-holder w-100 d-flex flex-wrap">
             <div class="container-fluid px-xl-5">
                 <div class="d-flex justify-content-center ">
+
                     <div class="page-holder w-100 d-flex flex-wrap">
                         <div class="container-fluid px-xl-4">
                             <section class="py-5" id="card">
@@ -73,16 +90,18 @@
 
                                                                     <div th:unless="${user.validated}">
                                                                        <input type="checkbox" name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
+                                                                     </div>
 
+                                                                    <div class="align-self-end">
+                                                                        <button type="submit" class="float-md-right img-button"><img th:src="@{/img/refresh-30.gif}"/></button>
                                                                     </div>
 
-                                                                    <button type="submit" class="float-md-right"><img th:src="@{/img/transférer-60.png}"/></button>
                                                                 </form>
                                                             </td>
                                                             <td scope="row">
                                                                 <form action="#" th:action="@{/delete/user}" th:method="post">
                                                                     <input type="hidden" name="id" th:value = "${user.id}"/>
-                                                                    <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                                    <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                 </form>
                                                             </td>
                                                         </tr>

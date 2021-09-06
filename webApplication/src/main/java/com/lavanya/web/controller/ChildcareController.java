@@ -50,7 +50,7 @@ public class ChildcareController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @GetMapping("request/childcare")
+    @GetMapping("/request/childcare")
     public String showChildcareRequestForm(HttpSession session, Model model) {
 
         String token = (String) session.getAttribute("token");
@@ -73,7 +73,7 @@ public class ChildcareController {
 
         for(FriendDto friendDto : friendDtos) {
 
-            if(friendDto.getUserWhoInvite().getEmail() == userConnected.getEmail()){
+            if(friendDto.getUserWhoInvite().getEmail().equals(userConnected.getEmail())){
                 users.add(friendDto.getUserInvited());
             }else{
                 users.add(friendDto.getUserWhoInvite());

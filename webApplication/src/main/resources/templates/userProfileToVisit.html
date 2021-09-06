@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head  th:insert="fragments/componentsRessources.html :: headVisit">
     <meta content="" name="description">
@@ -9,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
     <title>Profile</title>
 </head>
 
@@ -25,18 +22,17 @@
             <div class="container-fluid px-xl-5">
                 <div class="d-flex justify-content-center ">
                     <div class="page-holder w-100 d-flex flex-wrap">
-                        <div class="container-fluid px-xl-4 view">
+                        <div class="container-fluid px-xl-4">
                             <section class="py-6 d-flex justify-content-center">
                                 <div class="row mb-4">
-                                    <div class="col-lg-9 mb-4 mb-lg-0 site-card">
+                                    <div class="col-lg-6 mb-4 mb-lg-0 site-card">
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="row">
                                                     <div class="col-md-8 text-center">
-                                                        <h2 class="text-uppercase mb-0">
-                                                            <span class="float-md-left" th:utext="${user.firstName}"></span>
-                                                            <span class="float-md-left" th:utext = "${user.lastName}"></span>
-                                                        </h2>
+                                                        <h3 class="text-uppercase mb-0">
+                                                            <span class="float-md-left" th:utext="${user.firstName}   + ' ' + ${user.lastName}" ></span>
+                                                        </h3>
                                                     </div>
                                                     <div class="col-md-4 float-md-right"  id="tag">
                                                         <span th:if="${user.validated} == true">
@@ -62,7 +58,7 @@
                                                         <span th:if="${user.situation} == false">Sans activité</span>
                                                     </p>
                                                     <p class="col-sm-12">J'ai
-                                                        <strong><span th:text="${numberOfChildren}"></span></strong> enfant(s) qui sont:
+                                                        <strong><span th:text="${numberOfChildren}"></span></strong> enfant(s):
                                                         <ul th:each="child : ${user.childrenDtos}">
                                                             <li>
                                                                 <span th:switch="${child.school}">
@@ -70,9 +66,9 @@
                                                                         Non Scolarisé</span>
                                                                     <span th:case="${T(com.lavanya.web.dto.School).M}">
                                                                         En Maternelle</span>
-                                                                    <span id="unavailable" th:case="${T(com.lavanya.web.dto.School).P}">
+                                                                    <span th:case="${T(com.lavanya.web.dto.School).P}">
                                                                         Au Primaire</span>
-                                                                    <span id="in-progress" th:case="${T(com.lavanya.web.dto.School).C}">
+                                                                    <span th:case="${T(com.lavanya.web.dto.School).C}">
                                                                         Au Collège</span>
                                                                 </span>
                                                             </li>
@@ -82,15 +78,17 @@
 
                                                 <br>
                                                 <div th:unless="${usersMatch}">
-                                                    <p th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
+                                                    <p class="text-center" th:if="${isMyFriend}==true and ${friend.accepted}==false">Demande d'amitié en cours!</p>
                                                     <form th:if="${isMyFriend} and ${friend.accepted}" action="#" th:action="@{/delete/request}" th:method="post">
                                                         <input type="hidden" name="id" th:value = "${friend.id}"/>
-                                                        <button type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
+                                                        <button class="img-button" type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
                                                     </form>
                                                     <form th:unless="${isMyFriend}" action="#" th:action="@{/request/friend}" th:method="post">
                                                         <input type="hidden" name="userInvitedId" th:value = "${user.id}"/>
-                                                        <button type="submit" class="btn btn-primary"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
-                                                    </form>
+                                                        <div class="text-center">
+                                                            <button type="submit" class="btn btn-primary img-button"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
+                                                        </div>
+                                                        </form>
 
                                                 </div>
 
@@ -139,8 +137,5 @@
 </div>
 <!-- JavaScript files-->
 <th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>

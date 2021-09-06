@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head  th:insert="fragments/componentsRessources.html :: headVisit">
     <meta content="" name="description">
@@ -9,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
     <title>Mon Profile Utilisateur</title>
 </head>
 
@@ -25,17 +22,16 @@
             <div class="container-fluid px-xl-5">
                 <div class="d-flex justify-content-center ">
                     <div class="page-holder w-100 d-flex flex-wrap">
-                        <div class="container-fluid px-xl-4 view">
+                        <div class="container-fluid px-xl-4">
                             <section class="py-6 d-flex justify-content-center">
                                 <div class="row mb-4">
                                     <div class="col-lg-9 mb-4 mb-lg-0 site-card">
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="row">
-                                                    <div class="col-md-12 text-center">
+                                                    <div class="col-md-8 text-center">
                                                         <h2 class="text-uppercase mb-0">
-                                                            <span class="float-md-left" th:utext="${user.firstName}"></span>
-                                                            <span class="float-md-left" th:utext = "${user.lastName}"></span>
+                                                            <span class="float-md-left" th:utext="${user.firstName} + ' ' + ${user.lastName}"></span>
                                                         </h2>
                                                     </div>
                                                 </div>
@@ -58,34 +54,33 @@
                                                     <p class="col-sm-12"><strong>Mes enfants </strong>:
                                                         <ul th:if="${!user.childrenDtos.empty}" th:each="child : ${user.childrenDtos}">
                                                             <li>
-                                                                <span th:text="${child.name}"></span>,&nbsp;
-                                                                <span th:text="${child.age}"></span>&nbsp; an(s),&nbsp;
-                                                                <span th:switch="${child.school}">
+                                                                <span class="col-sm-3" th:text="${child.name}"></span>,&nbsp;
+                                                                <span class="col-sm-3" th:text="${child.age}"></span>&nbsp; an(s),&nbsp;
+                                                                <span class="col-sm-3" th:switch="${child.school}">
                                                                     <span th:case="${T(com.lavanya.web.dto.School).N}">
                                                                         Non Scolarisé</span>
                                                                     <span th:case="${T(com.lavanya.web.dto.School).M}">
                                                                         En Maternelle</span>
-                                                                    <span id="unavailable" th:case="${T(com.lavanya.web.dto.School).P}">
+                                                                    <span th:case="${T(com.lavanya.web.dto.School).P}">
                                                                         Au Primaire</span>
-                                                                    <span id="in-progress" th:case="${T(com.lavanya.web.dto.School).C}">
+                                                                    <span th:case="${T(com.lavanya.web.dto.School).C}">
                                                                         Au Collège</span>
                                                                 </span>
-                                                                <span>
-                                                                    <form action="#" th:action="@{/delete/children}" th:method="post">
+                                                                <span class="col-sm-3">
+                                                                    <form class="row" action="#" th:action="@{/delete/children}" th:method="post">
                                                                         <input type="hidden" name="id" th:value = "${child.id}"/>
-                                                                        <input type="hidden" name="userConnectedId" th:value = "${child.user.id}"/>
-                                                                        <button type="submit"><img src="https://img.icons8.com/wired/24/000000/filled-trash.png"/></button>
+                                                                        <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                     </form>
                                                                 </span>
                                                             </li>
                                                         </ul>
-                                                        <span>
-                                                            <button type="button"><a class="text-primary font-weight-bold" th:href="@{/createChildren}"><img src="https://img.icons8.com/office/32/000000/children-faces.png"/></a></button>
+                                                        <span class="text-center">
+                                                            <button class="img-button" type="button"><a class="text-primary font-weight-bold img-button" th:href="@{/createChildren}"><img th:src="${/img/add-kid-50.png}"/></a></button>
                                                         </span>
                                                     </p>
                                                 </div>
-                                                <div> +
-                                                    <button type="button"><a class="text-primary font-weight-bold" th:href="@{/updateProfile}">modifier mon profil</a></button>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-light"><a class="text-primary font-weight-bold" th:href="@{/updateProfile}">Modifier le Profil</a></button>
                                                 </div>
 
                                             </div>
@@ -103,8 +98,5 @@
 </div>
 <!-- JavaScript files-->
 <th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>

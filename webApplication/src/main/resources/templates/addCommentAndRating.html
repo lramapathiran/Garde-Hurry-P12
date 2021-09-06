@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head  th:insert="fragments/componentsRessources.html :: headVisit">
     <meta content="" name="description">
@@ -9,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
     <title>Feedback</title>
 </head>
 <body>
@@ -24,23 +21,23 @@
             <div class="container-fluid px-xl-5">
                 <div class="d-flex justify-content-center ">
                     <div class="page-holder w-100 d-flex flex-wrap">
-                        <div class="container-fluid px-xl-4 view">
+                        <div class="container-fluid px-xl-4">
                             <section class="py-6 d-flex justify-content-center">
 
                                 <!-- Form Elements -->
-                                <div class="col-lg-5 mb-5">
+                                <div class="col-lg-8 mb-5">
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="h6 text-uppercase mb-0">Ajouter un commentaire</h3>
                                         </div>
                                         <div class="card-body">
-                                            <form class="form-horizontal" action="#" th:action="@{/saveComment}" th:object="${commentDto}" id="commentForm" method="post" enctype="utf8">
+                                            <form class="form-inline" action="#" th:action="@{/saveComment}" th:object="${commentDto}" id="commentForm" method="post" enctype="utf8">
                                                 <input type="hidden" name="childcareId" th:value = "${childcareId}"/>
                                                 <input type="hidden" name="feedbackAuthor" th:value = "${feedbackAuthor}"/>
 
                                                 <div class="form-group row ${#fields.hasErrors('content')}? has-error" >
-                                                    <div class="col-sm-8">
-                                                        <textarea  rows = "8" cols = "80" th:field = "*{content}" id="content" form = "commentForm" class="form-control"></textarea>
+                                                    <div class="col-sm-10">
+                                                        <textarea  rows = "8" cols = "80" th:field = "*{content}" id="content inlineFormInputGroup" form = "commentForm" class="mr-3 form-control"></textarea>
                                                         <small class="form-text text-muted ml-3">entre 5 et 600 caractères</small>
                                                         <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" th:errorclass="fieldError"></span>
 
@@ -52,20 +49,22 @@
                                                     <p th:if="${message}" th:text="${message}" class="message"></p>
                                                 </div>
 
-                                                <div class="line"></div>
-
                                                 <div class="form-group row">
                                                     <div class="col-md5  mx-auto d-block">
-                                                        <button type="submit" class="btn btn-primary commentButton"><img th:src="@{/img/envoyer-un-commentaire-50.png}"/></button>
+                                                        <button type="submit" class="d-flex float-md-right btn btn-primary commentButton"><img th:src="@{/img/envoyer-un-commentaire-50.png}"/></button>
                                                     </div>
                                                 </div>
-
                                             </form>
+                                            <div class="line"></div>
+                                            <div class="text-center">
+                                                <a th:href="@{/user/homePage}"><button type="button" class="btn btn-secondary">Annuler</button></a>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </section>
-                            <a th:href="@{/}"><button type="button" class="btn btn-secondary">Annuler</button></a>
+
                         </div>
                     </div>
                 </div>
@@ -76,8 +75,5 @@
 </div>
 <!-- JavaScript files-->
 <th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>

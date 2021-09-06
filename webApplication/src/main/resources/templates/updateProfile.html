@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head  th:insert="fragments/componentsRessources.html :: headVisit">
     <meta content="" name="description">
@@ -9,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
     <title>Modifier mon profile</title>
 </head>
 <body>
@@ -24,7 +21,7 @@
             <div class="container-fluid px-xl-5">
                 <div class="d-flex justify-content-center ">
                     <div class="page-holder w-100 d-flex flex-wrap">
-                        <div class="container-fluid px-xl-4 view">
+                        <div class="container-fluid px-xl-4">
                             <section class="py-6 d-flex justify-content-center">
 
                                 <!-- Form Elements -->
@@ -116,7 +113,7 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-md5  mx-auto d-block">
-                                                        <a th:href="@{/user/{id}(id=${user.id})}"><button type="button" class="btn btn-secondary">Annuler</button></a>
+                                                        <a th:href="@{/user}"><button type="button" class="btn btn-secondary">Annuler</button></a>
                                                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                                                     </div>
                                                 </div>
@@ -136,8 +133,5 @@
 </div>
 <!-- JavaScript files-->
 <th:block th:replace="fragments/componentsRessources.html :: js-scriptVisit"></th:block>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>
