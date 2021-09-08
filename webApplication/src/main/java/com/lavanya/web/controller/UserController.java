@@ -123,7 +123,9 @@ public class UserController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         int positiveBadges = childcareProxy.countOfPositiveBadgesByUserId(token);
@@ -181,8 +183,11 @@ public class UserController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
+
         List<UserDto> listUserDtos;
         Pageable pageable = PageRequest.of(pageNumber -1, 5);
         int pageSize = pageable.getPageSize();
@@ -248,6 +253,14 @@ public class UserController {
             return "redirect:/homePage#sign-in";
         }
 
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
+
+        model.addAttribute("role", role);
+        model.addAttribute("fullname", fullname);
+
         UserDto userDto = userProxy.getUserConnected(token);
         model.addAttribute("user",userDto);
         return "updateProfile";
@@ -286,6 +299,14 @@ public class UserController {
             return "redirect:/homePage#sign-in";
         }
 
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
+
+        model.addAttribute("role", role);
+        model.addAttribute("fullname", fullname);
+
         UserDto userDto = userProxy.getUserConnected(token);
         model.addAttribute("user", userDto);
         return "userProfile";
@@ -302,7 +323,9 @@ public class UserController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         UserDto userDto = userProxy.getUser(id, token);
@@ -375,7 +398,9 @@ public class UserController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         Page<UserDto> pageOfUsersFiltered = userProxy.getUserSearchPage(token,currentPage,keyword);

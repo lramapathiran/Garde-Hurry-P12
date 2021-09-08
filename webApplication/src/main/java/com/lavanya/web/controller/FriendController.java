@@ -72,7 +72,9 @@ public class FriendController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         UserDto userConnected = userProxy.getUserConnected(token);

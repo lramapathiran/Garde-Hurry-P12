@@ -1,5 +1,7 @@
 package com.lavanya.web.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.ChildcareDto;
 import com.lavanya.web.dto.CommentDto;
 import com.lavanya.web.proxies.ChildcareProxy;
@@ -33,6 +35,14 @@ public class CommentController {
         if(token==null) {
             return "redirect:/homePage#sign-in";
         }
+
+        String subToken = token.substring(7);
+        DecodedJWT jwt = JWT.decode(subToken);
+        String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
+
+        model.addAttribute("role", role);
+        model.addAttribute("fullname", fullname);
 
         CommentDto commentDto = new CommentDto();
         model.addAttribute("feedbackAuthor", feedbackAuthor);

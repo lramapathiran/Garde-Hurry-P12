@@ -62,7 +62,9 @@ public class ChildcareController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         ChildcareDto childcareDto = new ChildcareDto();
@@ -137,7 +139,9 @@ public class ChildcareController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         String errorMessage = null;
@@ -220,8 +224,9 @@ public class ChildcareController {
 
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
-        String fullname = jwt.getClaim("fullname").asString();
+        String fullname = jwt.getClaim("fullname").asString();String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         UserDto userDto = userProxy.getUserConnected(token);
@@ -257,7 +262,9 @@ public class ChildcareController {
         String subToken = token.substring(7);
         DecodedJWT jwt = JWT.decode(subToken);
         String fullname = jwt.getClaim("fullname").asString();
+        String role = jwt.getClaim("role").asString();
 
+        model.addAttribute("role", role);
         model.addAttribute("fullname", fullname);
 
         UserDto userDto = userProxy.getUserConnected(token);
