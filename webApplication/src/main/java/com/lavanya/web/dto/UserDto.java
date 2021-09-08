@@ -1,10 +1,11 @@
 package com.lavanya.web.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 public class UserDto {
 
-    private Integer id;
+    private UUID uuid;
     private String lastName;
     private String firstName;
     private String address;
@@ -26,12 +27,12 @@ public class UserDto {
     public UserDto() {
     }
 
-    public Integer getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getLastName() {

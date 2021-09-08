@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Rest Controller to control all the requests related to Friend object.
@@ -31,7 +32,7 @@ public class FriendController {
     }
 
     @GetMapping(value="/isFriend/{userProfileVisitedId}")
-    public Boolean isMyfriend(@PathVariable ("userProfileVisitedId") int userProfileVisitedId) {
+    public Boolean isMyfriend(@PathVariable ("userProfileVisitedId") UUID userProfileVisitedId) {
 
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         return  friendService.isUsersFriends(username,userProfileVisitedId);
@@ -61,7 +62,7 @@ public class FriendController {
     }
 
     @GetMapping("/users/friend/{userInvitedId}")
-    public FriendDto getFriendById(@PathVariable("userInvitedId") int userInvitedId) {
+    public FriendDto getFriendById(@PathVariable("userInvitedId") UUID userInvitedId) {
 
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         return friendService.findFriendRelationshipByBothUsersId(userInvitedId,username);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.events.Comment;
 import java.util.List;
+import java.util.UUID;
 
 @FeignClient(name = "commentdApi", url = "localhost:9090")
 public interface CommentProxy {
@@ -15,5 +16,5 @@ public interface CommentProxy {
     CommentDto saveComment(@RequestBody CommentDto commentDto, @PathVariable ("id") int childcareId, @RequestParam("feedbackAuthor") String feedbackAuthor, @RequestHeader(name = "Authorization") String token);
 
     @GetMapping("user/comments/{id}")
-    List<CommentDto> getListOfCommentsByUserId(@PathVariable("id") int userId, @RequestHeader(name = "Authorization") String token);
+    List<CommentDto> getListOfCommentsByUserId(@PathVariable("id") UUID userId, @RequestHeader(name = "Authorization") String token);
 }

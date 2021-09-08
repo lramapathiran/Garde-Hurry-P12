@@ -69,7 +69,7 @@
                                                         </thead>
                                                         <tbody>
                                                         <tr th:each="user : ${usersPage}">
-                                                            <td scope="row"><a target="_blank" th:href="@{/profile/user/{id}(id = ${user.id})}" th:utext = "${user.lastName}"></a></td>
+                                                            <td scope="row"><a target="_blank" th:href="@{/profile/user/{uuid}(uuid = ${user.uuid})}" th:utext = "${user.lastName}"></a></td>
                                                             <td th:utext = "${user.firstName}" scope="row">...</td>
                                                             <td th:utext = "${user.email}" scope="row">...</td>
                                                             <td scope="row" th:if="${user.roles} == 'USER'">Utilisateur</td>
@@ -82,7 +82,7 @@
                                                             <td scope="row" th:unless="${user.validated}">Non</td>
                                                             <td scope="row" >
                                                                 <form action="#" th:action="@{/validateProfile/{pageNumber}(pageNumber=${currentPage})}" th:object="${validate}" th:method="post">
-                                                                    <input type="hidden" name="userToValidateId" th:value = "${user.id}"/>
+                                                                    <input type="hidden" name="userToValidateId" th:value = "${user.uuid}"/>
 
                                                                     <div th:if="${user.validated}">
                                                                         <input type="checkbox" checked name="profileStatus" data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger" data-size="xs">
@@ -100,7 +100,7 @@
                                                             </td>
                                                             <td scope="row">
                                                                 <form action="#" th:action="@{/delete/user}" th:method="post">
-                                                                    <input type="hidden" name="id" th:value = "${user.id}"/>
+                                                                    <input type="hidden" name="id" th:value = "${user.uuid}"/>
                                                                     <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                 </form>
                                                             </td>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Repository extending JPA repository for persistence of User object.
@@ -47,5 +48,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      */
     @Query("select u from User u where ?1 is null or concat(u.lastName, u.city, u.area) LIKE %?1% order by lastName")
     List<User> findFilteredUser(String keyword);
+
+    /**
+     * Query to retrieve a specific user identified by its unique uuid value.
+     * @return user.
+     */
+    User findUserByUuid(UUID uuid);
 
 }

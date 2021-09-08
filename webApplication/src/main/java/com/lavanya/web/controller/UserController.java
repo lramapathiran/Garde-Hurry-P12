@@ -19,10 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller used in MVC architecture to control all the requests related to User object.
@@ -270,7 +267,7 @@ public class UserController {
     }
 
     @PostMapping("/delete/user")
-    public String deleteUser(@ModelAttribute ("id") int userDtoToDeleteId, HttpSession session) {
+    public String deleteUser(@ModelAttribute ("uuid") UUID userDtoToDeleteId, HttpSession session) {
 
         String token = (String) session.getAttribute("token");
         if(token==null) {
@@ -294,8 +291,8 @@ public class UserController {
         return "userProfile";
     }
 
-    @GetMapping("profile/user/{id}")
-    public String showUserProfileToVisit(@PathVariable("id") int id, HttpSession session, Model model) {
+    @GetMapping("profile/user/{uuid}")
+    public String showUserProfileToVisit(@PathVariable("uuid") UUID id, HttpSession session, Model model) {
 
         String token = (String) session.getAttribute("token");
         if(token==null) {

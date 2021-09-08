@@ -2,15 +2,12 @@ package com.lavanya.api.service;
 
 import com.lavanya.api.configs.JwtTokenProvider;
 import com.lavanya.api.dto.AuthBodyDto;
-import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.UserAlreadyExistException;
 import com.lavanya.api.mapper.ChildcareMapper;
 import com.lavanya.api.mapper.ChildrenMapper;
 import com.lavanya.api.mapper.CommentMapper;
 import com.lavanya.api.mapper.UserMapper;
-import com.lavanya.api.model.AuthBody;
-import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.UserRepository;
 
@@ -24,13 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Service provider for all business functionalities related to User class.
@@ -41,9 +36,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    ChildrenService childrenService;
 
     @Autowired
     UserMapper userMapper;
@@ -98,6 +90,7 @@ public class UserService implements UserDetailsService {
 
         String password = user.getPassword();
         user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setUuid(UUID.randomUUID());
 
         User userSaved = userRepository.save(user);
 
@@ -133,10 +126,12 @@ public class UserService implements UserDetailsService {
         User user = userMapper.INSTANCE.userDtoToUser(userDto);
         User originalUser = this.userRepository.findByEmail(user.getEmail());
 
-        user.setPassword(bCryptPasswordEncoder.encode(originalUser.getPassword()));
+        user.setPassword(originalUser.getPassword());
+        user.setId(originalUser.getId());
         user.setRoles(originalUser.getRoles());
         user.setActive(true);
         user.setValidated(originalUser.getValidated());
+
         userRepository.save(user);
     }
 
@@ -190,7 +185,7 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * method to retrieve a particular user identified by its id.
+     * method to retrieve a particular user identified by its username.
      * @param username, username of the user of interest to identify in database.
      * @return Optional User object.
      */
@@ -210,13 +205,13 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * method to retrieve a particular user identified by its id.
-     * @param userId, id of the user of interest to identify in database.
+     * method to retrieve a particular user identified by its uuid.
+     * @param userId, uuid of the user of interest to identify in database.
      * @return Optional User object.
      */
-    public UserDto getUserById (int userId) {
+    public UserDto getUserById (UUID userId) {
 
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findUserByUuid(userId);
         UserDto userDto = userMapper.INSTANCE.userToUserDto(user);
 
         userDto.setChildrenDtos(childrenMapper.listChildrenToListChildrenDto(user.getChildrens()));
@@ -239,7 +234,6 @@ public class UserService implements UserDetailsService {
         Pageable pageable = PageRequest.of(pageNumber -1, 10, sort);
 
         Page<User> userPage = userRepository.findAll(pageable);
-//        Page<UserDto> userDtoPage = userMapper.pageUserToPageUserDto(userPage);
         return userPage;
     }
 
@@ -263,9 +257,9 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void deleteUser(int userDtoToDeleteId) {
+    public void deleteUser(UUID userDtoToDeleteId) {
 
-        User user = userRepository.findById(userDtoToDeleteId).get();
+        User user = userRepository.findUserByUuid(userDtoToDeleteId);
         userRepository.delete(user);
     }
 

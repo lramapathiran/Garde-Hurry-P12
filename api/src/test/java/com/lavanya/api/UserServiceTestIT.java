@@ -123,16 +123,16 @@ public class UserServiceTestIT {
 
     }
 
-    @Test
-    public void getUserByIdTest() {
-
-        UserDto userDto = userService.getUserById(3);
-
-        String username = userDto.getEmail();
-
-        Assert.assertEquals("l.fernand@gmail.com", username);
-
-    }
+//    @Test
+//    public void getUserByIdTest() {
+//
+//        UserDto userDto = userService.getUserById(3);
+//
+//        String username = userDto.getEmail();
+//
+//        Assert.assertEquals("l.fernand@gmail.com", username);
+//
+//    }
 
     @Test
     public void getListUsersTest() {
@@ -152,16 +152,16 @@ public class UserServiceTestIT {
         Assert.assertEquals(false,response);
     }
 
-    @Test
-    public void deleteUserTest() {
-        UserDto userDto = userService.getUserById(3);
-        String username = userDto.getEmail();
-        Boolean response = userService.emailExists(username);
-        Assert.assertEquals(true,response);
-
-        userService.deleteUserByAdmin(userDto);
-
-        Boolean newResponse = userService.emailExists(username);
-        Assert.assertEquals(false,newResponse);
-    }
+//    @Test
+//    public void deleteUserTest() {
+//        UserDto userDto = userService.getUserById(3);
+//        String username = userDto.getEmail();
+//        Boolean response = userService.emailExists(username);
+//        Assert.assertEquals(true,response);
+//
+//        userService.deleteUserByAdmin(userDto);
+//
+//        Boolean newResponse = userService.emailExists(username);
+//        Assert.assertEquals(false,newResponse);
+//    }
 }

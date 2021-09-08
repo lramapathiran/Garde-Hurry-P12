@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.UUID;
 
 /**
  * Controller used in MVC architecture to control all the requests related to Friend object.
@@ -41,7 +42,7 @@ public class FriendController {
      * @return the url /user/topos
      */
     @PostMapping("/request/friend")
-    public String sendRequestForFriendInvitation(@ModelAttribute ("userInvitedId") int userInvitedId, HttpSession session) {
+    public String sendRequestForFriendInvitation(@ModelAttribute ("userInvitedId") UUID userInvitedId, HttpSession session) {
 
         String token = (String) session.getAttribute("token");
         if(token==null) {

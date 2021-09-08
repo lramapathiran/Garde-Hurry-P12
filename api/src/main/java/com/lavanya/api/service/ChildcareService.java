@@ -11,11 +11,13 @@ import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.ChildcareRepository;
 import com.lavanya.api.repository.ChildrenRepository;
+import com.lavanya.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service provider for all business functionalities related to Childcare class.
@@ -31,6 +33,9 @@ public class ChildcareService {
     UserService userService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ChildcareRepository childcareRepository;
 
     @Autowired
@@ -39,9 +44,11 @@ public class ChildcareService {
     public ChildcareDto saveChildcare(ChildcareDto childcareDto, String username) {
 
         User userInNeed = userService.findUserByUsername(username);
+        User userWatching = userRepository.findUserByUuid(childcareDto.getUserDtoWatching().getUuid());
 
         Childcare childcare = childcareMapper.childcareDtoToChildcare(childcareDto);
         childcare.setUserInNeed(userInNeed);
+        childcare.setUserWatching(userWatching);
         childcare.setComplete(false);
         childcare.setAccomplished(false);
         childcare.setInChargeComment(false);
@@ -56,7 +63,7 @@ public class ChildcareService {
     public ChildcareDto getChildcareById(int childcareId) {
 
         Childcare childcare = childcareRepository.findById(childcareId).get();
-        int id = childcare.getUserInNeed().getId();
+        UUID id = childcare.getUserInNeed().getUuid();
         UserDto userDto = userService.getUserById(id);
 
         ChildcareDto childcareDto = childcareMapper.INSTANCE.childcareToChildcareDto(childcare);
@@ -113,7 +120,8 @@ public class ChildcareService {
     }
 
     public void updateChildcareValidationStatus(ChildcareDto childcareDto) {
-        Childcare childcare = childcareMapper.INSTANCE.childcareDtoToChildcare(childcareDto);
+        Childcare childcare = childcareRepository.findById(childcareDto.getId()).get();
+        childcare.setValidated(childcareDto.getValidated());
         childcareRepository.save(childcare);
     }
 

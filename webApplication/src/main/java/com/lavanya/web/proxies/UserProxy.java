@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * interface required to communicate with api module and make all the requests related to User object.
@@ -20,7 +21,7 @@ public interface UserProxy {
     UserDto getUserConnected(@RequestHeader(name = "Authorization") String token);
 
     @GetMapping("/user/{id}")
-    UserDto getUser(@PathVariable(name = "id") int userId, @RequestHeader(name = "Authorization") String token);
+    UserDto getUser(@PathVariable(name = "id") UUID userId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     String login(@RequestBody AuthBodyDto data);
@@ -41,7 +42,7 @@ public interface UserProxy {
     UserDto loadUserByUsername(@PathVariable ("username") String username);
 
     @PostMapping("/delete/user/{userToDeleteId}")
-    void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId, @RequestHeader(name = "Authorization") String token);
+    void deleteUser(@PathVariable("userToDeleteId") UUID userDtoToDeleteId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/validate/profile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void validateOrNotUserProfile(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);

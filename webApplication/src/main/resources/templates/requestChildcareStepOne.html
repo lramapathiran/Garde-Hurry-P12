@@ -75,7 +75,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-3 col-form-label" for="userDtoWatchingId">Je confie ma garde à</label>
                                                     <select class="col-sm-8" th:name="userDtoWatchingId" id="userDtoWatchingId">
-                                                        <option th:each="friend : ${friends}" th:value="${friend.id}" th:text="${friend.firstName} + ' ' + ${friend.lastName}">
+                                                        <option th:each="friend : ${friends}" th:value="${friend.uuid}" th:text="${friend.firstName} + ' ' + ${friend.lastName}">
                                                     </select>
                                                 </div>
 

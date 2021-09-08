@@ -51,7 +51,10 @@
                                                         <span th:if="${user.situation} == true">En activité</span>
                                                         <span th:if="${user.situation} == false">Sans activité</span>
                                                     </p>
-                                                    <p class="col-sm-12"><strong>Mes enfants </strong>:
+                                                    <p class="col-sm-6"><strong>Mes enfants </strong>:
+                                                        <span class="float-right">
+                                                            <button class="img-button" type="button"><a class="text-primary font-weight-bold img-button" th:href="@{/createChildren}"><img th:src="@{/img/add-kid-50.png}"/></a></button>
+                                                        </span>
                                                         <ul th:if="${!user.childrenDtos.empty}" th:each="child : ${user.childrenDtos}">
                                                             <li>
                                                                 <span class="col-sm-3" th:text="${child.name}"></span>,&nbsp;
@@ -66,7 +69,7 @@
                                                                     <span th:case="${T(com.lavanya.web.dto.School).C}">
                                                                         Au Collège</span>
                                                                 </span>
-                                                                <span class="col-sm-3">
+                                                                <span class="col-sm-3 float right">
                                                                     <form class="row" action="#" th:action="@{/delete/children}" th:method="post">
                                                                         <input type="hidden" name="id" th:value = "${child.id}"/>
                                                                         <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
@@ -74,9 +77,6 @@
                                                                 </span>
                                                             </li>
                                                         </ul>
-                                                        <span class="text-center">
-                                                            <button class="img-button" type="button"><a class="text-primary font-weight-bold img-button" th:href="@{/createChildren}"><img th:src="${/img/add-kid-50.png}"/></a></button>
-                                                        </span>
                                                     </p>
                                                 </div>
                                                 <div class="text-center">

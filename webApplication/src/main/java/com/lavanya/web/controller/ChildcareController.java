@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Controller used in MVC architecture to control all the requests related to Childcare object.
@@ -89,7 +90,7 @@ public class ChildcareController {
 
     @PostMapping("/saveChildcare")
     public String saveChildcare(@Valid @ModelAttribute ("childcareDto") ChildcareDto childcareDto, BindingResult result,
-                                @ModelAttribute ("userDtoWatchingId") int userDtoWatchingId, HttpSession session,Model model){
+                                @ModelAttribute ("userDtoWatchingId") UUID userDtoWatchingId, HttpSession session, Model model){
 
         String token = (String) session.getAttribute("token");
         if(token==null) {
@@ -234,7 +235,7 @@ public class ChildcareController {
             if(childcareDto.getComplete()==false) {
                 uncompleteChildcareDtosRequests.add(childcareDto);
             }
-            if(childcareDto.getValidated()==null){
+            if(childcareDto.getComplete()==true && childcareDto.getValidated()==null){
                 unvalidatedChildcareDtosRequests.add(childcareDto);
             }
         }

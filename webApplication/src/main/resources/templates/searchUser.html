@@ -63,7 +63,7 @@
                                                                         <tr th:each="user,iterator : ${usersPage}">
                                                                             <td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
                                                                             <td th:utext="${user.firstName}"></td>
-                                                                            <td><a target="_blank" th:href="@{/profile/user/{id}(id = ${user.id})}" th:utext = "${user.lastName}"></a></td>
+                                                                            <td><a target="_blank" th:href="@{/profile/user/{uuid}(uuid = ${user.uuid})}" th:utext = "${user.lastName}"></a></td>
                                                                             <td th:utext="${user.city}"></td>
                                                                         </tr>
                                                                         </tbody>

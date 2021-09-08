@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Rest Controller to control all the requests related to User object.
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    UserDto getUser(@PathVariable(name = "id") int userId){
+    UserDto getUser(@PathVariable(name = "id") UUID userId){
         return userService.getUserById(userId);
     }
 
@@ -78,7 +79,7 @@ public class UserController {
     }
 
     @PostMapping("/delete/user/{userToDeleteId}")
-    public void deleteUser(@PathVariable("userToDeleteId") int userDtoToDeleteId){
+    public void deleteUser(@PathVariable("userToDeleteId") UUID userDtoToDeleteId){
         userService.deleteUser(userDtoToDeleteId);
     }
 

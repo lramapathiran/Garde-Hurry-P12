@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service provider for all business functionalities related to Friend class.
@@ -34,18 +35,17 @@ public class FriendService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    UserRepository userRepository;
+
     /**
      * method to save an awaited friend relationship between two users.
      * @param friendDto to save in database.
      */
     public void save(FriendDto friendDto) {
 
-
-        UserDto userDtoWhoInvite = friendDto.getUserWhoInvite();
-        UserDto userDtoInvited = friendDto.getUserInvited();
-
-        User userWhoInvite = userMapper.userDtoToUser(userDtoWhoInvite);
-        User userInvited = userMapper.userDtoToUser(userDtoInvited);
+        User userWhoInvite = userRepository.findUserByUuid(friendDto.getUserWhoInvite().getUuid());
+        User userInvited = userRepository.findUserByUuid(friendDto.getUserInvited().getUuid());
 
         Friend friend = friendMapper.friendDtoToFriend(friendDto);
 
@@ -63,9 +63,9 @@ public class FriendService {
     /**
      * method to verify if a friend relationship exists between two users even if this relation is still awaiting a validation from one of the parties.
      * @param username of the user concerned.
-     * @param userProfileVisitedId id of the second user involved
+     * @param userProfileVisitedId UUID of the second user involved
      */
-    public Boolean isUsersFriends(String username, int userProfileVisitedId) {
+    public Boolean isUsersFriends(String username, UUID userProfileVisitedId) {
 
         User userWhoInvite =  userService.findUserByUsername(username);
 
@@ -110,11 +110,13 @@ public class FriendService {
         friendRepository.delete(friend);
     }
 
-    public FriendDto findFriendRelationshipByBothUsersId(int userInvitedId, String username){
+    public FriendDto findFriendRelationshipByBothUsersId(UUID userInvitedId, String username){
 
         User userWhoInvite =  userService.findUserByUsername(username);
-        Friend friend1 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvitedId,userWhoInvite.getId());
-        Friend friend2 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userWhoInvite.getId(),userInvitedId);
+        User userInvited = userRepository.findUserByUuid(userInvitedId);
+
+        Friend friend1 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userInvited.getId(),userWhoInvite.getId());
+        Friend friend2 = friendRepository.findByUserInvitedIdAndUserWhoInviteId(userWhoInvite.getId(),userInvited.getId());
 
         FriendDto friendDto = new FriendDto();
         if(friend1 == null && friend2 !=null) {

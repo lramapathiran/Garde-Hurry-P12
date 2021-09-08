@@ -59,11 +59,11 @@ public class CommentService {
         CommentDto commentDtoSaved = commentMapper.INSTANCE.commentToCommentDto(commentSaved);
 
 //        To delete once mapper works
-        commentDto.setId( commentSaved.getId() );
-        commentDto.setTime( commentSaved.getTime() );
-        commentDto.setContent( commentSaved.getContent() );
-        commentDto.setUserCommented( userMapper.userToUserDto( commentSaved.getUserCommented() ) );
-        commentDto.setUserComment( userMapper.userToUserDto( commentSaved.getUserComment() ) );
+//        commentDto.setId( commentSaved.getId() );
+//        commentDto.setTime( commentSaved.getTime() );
+//        commentDto.setContent( commentSaved.getContent() );
+//        commentDto.setUserCommented( userMapper.userToUserDto( commentSaved.getUserCommented() ) );
+//        commentDto.setUserComment( userMapper.userToUserDto( commentSaved.getUserComment() ) );
 //        end of delete
 
         return  commentDtoSaved;

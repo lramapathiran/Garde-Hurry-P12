@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Rest Controller to control all the requests related to Comment object.
@@ -29,7 +30,7 @@ public class CommentController {
     }
 
     @GetMapping("user/comments/{id}")
-    List<CommentDto> getListOfCommentsByUserId(@PathVariable("id") int userId){
+    List<CommentDto> getListOfCommentsByUserId(@PathVariable("id") UUID userId){
 
         UserDto userDto = userService.getUserById(userId);
         return commentService.geCommentsOnUserByUserId(userDto);
