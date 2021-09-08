@@ -264,7 +264,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateUserProfileValidationStatus(UserDto userDto) {
-        User user = userMapper.INSTANCE.userDtoToUser(userDto);
+        User user = userRepository.findUserByUuid(userDto.getUuid());
+        user.setValidated(userDto.getValidated());
         userRepository.save(user);
 
     }

@@ -67,6 +67,7 @@
                                                                 <td>
                                                                     <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                                         <input type="hidden" name="id" th:value = "${childcare.id}"/>
+                                                                        <input type="hidden" name="personWhoDelete" th:value = "childParent"/>
                                                                         <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                     </form>
 
@@ -123,6 +124,7 @@
                                                             <td>
                                                                 <form action="#" th:action="@{/delete/childcare}" th:method="post">
                                                                     <input type="hidden" name="id" th:value = "${childcare.id}"/>
+                                                                    <input type="hidden" name="personWhoDelete" th:value = "childParent"/>
                                                                     <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                 </form>
 
