@@ -81,20 +81,20 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistException(
                     "Il existe déjà un email avec l'addresse: "
                             + userDto.getEmail());
+        }else{
+            userDto.setActive(true);
+            userDto.setRoles("USER");
+            userDto.setValidated(false);
+            User user = userMapper.INSTANCE.userDtoToUser(userDto);
+
+            String password = user.getPassword();
+            user.setPassword(bCryptPasswordEncoder.encode(password));
+            user.setUuid(UUID.randomUUID());
+
+            User userSaved = userRepository.save(user);
+
+            return userMapper.INSTANCE.userToUserDto(userSaved);
         }
-
-        userDto.setActive(true);
-        userDto.setRoles("USER");
-        userDto.setValidated(false);
-        User user = userMapper.INSTANCE.userDtoToUser(userDto);
-
-        String password = user.getPassword();
-        user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setUuid(UUID.randomUUID());
-
-        User userSaved = userRepository.save(user);
-
-        return userMapper.INSTANCE.userToUserDto(userSaved);
     }
 
     public String generateToken(AuthBodyDto data) {

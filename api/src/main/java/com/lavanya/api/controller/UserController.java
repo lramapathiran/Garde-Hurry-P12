@@ -1,25 +1,19 @@
 package com.lavanya.api.controller;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.lavanya.api.configs.JwtTokenProvider;
 import com.lavanya.api.dto.AuthBodyDto;
-import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.dto.UserDto;
-import com.lavanya.api.model.AuthBody;
+import com.lavanya.api.error.UserAlreadyExistException;
 import com.lavanya.api.service.UserService;
 import com.lavanya.api.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -68,8 +62,12 @@ public class UserController {
      */
     @PostMapping("/saveUser")
     public void saveUser(@RequestBody UserDto userDto) {
+        try{
+            userService.saveUser(userDto);
+        }catch (Exception e){
+            throw new UserAlreadyExistException("Un utilisateur a déjà la même adresse email!");
+        }
 
-        userService.saveUser(userDto);
 
     }
 

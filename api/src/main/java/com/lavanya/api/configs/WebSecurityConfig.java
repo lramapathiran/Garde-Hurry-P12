@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/saveUser").permitAll()
                 .antMatchers("/notifications").permitAll()
-                .antMatchers("/notifications/reservation").permitAll()
+                .antMatchers("/notifications/profile/validation").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf()

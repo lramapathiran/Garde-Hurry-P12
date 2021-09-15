@@ -47,14 +47,6 @@
             <version>6.1.5.Final</version>
         </dependency>
 
-        <!--        dependencies for security-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.thymeleaf.extras</groupId>-->
-<!--            <artifactId>thymeleaf-extras-springsecurity5</artifactId>-->
-<!--            <version>3.0.4.RELEASE</version>-->
-<!--        </dependency>-->
-
         <!--        dependencies related to openfeign-->
         <dependency>
             <groupId>javax.interceptor</groupId>

@@ -41,8 +41,12 @@
                 <div class="d-flex justify-content-center ">
                     <div class="page-holder w-100 d-flex flex-wrap">
                         <div class="container-fluid px-xl-4">
+                            <section th:if="${errorMessage}!=null">
+                                <div>
+                                    <h4 class="text-uppercase mb-4 text-center" id="error" th:utext="${errorMessage}"></h4>
+                                </div>
+                            </section>
                             <section class="py-6 d-flex justify-content-center">
-
                                 <!-- Form Elements -->
                                 <div class="col-lg-5 mb-5">
                                     <div class="card">

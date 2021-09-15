@@ -7,10 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lavanya.web.configuration.SimplePageImpl;
 import com.lavanya.web.dto.*;
-import com.lavanya.web.proxies.ChildcareProxy;
-import com.lavanya.web.proxies.CommentProxy;
-import com.lavanya.web.proxies.FriendProxy;
-import com.lavanya.web.proxies.UserProxy;
+import com.lavanya.web.proxies.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.*;
@@ -39,6 +36,9 @@ public class UserController {
 
     @Autowired
     CommentProxy commentProxy;
+
+    @Autowired
+    NotificationProxy notificationProxy;
 
     /**
      * GET requests for /homePage endpoint.
@@ -220,29 +220,43 @@ public class UserController {
      * @return addUser.html
      */
     @GetMapping("/signup")
-    public String showSignUpForm (Model model) {
+    public String showSignUpForm (@RequestParam(value = "error", required = false) String error,Model model) {
 
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
+
+        String errorMessage = null;
+        if(error != null) {
+            errorMessage = "L'email renseigné existe déjà, Veuillez renseigner une autre adresse email!!";
+        }
+        model.addAttribute("errorMessage", errorMessage);
+
         return "addUser";
     }
 
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute ("user") UserDto userDto, Model model, HttpSession session) {
 
-        userProxy.saveUser(userDto);
         AuthBodyDto data = new AuthBodyDto();
         data.setUsername(userDto.getEmail());
         data.setPassword(userDto.getPassword());
 
+        String fullName = userDto.getFirstName() + " " + userDto.getLastName();
+
+        NotificationDto notificationDto = new NotificationDto(fullName,userDto.getEmail());
+
         try{
+            userProxy.saveUser(userDto);
             String resp = userProxy.login(data);
             String token = "Bearer " + resp;
             session.setAttribute("token", token);
-            return "redirect:/createChildren";
-        }catch (Exception e) {
-            return "redirect:/homePage?error=true";
+        }catch(Exception e) {
+            return "redirect:/signup?error=true";
         }
+
+        notificationProxy.alertEmailForNewUserToValidateProfile(notificationDto);
+        return "redirect:/createChildren";
+
     }
 
     @GetMapping("/updateProfile")

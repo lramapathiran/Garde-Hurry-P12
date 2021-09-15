@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>com.lavanya</groupId>
     <artifactId>api</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -157,21 +157,6 @@
             <version>5.3.7</version>
             <scope>test</scope>
         </dependency>
-
-        <!--        dependencies for integration tests with docker-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.testcontainers</groupId>-->
-        <!--            <artifactId>junit-jupiter</artifactId>-->
-        <!--            <version>1.15.3</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.testcontainers</groupId>-->
-        <!--            <artifactId>mysql</artifactId>-->
-        <!--            <version>1.15.3</version>-->
-        <!--            <scope>test</scope>-->
-        <!--        </dependency>-->
-
 
     </dependencies>
 

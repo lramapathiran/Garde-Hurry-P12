@@ -55,4 +55,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      */
     User findUserByUuid(UUID uuid);
 
+    /**
+     * Query to retrieve a list of users with non validated profile.
+     * @return user.
+     */
+    @Query("select u from User u where isValidated=0")
+    List<User> findListOfUserWithProfileNotValidatedYet();
 }
