@@ -4,8 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.comparator.UserDtoLastNameComparator;
 import com.lavanya.web.dto.FriendDto;
+import com.lavanya.web.dto.NotificationDto;
 import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.FriendProxy;
+import com.lavanya.web.proxies.NotificationProxy;
 import com.lavanya.web.proxies.UserProxy;
 import org.bouncycastle.math.ec.rfc7748.X448;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +37,11 @@ public class FriendController {
     @Autowired
     UserProxy userProxy;
 
+    @Autowired
+    NotificationProxy notificationProxy;
+
     /**
-     * POST request to send notification to another user to part of friends list.
+     * POST request to send notification to another user to be part of friends list.
      *
      * @param userInvitedId is the id of the user profile visited by the user connected.
      * @return the url /user/topos
@@ -57,6 +62,15 @@ public class FriendController {
         friendDto.setUserWhoInvite(userWhoInvite);
 
         friendProxy.save(friendDto,token);
+
+        String fromFullId = userWhoInvite.getFirstName() + " " + userWhoInvite.getLastName();
+        String fromEmail = userWhoInvite.getEmail();
+        String  toFullId = userInvited.getFirstName() + " " + userInvited.getLastName();
+        String toEmail = userInvited.getEmail();
+
+        NotificationDto notificationDto = new NotificationDto(fromFullId,fromEmail,toFullId,toEmail);
+
+        notificationProxy.sendFriendInvitation(notificationDto);
 
         return "redirect:/profile/user/" + userInvitedId;
     }
@@ -123,6 +137,8 @@ public class FriendController {
         }
 
         friendProxy.refuseFriendInvitation(id,token);
+
+
 
         return "redirect:/user/friends";
     }

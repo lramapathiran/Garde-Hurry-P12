@@ -3,10 +3,7 @@ package com.lavanya.web.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.*;
-import com.lavanya.web.proxies.ChildcareProxy;
-import com.lavanya.web.proxies.ChildrenProxy;
-import com.lavanya.web.proxies.FriendProxy;
-import com.lavanya.web.proxies.UserProxy;
+import com.lavanya.web.proxies.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -21,6 +18,8 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +43,9 @@ public class ChildcareController {
 
     @Autowired
     ChildrenProxy childrenProxy;
+
+    @Autowired
+    NotificationProxy notificationProxy;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -209,8 +211,21 @@ public class ChildcareController {
         if(token==null) {
             return "redirect:/homePage#sign-in";
         }
-
         childcareProxy.completeChildcareRequest(childcareId,token);
+
+        ChildcareDto childcareDto = childcareProxy.getChildcareById(childcareId,token);
+        String fromFullId = childcareDto.getUserDtoInNeed().getFirstName() + " " + childcareDto.getUserDtoInNeed().getLastName();
+        String fromEmail = childcareDto.getUserDtoInNeed().getEmail();
+        String  toFullId= childcareDto.getUserDtoWatching().getFirstName() + " " + childcareDto.getUserDtoWatching().getLastName();
+        String toEmail= childcareDto.getUserDtoWatching().getEmail();
+        LocalDate date = childcareDto.getDate();
+        LocalTime timeStart = childcareDto.getTimeStart();
+        LocalTime timeEnd = childcareDto.getTimeEnd();
+
+        NotificationDto notificationDto = new NotificationDto(fromFullId,fromEmail,toFullId,toEmail,date,timeStart,timeEnd);
+
+        notificationProxy.sendChildcareNotificationToUserInCharge(notificationDto);
+
         return "redirect:/requests/childcares";
     }
 

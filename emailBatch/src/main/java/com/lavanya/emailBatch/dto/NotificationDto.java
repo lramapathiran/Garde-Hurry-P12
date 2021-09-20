@@ -10,11 +10,10 @@ import java.time.LocalTime;
  */
 public class NotificationDto {
 
-    String fromFullId;
-    String fromEmail;
-    String  toFullId;
-    String toEmail;
-
+    private String fromFullId;
+    private String fromEmail;
+    private String  toFullId;
+    private String toEmail;
     private LocalDate date;
     private LocalTime timeStart;
     private LocalTime timeEnd;

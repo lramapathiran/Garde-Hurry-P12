@@ -7,8 +7,8 @@ package com.lavanya.api.model;
  */
 public class Notification {
 
-    String fromFullId;
-    String fromEmail;
+    private String fromFullId;
+    private String fromEmail;
 
     public Notification() {
 

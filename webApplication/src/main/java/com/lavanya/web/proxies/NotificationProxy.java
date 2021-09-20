@@ -11,4 +11,10 @@ public interface NotificationProxy {
 
     @PostMapping(value = "/send/notification/newProfile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void alertEmailForNewUserToValidateProfile(@RequestBody NotificationDto notificationDto);
+
+    @PostMapping(value="/send/friendInvitation", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void sendFriendInvitation(@RequestBody NotificationDto notificationDto);
+
+    @PostMapping(value="/send/childcareNotification", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    void sendChildcareNotificationToUserInCharge(@RequestBody NotificationDto notificationDto);
 }
