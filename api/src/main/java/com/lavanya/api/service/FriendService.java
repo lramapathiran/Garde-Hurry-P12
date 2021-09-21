@@ -42,7 +42,7 @@ public class FriendService {
      * method to save an awaited friend relationship between two users.
      * @param friendDto to save in database.
      */
-    public void save(FriendDto friendDto) {
+    public Friend save(FriendDto friendDto) {
 
         User userWhoInvite = userRepository.findUserByUuid(friendDto.getUserWhoInvite().getUuid());
         User userInvited = userRepository.findUserByUuid(friendDto.getUserInvited().getUuid());
@@ -56,7 +56,7 @@ public class FriendService {
         friend.setUserInvited(userInvited);
         friend.setAccepted(false);
 
-        friendRepository.save(friend);
+        return friendRepository.save(friend);
 
     }
 

@@ -4,8 +4,6 @@ import com.lavanya.api.dto.ChildcareDto;
 import com.lavanya.api.dto.UserDto;
 import com.lavanya.api.error.ChildrenToWatchAlreadyExistException;
 import com.lavanya.api.mapper.ChildcareMapper;
-import com.lavanya.api.mapper.ChildrenMapper;
-import com.lavanya.api.mapper.UserMapper;
 import com.lavanya.api.model.Childcare;
 import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
