@@ -18,6 +18,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
@@ -48,7 +50,7 @@ public class ChildcareServiceTestIT {
         childcareDto.setUserDtoWatching(userDtoWatching);
         childcareDto.setUserDtoInNeed(userInNeed);
         childcareDto.setNumberOfChildren(1);
-        childcareDto.setTimeEnd(LocalTime.of(10, 00, 00));
+        childcareDto.setTimeStart(LocalTime.of(10, 00, 00));
         childcareDto.setTimeEnd(LocalTime.of(12, 00, 00));
         childcareDto.setDate(LocalDate.of(2021, 10, 8));
         childcareDto.setDescription("blabla");
@@ -60,33 +62,6 @@ public class ChildcareServiceTestIT {
 
     }
 
-//    @Test
-////    public void saveChildrenToWatchTest() {
-////        UserDto userDtoWatching = userService.getUser("l.fernand@gmail.com");
-////        UserDto userInNeed = userService.getUser("s.Monthy@gmail.com");
-////        ChildcareDto childcareDto = new ChildcareDto();
-////        childcareDto.setUserDtoWatching(userDtoWatching);
-////        childcareDto.setUserDtoInNeed(userInNeed);
-////        childcareDto.setNumberOfChildren(1);
-////        childcareDto.setTimeEnd(LocalTime.of(10, 00, 00));
-////        childcareDto.setTimeEnd(LocalTime.of(12, 00, 00));
-////        childcareDto.setDate(LocalDate.of(2021, 10, 8));
-////        childcareDto.setDescription("blabla");
-////
-////        ChildcareDto childcareDtoSaved = childcareService.saveChildcare(childcareDto,"s.Monthy@gmail.com");
-////
-////        int childcareDtoId = childcareDtoSaved.getId();
-////
-////        List<ChildrenDto> childrenToWatch = childcareDtoSaved.getChildrenToWatch();
-////
-////        childcareService.saveChildrenToWatch(96,childcareDtoId);
-////        ChildcareDto childcareDtoSaved2 = childcareService.getChildcareById(childcareDtoSaved.getId());
-////
-////        int childrenToWatchId = childcareDtoSaved2.getChildrenToWatch().get(0).getId();
-////
-////        Assert.assertTrue(childrenToWatchId == 96);
-////    }
-
     @Test
     public void completeRequestTest(){
 
@@ -96,7 +71,7 @@ public class ChildcareServiceTestIT {
         childcareDto.setUserDtoWatching(userDtoWatching);
         childcareDto.setUserDtoInNeed(userInNeed);
         childcareDto.setNumberOfChildren(1);
-        childcareDto.setTimeEnd(LocalTime.of(10, 00, 00));
+        childcareDto.setTimeStart(LocalTime.of(10, 00, 00));
         childcareDto.setTimeEnd(LocalTime.of(12, 00, 00));
         childcareDto.setDate(LocalDate.of(2021, 10, 8));
         childcareDto.setDescription("blabla");
@@ -120,7 +95,7 @@ public class ChildcareServiceTestIT {
         childcareDto.setUserDtoWatching(userDtoWatching);
         childcareDto.setUserDtoInNeed(userInNeed);
         childcareDto.setNumberOfChildren(1);
-        childcareDto.setTimeEnd(LocalTime.of(10, 00, 00));
+        childcareDto.setTimeStart(LocalTime.of(10, 00, 00));
         childcareDto.setTimeEnd(LocalTime.of(12, 00, 00));
         childcareDto.setDate(LocalDate.of(2021, 10, 8));
         childcareDto.setDescription("blabla");
@@ -145,7 +120,7 @@ public class ChildcareServiceTestIT {
         childcareDto.setUserDtoWatching(userDtoWatching);
         childcareDto.setUserDtoInNeed(userInNeed);
         childcareDto.setNumberOfChildren(1);
-        childcareDto.setTimeEnd(LocalTime.of(10, 00, 00));
+        childcareDto.setTimeStart(LocalTime.of(10, 00, 00));
         childcareDto.setTimeEnd(LocalTime.of(12, 00, 00));
         childcareDto.setDate(LocalDate.of(2021, 10, 8));
         childcareDto.setDescription("blabla");
@@ -159,5 +134,47 @@ public class ChildcareServiceTestIT {
         ChildcareDto childcareDtoUpdated = childcareService.getChildcareById(childcareDtoSaved.getId());
 
         Assert.assertTrue(childcareDtoUpdated.getAccomplished()  == true);
+    }
+
+    @Test
+    public void getChildcaresListOfUserInNeedUnCommentedTest(){
+        List<ChildcareDto> list = childcareService.getChildcaresListOfUserInNeedUnCommented("s.Monthy@gmail.com");
+        assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void getChildcaresListOfUserInChargeUnCommentedTest(){
+        List<ChildcareDto> list = childcareService.getChildcaresListOfUserInChargeUnCommented("l.fernand@gmail.com");
+        assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void getCountOfChildcaresAccomplishedOfUserWatchingTest() {
+        Integer count = childcareService.getCountOfChildcaresAccomplishedOfUserWatching("l.fernand@gmail.com");
+        assertTrue(count != null);
+    }
+
+    @Test
+    public void getCountOfChildcaresAccomplishedOfUserInNeedTest() {
+        Integer count = childcareService.getCountOfChildcaresAccomplishedOfUserInNeed("l.fernand@gmail.com");
+        assertTrue(count != null);
+    }
+
+    @Test
+    public void getCountOfChildcaresAccomplishedAndNotCommentedOfUserWatchingTest(){
+        Integer count = childcareService.getCountOfChildcaresAccomplishedAndNotCommentedOfUserWatching("l.fernand@gmail.com");
+        assertTrue(count != null);
+    }
+
+    @Test
+    public void getCountOfChildcaresAccomplishedAndNotCommentedOfUserInNeedTest(){
+        Integer count = childcareService.getCountOfChildcaresAccomplishedAndNotCommentedOfUserInNeed("l.fernand@gmail.com");
+        assertTrue(count != null);
+    }
+
+    @Test
+    public void getCountOfChildcaresToValidateOfUserInChargeTest(){
+        Integer count = childcareService.getCountOfChildcaresToValidateOfUserInCharge("l.fernand@gmail.com");
+        assertTrue(count != null);
     }
 }

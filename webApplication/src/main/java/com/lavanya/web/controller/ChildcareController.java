@@ -311,10 +311,22 @@ public class ChildcareController {
 
         ChildcareDto childcareDto = childcareProxy.getChildcareById(validateChildcare.getChildcareToValidateId(),token);
 
+        String fromFullId = childcareDto.getUserDtoWatching().getFirstName() + " " + childcareDto.getUserDtoWatching().getLastName();
+        String fromEmail = childcareDto.getUserDtoWatching().getEmail();
+        String  toFullId= childcareDto.getUserDtoInNeed().getFirstName() + " " + childcareDto.getUserDtoInNeed().getLastName();
+        String toEmail= childcareDto.getUserDtoInNeed().getEmail();
+        LocalDate date = childcareDto.getDate();
+        LocalTime timeStart = childcareDto.getTimeStart();
+        LocalTime timeEnd = childcareDto.getTimeEnd();
+
+        NotificationDto notificationDto = new NotificationDto(fromFullId,fromEmail,toFullId,toEmail,date,timeStart,timeEnd);
+
         if(validateChildcare.getChildcareStatus()==null){
             childcareDto.setValidated(false);
+            notificationProxy.sendChildcareRefusalNotificationToUserInNeed(notificationDto);
         }else{
             childcareDto.setValidated(true);
+            notificationProxy.sendChildcareAcceptanceNotificationToUserInNeed(notificationDto);
         }
 
 

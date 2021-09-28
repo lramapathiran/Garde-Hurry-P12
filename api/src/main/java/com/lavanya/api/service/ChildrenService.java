@@ -28,15 +28,16 @@ public class ChildrenService {
      * method to save a user child.
      * @param childrenDto that needs to be saved in database.
      * @param username of the user who is the parent of the children
+     * @return children
      */
-    public void saveChildren(ChildrenDto childrenDto, String username) {
+    public Children saveChildren(ChildrenDto childrenDto, String username) {
 
         User childrenParent = userService.findUserByUsername(username);
 
         Children children = childrenMapper.INSTANCE.childrenDtoToChildren(childrenDto);
         children.setUser(childrenParent);
 
-        childrenRepository.save(children);
+        return childrenRepository.save(children);
 
     }
 

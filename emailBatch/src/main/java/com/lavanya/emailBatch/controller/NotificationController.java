@@ -74,7 +74,7 @@ public class NotificationController {
 
     /**
      * POST requests for send/notification/newProfile.
-     * this method is used to send email notification via gmail smtp to recipients who have not provide official documents to validate their profile.
+     * this method is used to send email notification via gmail smtp to recipients who have just created a new user account and need to provide official documents to validate their profile.
      */
     @PostMapping("/send/notification/newProfile")
     public void alertEmailForNewUserToValidateProfile(@RequestBody NotificationDto notificationDto){
@@ -92,6 +92,10 @@ public class NotificationController {
         emailService.sendSimpleMessage(email,subject, text);
     }
 
+    /**
+     * POST requests for send/friendInvitation.
+     * this method is used to send email notification via gmail smtp to recipient who has a request of friend from another user.
+     */
     @PostMapping(value="/send/friendInvitation")
     void sendFriendInvitation(@RequestBody NotificationDto notificationDto){
 
@@ -106,7 +110,11 @@ public class NotificationController {
 
     }
 
-    @PostMapping(value="/send/childcareNotification", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * POST requests for send/childcareNotification.
+     * this method is used to send email notification via gmail smtp to recipient who has been requested for a childcare from another user in need.
+     */
+    @PostMapping(value="/send/childcareNotification")
     void sendChildcareNotificationToUserInCharge(@RequestBody NotificationDto notificationDto) {
         String email = notificationDto.getToEmail();
         String name = notificationDto.getFromFullId();
@@ -120,6 +128,39 @@ public class NotificationController {
         emailService.sendSimpleMessage(email,subject, text);
     }
 
+    /**
+     * POST requests for send/childcareNotification.
+     * this method is used to send email notification via gmail smtp to recipient who has its request for a childcare accepted from the user asked for help.
+     */
+    @PostMapping(value="/send/childcareNotification/acceptance")
+    void sendChildcareAcceptanceNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
+        String email = notificationDto.getToEmail();
+        String name = notificationDto.getFromFullId();
+        String date = notificationDto.getDate().format(DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", Locale.FRENCH));
+        String subject = name + " a accepté votre demande de garde";
+        String text = name + " est disponible le " + date + " de " + notificationDto.getTimeStart() + " à " + notificationDto.getTimeEnd() + " pour effectuer la garde demandée \n" +
+                "Cordialement, \n" +
+                "L'équipe Garde Hurry";
+
+        emailService.sendSimpleMessage(email,subject, text);
+    }
+
+    /**
+     * POST requests for send/childcareNotification.
+     * this method is used to send email notification via gmail smtp to recipient who has its request for a childcare refused from the user asked for help.
+     */
+    @PostMapping(value="/send/childcareNotification/refusal")
+    void sendChildcareRefusalNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
+        String email = notificationDto.getToEmail();
+        String name = notificationDto.getFromFullId();
+        String date = notificationDto.getDate().format(DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", Locale.FRENCH));
+        String subject = name + " a refusé votre demande de garde";
+        String text = name + " ne peut effectuer la garde demandée le " + date + " de " + notificationDto.getTimeStart() + " à " + notificationDto.getTimeEnd() + " \n" +
+                "Cordialement, \n" +
+                "L'équipe Garde Hurry";
+
+        emailService.sendSimpleMessage(email,subject, text);
+    }
 
 
 }
