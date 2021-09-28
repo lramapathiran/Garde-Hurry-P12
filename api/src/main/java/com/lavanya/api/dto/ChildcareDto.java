@@ -3,7 +3,6 @@ package com.lavanya.api.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

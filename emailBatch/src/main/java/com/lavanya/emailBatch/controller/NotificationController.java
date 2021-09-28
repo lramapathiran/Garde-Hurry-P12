@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.Map;
  * Controller to control all the requests related to Notification object.
  * @author lavanya
  */
-@Controller
+@RestController
 public class NotificationController {
 
     @Autowired
