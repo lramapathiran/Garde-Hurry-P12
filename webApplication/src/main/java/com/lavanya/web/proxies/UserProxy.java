@@ -2,6 +2,7 @@ package com.lavanya.web.proxies;
 
 import com.lavanya.web.dto.AuthBodyDto;
 import com.lavanya.web.dto.UserDto;
+import com.lavanya.web.dto.UserToRegister;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -33,7 +34,7 @@ public interface UserProxy {
     List<UserDto> showUsersList(@RequestHeader(name = "Authorization") String token);
 
     @PostMapping (value="/saveUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    void saveUser(@RequestBody UserDto userDto);
+    void saveUser(@RequestBody UserToRegister user);
 
     @PostMapping (value="/updateUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void updateUser(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);

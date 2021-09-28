@@ -2,6 +2,7 @@ package com.lavanya.api;
 
 import com.lavanya.api.dto.AuthBodyDto;
 import com.lavanya.api.dto.UserDto;
+import com.lavanya.api.dto.UserToRegister;
 import com.lavanya.api.error.UserAlreadyExistException;
 import com.lavanya.api.mapper.UserMapper;
 import com.lavanya.api.model.User;
@@ -52,18 +53,18 @@ public class UserServiceTestIT {
 
     @Test
     public void saveUserSucceedTest() {
-        UserDto userDto = new UserDto();
-        userDto.setPassword("blabla");
-        userDto.setFirstName("Linda");
-        userDto.setLastName("Morêt");
-        userDto.setEmail("lmoret@gmail.com");
-        userDto.setAddress("1 rue des roses");
-        userDto.setArea("les charmettes");
-        userDto.setCity("Nantes");
-        userDto.setSituation(false);
+        UserToRegister user = new UserToRegister();
+        user.setPassword("blabla");
+        user.setFirstName("Linda");
+        user.setLastName("Morêt");
+        user.setEmail("lmoret@gmail.com");
+        user.setAddress("1 rue des roses");
+        user.setArea("les charmettes");
+        user.setCity("Nantes");
+        user.setSituation(false);
 
-        UserDto savedUser = userService.saveUser(userDto);
-        assertThat(savedUser).usingRecursiveComparison().ignoringFields("id","uuid","password").isEqualTo(userDto);
+        UserDto savedUser = userService.saveUser(user);
+        Assertions.assertTrue(savedUser.getEmail() == user.getEmail());
     }
 
     @Test
@@ -76,18 +77,18 @@ public class UserServiceTestIT {
 
     @Test
     public void saveUserFailedWithAlreadyExistingEmailTest() {
-        UserDto userDto = new UserDto();
-        userDto.setPassword("blabla");
-        userDto.setFirstName("Linda");
-        userDto.setLastName("Morêt");
-        userDto.setEmail("l.fernand@gmail.com");
-        userDto.setAddress("1 rue des roses");
-        userDto.setArea("les charmettes");
-        userDto.setCity("Nantes");
-        userDto.setSituation(false);
+        UserToRegister user = new UserToRegister();
+        user.setPassword("blabla");
+        user.setFirstName("Linda");
+        user.setLastName("Morêt");
+        user.setEmail("l.fernand@gmail.com");
+        user.setAddress("1 rue des roses");
+        user.setArea("les charmettes");
+        user.setCity("Nantes");
+        user.setSituation(false);
 
         Assertions.assertThrows(UserAlreadyExistException.class, () -> {
-            userService.saveUser(userDto);
+            userService.saveUser(user);
         });
 
     }

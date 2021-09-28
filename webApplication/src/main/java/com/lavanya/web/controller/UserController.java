@@ -222,8 +222,8 @@ public class UserController {
     @GetMapping("/signup")
     public String showSignUpForm (@RequestParam(value = "error", required = false) String error,Model model) {
 
-        UserDto userDto = new UserDto();
-        model.addAttribute("user", userDto);
+        UserToRegister user = new UserToRegister();
+        model.addAttribute("user", user);
 
         String errorMessage = null;
         if(error != null) {
@@ -235,18 +235,18 @@ public class UserController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute ("user") UserDto userDto, Model model, HttpSession session) {
+    public String saveUser(@ModelAttribute ("user") UserToRegister user, Model model, HttpSession session) {
 
         AuthBodyDto data = new AuthBodyDto();
-        data.setUsername(userDto.getEmail());
-        data.setPassword(userDto.getPassword());
+        data.setUsername(user.getEmail());
+        data.setPassword(user.getPassword());
 
-        String fullName = userDto.getFirstName() + " " + userDto.getLastName();
+        String fullName = user.getFirstName() + " " + user.getLastName();
 
-        NotificationDto notificationDto = new NotificationDto(fullName,userDto.getEmail());
+        NotificationDto notificationDto = new NotificationDto(fullName,user.getEmail());
 
         try{
-            userProxy.saveUser(userDto);
+            userProxy.saveUser(user);
             String resp = userProxy.login(data);
             String token = "Bearer " + resp;
             session.setAttribute("token", token);

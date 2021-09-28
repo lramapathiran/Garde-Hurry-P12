@@ -3,11 +3,9 @@ package com.lavanya.api.service;
 import com.lavanya.api.configs.JwtTokenProvider;
 import com.lavanya.api.dto.AuthBodyDto;
 import com.lavanya.api.dto.UserDto;
+import com.lavanya.api.dto.UserToRegister;
 import com.lavanya.api.error.UserAlreadyExistException;
-import com.lavanya.api.mapper.ChildcareMapper;
-import com.lavanya.api.mapper.ChildrenMapper;
-import com.lavanya.api.mapper.CommentMapper;
-import com.lavanya.api.mapper.UserMapper;
+import com.lavanya.api.mapper.*;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.UserRepository;
 
@@ -39,6 +37,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    UserRegistrationMapper userRegistrationMapper;
 
     @Autowired
     ChildrenMapper childrenMapper;
@@ -73,19 +74,21 @@ public class UserService implements UserDetailsService {
 
     /**
      * method to save a newly registered user.
-     * @param userDto that needs to be saved in database.
+     * @param userToRegister that needs to be saved in database.
      */
-    public UserDto saveUser(UserDto userDto) throws UserAlreadyExistException{
+    public UserDto saveUser(UserToRegister userToRegister) throws UserAlreadyExistException{
 
-        if (this.emailExists(userDto.getEmail())) {
+        if (this.emailExists(userToRegister.getEmail())) {
             throw new UserAlreadyExistException(
                     "Il existe déjà un email avec l'addresse: "
-                            + userDto.getEmail());
+                            + userToRegister.getEmail());
         }else{
-            userDto.setActive(true);
-            userDto.setRoles("USER");
-            userDto.setValidated(false);
-            User user = userMapper.INSTANCE.userDtoToUser(userDto);
+
+            User user = userRegistrationMapper.INSTANCE.userToRegisterToUser(userToRegister);
+            user.setActive(true);
+            user.setRoles("USER");
+            user.setValidated(false);
+
 
             String password = user.getPassword();
             user.setPassword(bCryptPasswordEncoder.encode(password));

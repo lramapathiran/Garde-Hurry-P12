@@ -3,6 +3,7 @@ package com.lavanya.api.controller;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.dto.AuthBodyDto;
 import com.lavanya.api.dto.UserDto;
+import com.lavanya.api.dto.UserToRegister;
 import com.lavanya.api.error.UserAlreadyExistException;
 import com.lavanya.api.service.UserService;
 import com.lavanya.api.model.User;
@@ -61,9 +62,9 @@ public class UserController {
      *
      */
     @PostMapping("/saveUser")
-    public void saveUser(@RequestBody UserDto userDto) {
+    public void saveUser(@RequestBody UserToRegister userToRegister) {
         try{
-            userService.saveUser(userDto);
+            userService.saveUser(userToRegister);
         }catch (Exception e){
             throw new UserAlreadyExistException("Un utilisateur a déjà la même adresse email!");
         }

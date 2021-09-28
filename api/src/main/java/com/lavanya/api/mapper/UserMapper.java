@@ -1,13 +1,9 @@
 package com.lavanya.api.mapper;
 
-import com.lavanya.api.dto.ChildrenDto;
 import com.lavanya.api.dto.UserDto;
-import com.lavanya.api.model.Children;
 import com.lavanya.api.model.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 

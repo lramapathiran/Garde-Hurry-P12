@@ -12,7 +12,6 @@ public class UserDto {
     private String city;
     private String area;
     private String email;
-    private String password;
     private Boolean isValidated;
     private Boolean situation;
     private String roles;
@@ -81,14 +80,6 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Boolean getValidated() {
