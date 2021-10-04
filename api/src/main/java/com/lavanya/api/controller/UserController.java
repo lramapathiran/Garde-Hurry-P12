@@ -77,10 +77,10 @@ public class UserController {
         userService.updateUser(userDto);
     }
 
-    @PostMapping("/delete/user/{userToDeleteId}")
-    public void deleteUser(@PathVariable("userToDeleteId") UUID userDtoToDeleteId){
-        userService.deleteUser(userDtoToDeleteId);
-    }
+//    @PostMapping("/delete/user/{userToDeleteId}")
+//    public void deleteUser(@PathVariable("userToDeleteId") UUID userDtoToDeleteId){
+//        userService.deleteUser(userDtoToDeleteId);
+//    }
 
     /**
      * GET requests for /users endpoint.

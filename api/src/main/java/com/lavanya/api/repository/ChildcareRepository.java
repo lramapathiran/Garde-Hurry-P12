@@ -15,9 +15,19 @@ import java.util.List;
 @Repository
 public interface ChildcareRepository extends JpaRepository<Childcare, Integer> {
 
+    /**
+     * Query to retrieve the list of childcares accepted by user in charge but not yet commented by the user in need.
+     * @param userInNeed for which we need to determine the list of childcares.
+     * @return list of childcares.
+     */
     @Query("select u from Childcare u where inNeedComment = 0 and isValidated = 1 and ?1 = u.userInNeed")
     List<Childcare> findChildcaresListOfUserInNeedNotCommentedYet(User userInNeed);
 
+    /**
+     * Query to retrieve the list of childcares accepted by user in charge that he has not yet commented.
+     * @param userInCharge for which we need to determine the list of childcares.
+     * @return list of childcares.
+     */
     @Query("select u from Childcare u where inChargeComment = 0 and isValidated = 1 and ?1 = u.userWatching")
     List<Childcare> findChildcaresListOfUserInChargeNotCommentedYet(User userInCharge);
 

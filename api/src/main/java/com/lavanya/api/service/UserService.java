@@ -75,6 +75,7 @@ public class UserService implements UserDetailsService {
     /**
      * method to save a newly registered user.
      * @param userToRegister that needs to be saved in database.
+     * @return UserDto
      */
     public UserDto saveUser(UserToRegister userToRegister) throws UserAlreadyExistException{
 
@@ -254,17 +255,17 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-    public void deleteUserByAdmin(UserDto userDto) {
-        User user = userMapper.INSTANCE.userDtoToUser(userDto);
-        userRepository.delete(user);
-    }
+//    public void deleteUserByAdmin(UserDto userDto) {
+//        User user = userMapper.INSTANCE.userDtoToUser(userDto);
+//        userRepository.delete(user);
+//    }
 
 
-    public void deleteUser(UUID userDtoToDeleteId) {
-
-        User user = userRepository.findUserByUuid(userDtoToDeleteId);
-        userRepository.delete(user);
-    }
+//    public void deleteUser(UUID userDtoToDeleteId) {
+//
+//        User user = userRepository.findUserByUuid(userDtoToDeleteId);
+//        userRepository.delete(user);
+//    }
 
     public void updateUserProfileValidationStatus(UserDto userDto) {
         User user = userRepository.findUserByUuid(userDto.getUuid());

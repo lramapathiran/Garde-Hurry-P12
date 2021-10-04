@@ -57,7 +57,6 @@ public class FriendService {
         friend.setAccepted(false);
 
         return friendRepository.save(friend);
-
     }
 
     /**
