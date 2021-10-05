@@ -35,6 +35,13 @@ public class CommentService {
     @Autowired
     UserMapper userMapper;
 
+    /**
+     * method to save a comment.
+     * @param commentDto that needs to mapped to comment entity to be saved in DB.
+     * @param childcareId id of the childcare for which the comment is made.
+     * @param feedbackAuthor determines if the author of the comment is the user in charge or the user in need.
+     * @return CommentDto
+     */
     public CommentDto saveComment(CommentDto commentDto, int childcareId, String feedbackAuthor) {
 
         Comment comment = commentMapper.commentDtoToComment(commentDto);
@@ -61,6 +68,11 @@ public class CommentService {
         return  commentDtoSaved;
     }
 
+    /**
+     * method to retrieve list of all comments made on a particular user.
+     * @param userDto of interest for whom we need the list of comments.
+     * @return list of CommentDtos.
+     */
     public List<CommentDto> geCommentsOnUserByUserId(UserDto userDto) {
 
         User user = userMapper.userDtoToUser(userDto);

@@ -19,6 +19,10 @@ public class BatchEmailService {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * method to retrieve list of all Notifications to send to users with profile not validated yet by the admin.
+     * @return list of Notifications.
+     */
     public List<Notification> getListOfUserWithProfileNotValidatedYet() {
 
         List<User> users = userRepository.findListOfUserWithProfileNotValidatedYet();

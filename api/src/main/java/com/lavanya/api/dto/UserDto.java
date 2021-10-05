@@ -4,6 +4,11 @@ package com.lavanya.api.dto;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Bean representing a data transfer Object UserDto.
+ * UserDto has all attributes to characterized a user.
+ * @author lavanya
+ */
 public class UserDto {
 
     private Integer id;

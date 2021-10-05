@@ -6,6 +6,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.List;
 
+/**
+ * Bean representing a data transfer Object ChildrenDto.
+ * ChildrenDto has all attributes to characterized a children.
+ * @author lavanya
+ */
 public class ChildrenDto {
 
     private Integer id;

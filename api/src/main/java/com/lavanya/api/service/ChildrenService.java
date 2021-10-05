@@ -41,12 +41,21 @@ public class ChildrenService {
 
     }
 
+    /**
+     * method to retrieve a particular children from database.
+     * @param childrenId id of the children of interest.
+     * @return childrenDto
+     */
     public ChildrenDto getChildrenById(int childrenId) {
 
         Children children = childrenRepository.findById(childrenId).get();
         return childrenMapper.childrenToChildrenDto(children);
     }
 
+    /**
+     * method to delete a particular children from database.
+     * @param childrenDto to delete.
+     */
     public void deleteChildren(ChildrenDto childrenDto) {
 
         Children children = childrenMapper.INSTANCE.childrenDtoToChildren(childrenDto);

@@ -6,6 +6,11 @@ import com.lavanya.api.enums.School;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Bean representing a Children.
+ * Children object is declared as a JPA entity with the corresponding annotation.
+ * @author lavanya
+ */
 @Entity
 public class Children {
 

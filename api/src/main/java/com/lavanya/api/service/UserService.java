@@ -101,6 +101,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    /**
+     * method to generate token when login.
+     * @param data with login credentials data.
+     * @return String as the resulting token.
+     */
     public String generateToken(AuthBodyDto data) {
         String username = data.getUsername();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
@@ -111,15 +116,6 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    /**
-     * method to update password of an already registered user.
-     * @param user that needs to be updated in database.
-     */
-    public void updateUserPassword(User user) {
-
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }
 
     /**
      * method to update an already registered user.
@@ -154,6 +150,7 @@ public class UserService implements UserDetailsService {
      * method to create a UserDetail object based of an user of interest.
      * @param email to retrieve from database the user of interest to generate the UserDetails.
      * @throws UsernameNotFoundException thrown if the user to be retrieved is not found in database.
+     * @return  UserDetails
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -191,7 +188,7 @@ public class UserService implements UserDetailsService {
     /**
      * method to retrieve a particular user identified by its username.
      * @param username, username of the user of interest to identify in database.
-     * @return Optional User object.
+     * @return UserDto object.
      */
     public UserDto getUser (String username) {
 
@@ -211,7 +208,7 @@ public class UserService implements UserDetailsService {
     /**
      * method to retrieve a particular user identified by its uuid.
      * @param userId, uuid of the user of interest to identify in database.
-     * @return Optional User object.
+     * @return UserDto object.
      */
     public UserDto getUserById (UUID userId) {
 
@@ -231,7 +228,7 @@ public class UserService implements UserDetailsService {
     /**
      * method to retrieve all users saved in database and displayed with pagination.
      * @param pageNumber, int to access to the number of User Page to display.
-     * @return Page of UserDto.
+     * @return Page of Users.
      */
     public Page<User> getAllUsers(int pageNumber) {
         Sort sort = Sort.by("lastName").ascending();
@@ -241,6 +238,10 @@ public class UserService implements UserDetailsService {
         return userPage;
     }
 
+    /**
+     * method to retrieve list of all users saved in database.
+     * @return list of UserDtos.
+     */
     public List<UserDto> getAllUsersInList() {
         List<User> listOfUsers = userRepository.findAllByOrderByLastName();
         return userMapper.listUserToListUserDto(listOfUsers);
@@ -255,18 +256,10 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByEmail(email);
     }
 
-//    public void deleteUserByAdmin(UserDto userDto) {
-//        User user = userMapper.INSTANCE.userDtoToUser(userDto);
-//        userRepository.delete(user);
-//    }
-
-
-//    public void deleteUser(UUID userDtoToDeleteId) {
-//
-//        User user = userRepository.findUserByUuid(userDtoToDeleteId);
-//        userRepository.delete(user);
-//    }
-
+    /**
+     * method to validate or not the profile of an already registered user.
+     * @param userDto that needs to have its profile validated or not in database.
+     */
     public void updateUserProfileValidationStatus(UserDto userDto) {
         User user = userRepository.findUserByUuid(userDto.getUuid());
         user.setValidated(userDto.getValidated());

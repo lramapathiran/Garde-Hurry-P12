@@ -41,6 +41,7 @@ public class FriendService {
     /**
      * method to save an awaited friend relationship between two users.
      * @param friendDto to save in database.
+     * @return the entity Friend saved in DB
      */
     public Friend save(FriendDto friendDto) {
 
@@ -63,6 +64,7 @@ public class FriendService {
      * method to verify if a friend relationship exists between two users even if this relation is still awaiting a validation from one of the parties.
      * @param username of the user concerned.
      * @param userProfileVisitedId UUID of the second user involved
+     * @return a boolean true or false
      */
     public Boolean isUsersFriends(String username, UUID userProfileVisitedId) {
 
@@ -81,6 +83,11 @@ public class FriendService {
         }
     }
 
+    /**
+     * method to retrieve list of all Friends requests sent by a user of interest but not accepted yet.
+     * @param username of the user of interest for whom we need the list of friends request he sent
+     * @return list of FriendDtos.
+     */
     public List<FriendDto> getListOfFriendRequests(String username) {
 
         User userInvited =  userService.findUserByUsername(username);
@@ -98,17 +105,31 @@ public class FriendService {
         return friendDtos;
     }
 
+    /**
+     * method to validate a friend request as accepted by the user who was invited.
+     * @param id of the friend entity to accept.
+     */
     public void updateFriend(int id) {
         Friend friend = friendRepository.findById(id).get();
         friend.setAccepted(true);
         friendRepository.save(friend);
     }
 
+    /**
+     * method to delete a friend request not accepted yet or friend relation already accepted.
+     * @param id of the friend entity of interest.
+     */
     public void deleteFriend(int id) {
         Friend friend = friendRepository.findById(id).get();
         friendRepository.delete(friend);
     }
 
+    /**
+     * method to retrieve a friend entity using both users involved.
+     * @param userInvitedId uuid of the user involved in the friend relationship.
+     * @param username of the user connected which is the second user involved in the friend relationship.
+     * @return FriendDto.
+     */
     public FriendDto findFriendRelationshipByBothUsersId(UUID userInvitedId, String username){
 
         User userWhoInvite =  userService.findUserByUsername(username);
@@ -129,6 +150,11 @@ public class FriendService {
         return friendDto;
     }
 
+    /**
+     * method to retrieve list of all Friends of the user connected.
+     * @param username of the user of interest for whom we need the list of friends.
+     * @return list of FriendDtos.
+     */
     public List<FriendDto> getListOfAllFriendsByUser(String username){
 
         User user = userService.findUserByUsername(username);
@@ -138,6 +164,11 @@ public class FriendService {
         return friendMapper.INSTANCE.listFriendToListFriendDto(list);
     }
 
+    /**
+     * method to count the amount of Friends the user connected has.
+     * @param username of the user of interest for whom we need the count of friends.
+     * @return Integer.
+     */
     public Integer getcountOfFriendsByUser(String username){
         User user = userService.findUserByUsername(username);
         return friendRepository.countOfFriends(user);

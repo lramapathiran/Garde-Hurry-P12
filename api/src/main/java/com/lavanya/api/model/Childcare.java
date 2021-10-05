@@ -9,6 +9,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Bean representing a Childcare.
+ * Childcare object is declared as a JPA entity with the corresponding annotation.
+ * @author lavanya
+ */
 @Entity
 public class Childcare {
 

@@ -44,6 +44,11 @@ public class UserController {
         }
     }
 
+    /**
+     * GET requests for /user endpoint.
+     * method to retrieve a particular user identified by its username.
+     * @return UserDto object.
+     */
     @GetMapping("/user")
     public UserDto getUserConnected(){
 
@@ -51,8 +56,14 @@ public class UserController {
         return userService.getUser(username);
     }
 
+    /**
+     * GET requests for /user/{id} endpoint.
+     * method to retrieve a particular user identified by its uuid.
+     * @param userId as the uuid of the user to retrieve from database.
+     * @return UserDto object.
+     */
     @GetMapping("/user/{id}")
-    UserDto getUser(@PathVariable(name = "id") UUID userId){
+    public UserDto getUser(@PathVariable(name = "id") UUID userId){
         return userService.getUserById(userId);
     }
 
@@ -72,18 +83,19 @@ public class UserController {
 
     }
 
+    /**
+     * POST requests for /updateUser endpoint.
+     * This controller-method updates an user already saved in database.
+     *
+     */
     @PostMapping("/updateUser")
     public void updateUser(@RequestBody UserDto userDto) {
         userService.updateUser(userDto);
     }
 
-//    @PostMapping("/delete/user/{userToDeleteId}")
-//    public void deleteUser(@PathVariable("userToDeleteId") UUID userDtoToDeleteId){
-//        userService.deleteUser(userDtoToDeleteId);
-//    }
 
     /**
-     * GET requests for /users endpoint.
+     * GET requests for /users/{pageNumber} endpoint.
      * This controller-method retrieves from database all users registered in database.
      *
      * @param currentPage an int to specify which page of Users to be displayed.
@@ -100,6 +112,11 @@ public class UserController {
         }
     }
 
+    /**
+     * GET requests for /users endpoint.
+     * This controller-method retrieves from database all users registered in database.
+     * @return List<UserDto> of all users registered.
+     */
     @GetMapping("/users")
     public List<UserDto> showUsersList(){
 
@@ -112,18 +129,22 @@ public class UserController {
 
     }
 
+    /**
+     * POST requests for /validate/profile endpoint.
+     * This controller-method validates or not a user profile.
+     *
+     */
     @PostMapping("/validate/profile")
-    void validateOrNotUserProfile(@RequestBody UserDto userDto) {
+    public void validateOrNotUserProfile(@RequestBody UserDto userDto) {
         userService.updateUserProfileValidationStatus(userDto);
     }
 
     /**
      * GET requests for /search/users/{pageNumber} endpoint.
      * This controller-method retrieves all users using criteria.
-     *
      * @param currentPage an int to specify which page of Users to be displayed.
      * @param keyword a String attribute used to filter a search users by keyword.
-     * @return page of list of books.
+     * @return page of list of UserDtos.
      */
     @GetMapping("/search/users/{pageNumber}")
     public Page<UserDto> getUserSearchPage(@PathVariable(value = "pageNumber") int currentPage,

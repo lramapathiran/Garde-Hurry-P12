@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * Bean representing a Friend.
+ * Friend object is declared as a JPA entity with the corresponding annotation.
+ * @author lavanya
+ */
 @Entity
 public class Friend {
 

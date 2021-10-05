@@ -16,6 +16,11 @@ public class ChildrenController {
     @Autowired
     ChildrenService childrenService;
 
+    /**
+     * POST requests for /saveChildren endpoint.
+     * method to save a user child.
+     * @param childrenDto that needs to be saved in database.
+     */
     @PostMapping("/saveChildren")
     public void saveChildren(@RequestBody ChildrenDto childrenDto){
 
@@ -24,13 +29,24 @@ public class ChildrenController {
 
     }
 
+    /**
+     * GET requests for /children/{childrenId} endpoint.
+     * method to retrieve a particular children from database using its id.
+     * @param childrenId id of the children of interest.
+     * @return childrenDto
+     */
     @GetMapping("/children/{childrenId}")
-    ChildrenDto getChildrenById(@PathVariable int childrenId) {
+    public ChildrenDto getChildrenById(@PathVariable int childrenId) {
         return childrenService.getChildrenById(childrenId);
     }
 
+    /**
+     * POST requests for /delete/children endpoint.
+     * method to delete a particular children from database.
+     * @param childrenDto to delete.
+     */
     @PostMapping("/delete/children")
-    void deleteChildren(@RequestBody ChildrenDto childrenDto){
+    public void deleteChildren(@RequestBody ChildrenDto childrenDto){
         childrenService.deleteChildren(childrenDto);
     }
 

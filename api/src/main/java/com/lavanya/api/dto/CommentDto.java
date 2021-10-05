@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
+/**
+ * Bean representing a data transfer Object CommentDto.
+ * CommentDto has all attributes to characterized a comment.
+ * @author lavanya
+ */
 public class CommentDto {
 
     private Integer id;

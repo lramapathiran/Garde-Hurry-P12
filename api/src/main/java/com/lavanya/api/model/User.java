@@ -4,7 +4,11 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-
+/**
+ * Bean representing an User.
+ * User object is declared as a JPA entity with the corresponding annotation.
+ * @author lavanya
+ */
 @Entity
 public class User {
 

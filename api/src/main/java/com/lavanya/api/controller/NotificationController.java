@@ -26,7 +26,7 @@ public class NotificationController {
      * @return list of Notifications object which is the list of users that have not yet provided official documents to validate their profile.
      */
     @GetMapping("/notifications/profile/validation")
-    List<Notification> getListOfUsersToWarnForProfileValidation(){
+    public List<Notification> getListOfUsersToWarnForProfileValidation(){
 
         List<Notification> notifications = new ArrayList<>();
 
