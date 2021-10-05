@@ -206,6 +206,11 @@ public class ChildcareService {
         return listDto;
     }
 
+    /**
+     * method to retrieve list of all ChildcareDtos of a user in charge and not accomplished yet by the user in charge.
+     * @param username of the user connected identified as a user in charge and for who we need the list.
+     * @return list of ChildcareDtos.
+     */
     public List<ChildcareDto> getChildcaresListOfUserInChargeToAccomplish(String username){
         User userInCharge = userService.findUserByUsername(username);
         List<Childcare> list = childcareRepository.findChildcaresListOfUserInChargeToAccomplish(userInCharge);

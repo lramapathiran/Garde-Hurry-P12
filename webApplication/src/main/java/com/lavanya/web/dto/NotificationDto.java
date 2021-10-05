@@ -1,8 +1,5 @@
 package com.lavanya.web.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -20,10 +17,8 @@ public class NotificationDto {
 
     private LocalDate date;
 
-//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
     private LocalTime timeStart;
 
-//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
     private LocalTime timeEnd;
 
     public NotificationDto() {

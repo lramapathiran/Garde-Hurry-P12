@@ -7,31 +7,31 @@ package com.lavanya.api.model;
  */
 public class Notification {
 
-    private String fromFullId;
-    private String fromEmail;
+    private String toFullId;
+    private String toEmail;
 
     public Notification() {
 
     }
 
-    public Notification(String fromFullId, String fromEmail) {
-        this.fromFullId = fromFullId;
-        this.fromEmail = fromEmail;
+    public Notification(String toFullId, String toEmail) {
+        this.toFullId = toFullId;
+        this.toEmail = toEmail;
     }
 
-    public String getFromFullId() {
-        return fromFullId;
+    public String getToFullId() {
+        return toFullId;
     }
 
-    public void setFromFullId(String fromFullId) {
-        this.fromFullId = fromFullId;
+    public void setToFullId(String toFullId) {
+        this.toFullId = toFullId;
     }
 
-    public String getFromEmail() {
-        return fromEmail;
+    public String getToEmail() {
+        return toEmail;
     }
 
-    public void setFromEmail(String fromEmail) {
-        this.fromEmail = fromEmail;
+    public void setToEmail(String toEmail) {
+        this.toEmail = toEmail;
     }
 }

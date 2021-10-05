@@ -28,9 +28,7 @@ public class NotificationController {
     @GetMapping("/notifications/profile/validation")
     public List<Notification> getListOfUsersToWarnForProfileValidation(){
 
-        List<Notification> notifications = new ArrayList<>();
-
-        notifications = batchEmailService.getListOfUserWithProfileNotValidatedYet();
+        List<Notification> notifications = batchEmailService.getListOfUserWithProfileNotValidatedYet();
 
         if(notifications == null) {
             System.out.println("Aucun rappel à faire pour les utilisateurs dont le profil reste invalidé!");
