@@ -64,7 +64,6 @@
                                                             <th>Adresse</th>
                                                             <th>Profil Validé</th>
                                                             <th>Action</th>
-                                                            <th>Supprimer</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -96,12 +95,6 @@
                                                                         <button type="submit" class="float-md-right img-button"><img th:src="@{/img/refresh-30.gif}"/></button>
                                                                     </div>
 
-                                                                </form>
-                                                            </td>
-                                                            <td scope="row">
-                                                                <form action="#" th:action="@{/delete/user}" th:method="post">
-                                                                    <input type="hidden" name="id" th:value = "${user.uuid}"/>
-                                                                    <button class="img-button" type="submit"><img th:src="@{/img/delete-24.png}"/></button>
                                                                 </form>
                                                             </td>
                                                         </tr>

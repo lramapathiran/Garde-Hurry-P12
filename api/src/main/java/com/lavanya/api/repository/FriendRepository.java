@@ -41,6 +41,13 @@ public interface FriendRepository extends JpaRepository<Friend, Integer> {
     List<Friend> findByUserInvitedIdOrderByDateDesc(int userConnectedId);
 
     /**
+     * Query to retrieve list of friends requests a user made.
+     * @param userConnectedId id of the user of interest for which the list of friends is retrieved.
+     * @return list of friend.
+     */
+    List<Friend> findByUserWhoInviteIdOrderByDateDesc(int userConnectedId);
+
+    /**
      * Query to retrieve a specific Friend entity beween two users.
      * @param userInvitedId id of one of the user of interest and recognised in DB as the user who accepted the friend request.
      * @param userWhoInviteId id of the second user of interest and recognised in DB as the user who initiated the friend request.

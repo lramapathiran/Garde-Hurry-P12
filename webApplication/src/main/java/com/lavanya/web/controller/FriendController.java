@@ -92,24 +92,37 @@ public class FriendController {
         model.addAttribute("fullname", fullname);
 
         UserDto userConnected = userProxy.getUserConnected(token);
+        UUID uuid = userConnected.getUuid();
 
         List<FriendDto> friendDtos1 = friendProxy.getFriendRequestsByUser(token);
+        TreeMap<UserDto, FriendDto> mapOfFriendRequestWithUser1 = new TreeMap<>(new UserDtoLastNameComparator());
+
+        for(FriendDto friendDto : friendDtos1){
+            if(friendDto.getUserWhoInvite().getEmail().equals(userConnected.getEmail())){
+                UserDto user = friendDto.getUserInvited();
+                mapOfFriendRequestWithUser1.put(user,friendDto);
+            }else{
+                UserDto user = friendDto.getUserWhoInvite();
+                mapOfFriendRequestWithUser1.put(user,friendDto);
+            }
+        }
         List<FriendDto> friendDtos2 = friendProxy.getFriendsListByUser(token);
 
-        TreeMap<UserDto, FriendDto> mapOfFriendRequestWithUser = new TreeMap<>(new UserDtoLastNameComparator());
+        TreeMap<UserDto, FriendDto> mapOfFriendRequestWithUser2 = new TreeMap<>(new UserDtoLastNameComparator());
 
         for(FriendDto friendDto : friendDtos2){
             if(friendDto.getUserWhoInvite().getEmail().equals(userConnected.getEmail())){
                 UserDto user = friendDto.getUserInvited();
-                mapOfFriendRequestWithUser.put(user,friendDto);
+                mapOfFriendRequestWithUser2.put(user,friendDto);
             }else{
                 UserDto user = friendDto.getUserWhoInvite();
-                mapOfFriendRequestWithUser.put(user,friendDto);
+                mapOfFriendRequestWithUser2.put(user,friendDto);
             }
         }
 
-        model.addAttribute("requests", friendDtos1);
-        model.addAttribute("friendDtosMap", mapOfFriendRequestWithUser);
+        model.addAttribute("UserConnectedUuid",uuid);
+        model.addAttribute("requests", mapOfFriendRequestWithUser1);
+        model.addAttribute("friendDtosMap", mapOfFriendRequestWithUser2);
 
         return "friendsDashboard";
     }

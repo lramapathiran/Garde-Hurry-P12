@@ -137,6 +137,28 @@ public class ChildcareController {
     }
 
     /**
+     * GET requests for /userInNeed/childcares/ToAccomplish endpoint.
+     * method to retrieve list of all ChildcareDtos made by a user in need and not accomplished yet by the user in charge.
+     * @return list of ChildcareDtos.
+     */
+    @GetMapping("/userInNeed/childcares/ToAccomplish")
+    List<ChildcareDto> getChildcaresOfUserInNeedToAccomplish(@RequestHeader(name = "Authorization") String token){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getChildcaresListOfUserInNeedToAccomplish(username);
+    }
+
+    /**
+     * GET requests for /userInCharge/childcares/ToAccomplish endpoint.
+     * method to retrieve list of all ChildcareDtos made by a user in charge and not accomplished yet by him.
+     * @return list of ChildcareDtos.
+     */
+    @GetMapping("/userInCharge/childcares/ToAccomplish")
+    public List<ChildcareDto> getChildcaresOfUserInChargeToAccomplish(@RequestHeader(name = "Authorization") String token){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return childcareService.getChildcaresListOfUserInChargeToAccomplish(username);
+    }
+
+    /**
      * GET requests for /user/count/positiveBadges endpoint.
      * method to count the amount of all childcares accomplished by a user to count his positive badges.
      * @return Integer.

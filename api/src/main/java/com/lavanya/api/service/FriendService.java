@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Service provider for all business functionalities related to Friend class.
@@ -90,9 +92,12 @@ public class FriendService {
      */
     public List<FriendDto> getListOfFriendRequests(String username) {
 
-        User userInvited =  userService.findUserByUsername(username);
+        User user =  userService.findUserByUsername(username);
+        int userId = user.getId();
+        List<Friend> friendsList1 = friendRepository.findByUserInvitedIdOrderByDateDesc(userId);
+        List<Friend> friendsList2 = friendRepository.findByUserWhoInviteIdOrderByDateDesc(userId);
 
-        List<Friend> friendsList = friendRepository.findByUserInvitedIdOrderByDateDesc(userInvited.getId());
+        List<Friend> friendsList = Stream.concat(friendsList1.stream(), friendsList2.stream()).collect(Collectors.toList());
         List<Friend> friendsRequestsList = new ArrayList<>();
         for(Friend friend : friendsList){
             if(!friend.getAccepted()){

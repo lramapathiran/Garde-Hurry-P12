@@ -45,6 +45,12 @@ public interface ChildcareProxy {
     @GetMapping("/userInCharge/childcares/Uncommented")
     List<ChildcareDto> getChildcaresOfUserInChargeNotCommented(@RequestHeader(name = "Authorization") String token);
 
+    @GetMapping("/userInNeed/childcares/ToAccomplish")
+    List<ChildcareDto> getChildcaresOfUserInNeedToAccomplish(@RequestHeader(name = "Authorization") String token);
+
+    @GetMapping("/userInCharge/childcares/ToAccomplish")
+    List<ChildcareDto> getChildcaresOfUserInChargeToAccomplish(@RequestHeader(name = "Authorization") String token);
+
     @GetMapping("/user/count/positiveBadges")
     Integer countOfPositiveBadgesByUserId(@RequestHeader(name = "Authorization") String token);
 

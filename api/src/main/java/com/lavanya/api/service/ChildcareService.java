@@ -194,6 +194,27 @@ public class ChildcareService {
     }
 
     /**
+     * method to retrieve list of all ChildcareDtos made by a user in need and not accomplished yet by the user in charge.
+     * @param username of the user connected identified as a user in need and for who we need the list.
+     * @return list of ChildcareDtos.
+     */
+    public List<ChildcareDto> getChildcaresListOfUserInNeedToAccomplish(String username) {
+        User userInNeed = userService.findUserByUsername(username);
+        List<Childcare> list = childcareRepository.findChildcaresListOfUserInNeedToAccomplish(userInNeed);
+        List<ChildcareDto> listDto = childcareMapper.listChildcareToListChildcareDto(list);
+
+        return listDto;
+    }
+
+    public List<ChildcareDto> getChildcaresListOfUserInChargeToAccomplish(String username){
+        User userInCharge = userService.findUserByUsername(username);
+        List<Childcare> list = childcareRepository.findChildcaresListOfUserInChargeToAccomplish(userInCharge);
+        List<ChildcareDto> listDto = childcareMapper.listChildcareToListChildcareDto(list);
+
+        return listDto;
+    }
+
+    /**
      * method to count the amount of all childcares accomplished by a user of interest identified as the user in charge.
      * @param username of the user of interest for whom we need the count of childcares.
      * @return Integer.

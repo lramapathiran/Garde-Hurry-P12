@@ -32,6 +32,22 @@ public interface ChildcareRepository extends JpaRepository<Childcare, Integer> {
     List<Childcare> findChildcaresListOfUserInChargeNotCommentedYet(User userInCharge);
 
     /**
+     * Query to retrieve the list of childcares of user in need accepted by user in charge but not been yet accomplished.
+     * @param userInNeed for which we need to determine the list of childcares.
+     * @return list of childcares.
+     */
+    @Query("select u from Childcare u where isAccomplished = 0 and isValidated = 1 and ?1 = u.userInNeed")
+    List<Childcare> findChildcaresListOfUserInNeedToAccomplish(User userInNeed);
+
+    /**
+     * Query to retrieve the list of childcares accepted by user in charge that he has not been yet accomplished.
+     * @param userInCharge for which we need to determine the list of childcares.
+     * @return list of childcares.
+     */
+    @Query("select u from Childcare u where isAccomplished = 0 and isValidated = 1 and ?1 = u.userWatching")
+    List<Childcare> findChildcaresListOfUserInChargeToAccomplish(User userInCharge);
+
+    /**
      * Query to retrieve the total amount of childcares accomplished by a particular user who whatched over children.
      * @param user for which we need to determine the amount of childcares made.
      * @return Integer for the resulting count.

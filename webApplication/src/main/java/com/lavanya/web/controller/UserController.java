@@ -148,8 +148,8 @@ public class UserController {
 
         UserDto userDto = userProxy.getUserConnected(token);
 
-        List<ChildcareDto> listOfRequests = childcareProxy.getChildcaresOfUserInNeedNotCommented(token);
-        List<ChildcareDto> listOfMissions = childcareProxy.getChildcaresOfUserInChargeNotCommented(token);
+        List<ChildcareDto> listOfRequests = childcareProxy.getChildcaresOfUserInNeedToAccomplish(token);
+        List<ChildcareDto> listOfMissions = childcareProxy.getChildcaresOfUserInChargeToAccomplish(token);
 
         int countOfChildcaresToComment = childcareProxy.countOfChildcaresToCommentByUserInChargeId(token) + childcareProxy.countOfChildcaresToCommentByUserInNeedId(token);
         int countOfChildcaresToValidate = childcareProxy.countOfChildcaresToValidateByUserInChargeId(token);
@@ -291,18 +291,6 @@ public class UserController {
         userProxy.updateUser(userDto, token);
 
         return "redirect:/user";
-    }
-
-    @PostMapping("/delete/user")
-    public String deleteUser(@ModelAttribute ("uuid") UUID userDtoToDeleteId, HttpSession session) {
-
-        String token = (String) session.getAttribute("token");
-        if(token==null) {
-            return "redirect:/homePage#sign-in";
-        }
-
-        userProxy.deleteUser(userDtoToDeleteId, token);
-        return "redirect:/users/1";
     }
 
     @GetMapping("/user")

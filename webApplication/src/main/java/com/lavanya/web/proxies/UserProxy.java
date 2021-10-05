@@ -27,9 +27,6 @@ public interface UserProxy {
     @PostMapping(value="/login", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     String login(@RequestBody AuthBodyDto data);
 
-    @GetMapping("/users/{pageNumber}")
-    Page<UserDto> showUsersListByPage(@PathVariable(value = "pageNumber") int currentPage, @RequestHeader(name = "Authorization") String token);
-
     @GetMapping(value="/users", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     List<UserDto> showUsersList(@RequestHeader(name = "Authorization") String token);
 
@@ -38,12 +35,6 @@ public interface UserProxy {
 
     @PostMapping (value="/updateUser", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void updateUser(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);
-
-    @GetMapping("/loadUserByUsername/{username}")
-    UserDto loadUserByUsername(@PathVariable ("username") String username);
-
-    @PostMapping("/delete/user/{userToDeleteId}")
-    void deleteUser(@PathVariable("userToDeleteId") UUID userDtoToDeleteId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/validate/profile", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     void validateOrNotUserProfile(@RequestBody UserDto userDto, @RequestHeader(name = "Authorization") String token);

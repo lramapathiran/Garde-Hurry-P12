@@ -37,24 +37,25 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div th:if="${requests.empty}" class="d-flex justify-content-center">
+                                                    <div th:if="${requests.isEmpty()}" class="d-flex justify-content-center">
                                                         <p><strong>Aucun demande pour le moment!</strong></p>
                                                     </div>
-                                                    <table th:unless="${requests.empty}" class="table table-striped table-hover card-text">
+                                                    <table th:unless="${requests.isEmpty()}" class="table table-striped table-hover card-text">
                                                         <tbody>
-                                                        <tr th:each="friendDto: ${requests}">
-                                                            <td><a target="_blank" th:href="@{/profile/user/{uuid}(uuid = ${friendDto.userWhoInvite.uuid})}" th:utext = "${friendDto.userWhoInvite.firstName}"></a></td>
-                                                            <td th:utext = "${friendDto.userWhoInvite.lastName}">...</td>
+                                                        <tr th:each="instance,iterator : ${requests}">
+                                                            <td><a target="_blank" th:href="@{/profile/user/{uuid}(uuid = ${instance.key.uuid})}" th:utext = "${instance.key.firstName} + ' ' + ${instance.key.lastName}"></a></td>
 
-                                                            <td>
+                                                            <td th:if="${UserConnectedUuid} == ${instance.value.userInvited.uuid}">
                                                                 <form class="friend-form" action="#" th:action="@{/request/response}" th:method="post">
-                                                                    <input type="hidden" name="id" th:value = "${friendDto.id}"/>
+                                                                    <input type="hidden" name="id" th:value = "${instance.value.id}"/>
                                                                     <button type="submit" class="float-md-right img-button"><img src="https://img.icons8.com/bubbles/50/000000/friends--v4.png"/></button>
                                                                 </form>
                                                             </td>
+
+                                                            <td th:unless="${UserConnectedUuid} == ${instance.value.userInvited.uuid}">En attente</td>
                                                             <td>
                                                                 <form class="friend-form" action="#" th:action="@{/delete/request}" th:method="post">
-                                                                    <input type="hidden" name="id" th:value = "${friendDto.id}"/>
+                                                                    <input type="hidden" name="id" th:value = "${instance.value.id}"/>
                                                                     <button class="img-button" type="submit"><img src="https://img.icons8.com/color/48/000000/unfriend-female.png"/></button>
                                                                 </form>
 
