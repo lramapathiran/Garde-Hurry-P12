@@ -149,6 +149,18 @@ public class ChildcareServiceTestIT {
     }
 
     @Test
+    public void getChildcaresListOfUserInNeedToAccomplish() {
+        List<ChildcareDto> list = childcareService.getChildcaresListOfUserInNeedToAccomplish("cfabre@gmail.com");
+        assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void getChildcaresListOfUserInChargeToAccomplish() {
+        List<ChildcareDto> list = childcareService.getChildcaresListOfUserInChargeToAccomplish("s.Monthy@gmail.com");
+        assertFalse(list.isEmpty());
+    }
+
+    @Test
     public void getCountOfChildcaresAccomplishedOfUserWatchingTest() {
         Integer count = childcareService.getCountOfChildcaresAccomplishedOfUserWatching("l.fernand@gmail.com");
         assertTrue(count != null);
