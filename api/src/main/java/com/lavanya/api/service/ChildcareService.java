@@ -106,8 +106,6 @@ public class ChildcareService {
                     "L'enfant " + children.getName() + " a déjà été ajouté dans cette garde, impossible de l'ajouter une seconde fois"
             );
         }
-
-
     }
 
     /**
@@ -134,7 +132,6 @@ public class ChildcareService {
         Childcare childcare = childcareRepository.findById(childcareId).get();
         childcare.setComplete(true);
         childcareRepository.save(childcare);
-
     }
 
     /**

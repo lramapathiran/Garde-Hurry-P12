@@ -97,7 +97,7 @@ public class NotificationController {
      * this method is used to send email notification via gmail smtp to recipient who has a request of friend from another user.
      */
     @PostMapping(value="/send/friendInvitation")
-    void sendFriendInvitation(@RequestBody NotificationDto notificationDto){
+    public void sendFriendInvitation(@RequestBody NotificationDto notificationDto){
 
         String email = notificationDto.getToEmail();
         String name = notificationDto.getFromFullId();
@@ -115,7 +115,7 @@ public class NotificationController {
      * this method is used to send email notification via gmail smtp to recipient who has been requested for a childcare from another user in need.
      */
     @PostMapping(value="/send/childcareNotification")
-    void sendChildcareNotificationToUserInCharge(@RequestBody NotificationDto notificationDto) {
+    public void sendChildcareNotificationToUserInCharge(@RequestBody NotificationDto notificationDto) {
         String email = notificationDto.getToEmail();
         String name = notificationDto.getFromFullId();
         String date = notificationDto.getDate().format(DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", Locale.FRENCH));
@@ -133,7 +133,7 @@ public class NotificationController {
      * this method is used to send email notification via gmail smtp to recipient who has its request for a childcare accepted from the user asked for help.
      */
     @PostMapping(value="/send/childcareNotification/acceptance")
-    void sendChildcareAcceptanceNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
+    public void sendChildcareAcceptanceNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
         String email = notificationDto.getToEmail();
         String name = notificationDto.getFromFullId();
         String date = notificationDto.getDate().format(DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", Locale.FRENCH));
@@ -150,7 +150,7 @@ public class NotificationController {
      * this method is used to send email notification via gmail smtp to recipient who has its request for a childcare refused from the user asked for help.
      */
     @PostMapping(value="/send/childcareNotification/refusal")
-    void sendChildcareRefusalNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
+    public void sendChildcareRefusalNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
         String email = notificationDto.getToEmail();
         String name = notificationDto.getFromFullId();
         String date = notificationDto.getDate().format(DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", Locale.FRENCH));
