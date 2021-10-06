@@ -40,7 +40,7 @@ public class CommentController {
     /**
      * GET requests for user/comments/{id} endpoint.
      * method to retrieve list of all comments made on a particular user.
-     * @param userDto of interest for whom we need the list of comments.
+     * @param userId uuid of the user of interest for whom we need the list of comments.
      * @return list of CommentDtos.
      */
     @GetMapping("user/comments/{id}")

@@ -28,6 +28,16 @@ public class CommentController {
     @Autowired
     CommentProxy commentProxy;
 
+    /**
+     * GET requests for /feedback/{id} endpoint.
+     * This controller-method displays the form to comment a childcare by the user connected.
+     *
+     * @param childcareId id of the childcare to comment
+     * @param feedbackAuthor string to identify if the author of the comment is the user in charge or in need in this specific childcare.
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return addCommentAndRating.html
+     */
     @GetMapping("/feedback/{id}")
     public String showFeedback(@PathVariable("id") int childcareId, @RequestParam("value") String feedbackAuthor, HttpSession session, Model model){
 
@@ -52,6 +62,17 @@ public class CommentController {
         return "addCommentAndRating";
     }
 
+    /**
+     * POST requests for /saveComment endpoint.
+     * This controller-method is part of CRUD and is used to save in database Comment object.
+     * @param commentDto which is is the comment to save.
+     * @param result check if there is any error in the comment object before savoing it.
+     * @param childcareId id of the childcare to comment.
+     * @param feedbackAuthor string to identify if the author of the comment is the user in charge or in need in this specific childcare.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @param model to pass data to the view.
+     * @return childcaresRequestsDashboard.html or childcaresMissionsDashboard.html according to the feedbackAuthor.
+     */
     @PostMapping("/saveComment")
     public String saveComment(@Valid @ModelAttribute("commentDto") CommentDto commentDto, BindingResult result, @ModelAttribute("feedbackAuthor") String feedbackAuthor,
                               @ModelAttribute("childcareId") int childcareId, HttpSession session, Model model){

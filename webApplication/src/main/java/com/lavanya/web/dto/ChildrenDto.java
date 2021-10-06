@@ -4,6 +4,11 @@ import java.util.List;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+/**
+ * Bean representing a data transfer Object ChildrenDto.
+ * ChildrenDto has all attributes required to display a children.
+ * @author lavanya
+ */
 public class ChildrenDto {
 
     private Integer id;

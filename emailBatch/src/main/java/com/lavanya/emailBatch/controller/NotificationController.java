@@ -45,7 +45,7 @@ public class NotificationController {
 
     /**
      * POST requests for send/notifications/profile/validation.
-     * this method is used to send email notification via gmail smtp to recipients who have not provide official documents to validate their profile.
+     * this method is used to send email notification via gmail smtp to recipients who have not provided official documents to validate their profile.
      */
     @Scheduled(cron = "${cron.expression}")
     @PostMapping("/send/notifications/profile/validation")
@@ -75,6 +75,7 @@ public class NotificationController {
     /**
      * POST requests for send/notification/newProfile.
      * this method is used to send email notification via gmail smtp to recipients who have just created a new user account and need to provide official documents to validate their profile.
+     * @param notificationDto contient toutes les informations nécessaire à l'envoie de la notification.
      */
     @PostMapping("/send/notification/newProfile")
     public void alertEmailForNewUserToValidateProfile(@RequestBody NotificationDto notificationDto){
@@ -95,6 +96,7 @@ public class NotificationController {
     /**
      * POST requests for send/friendInvitation.
      * this method is used to send email notification via gmail smtp to recipient who has a request of friend from another user.
+     * @param notificationDto contient toutes les informations nécessaire à l'envoie de la notification
      */
     @PostMapping(value="/send/friendInvitation")
     public void sendFriendInvitation(@RequestBody NotificationDto notificationDto){
@@ -113,6 +115,7 @@ public class NotificationController {
     /**
      * POST requests for send/childcareNotification.
      * this method is used to send email notification via gmail smtp to recipient who has been requested for a childcare from another user in need.
+     * @param notificationDto contient toutes les informations nécessaire à l'envoie de la notification
      */
     @PostMapping(value="/send/childcareNotification")
     public void sendChildcareNotificationToUserInCharge(@RequestBody NotificationDto notificationDto) {
@@ -129,8 +132,9 @@ public class NotificationController {
     }
 
     /**
-     * POST requests for send/childcareNotification.
+     * POST requests for send/childcareNotification/acceptance.
      * this method is used to send email notification via gmail smtp to recipient who has its request for a childcare accepted from the user asked for help.
+     * @param notificationDto contient toutes les informations nécessaire à l'envoie de la notification
      */
     @PostMapping(value="/send/childcareNotification/acceptance")
     public void sendChildcareAcceptanceNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {
@@ -146,8 +150,9 @@ public class NotificationController {
     }
 
     /**
-     * POST requests for send/childcareNotification.
+     * POST requests for send/childcareNotification/refusal.
      * this method is used to send email notification via gmail smtp to recipient who has its request for a childcare refused from the user asked for help.
+     * @param notificationDto contient toutes les informations nécessaire à l'envoie de la notification.
      */
     @PostMapping(value="/send/childcareNotification/refusal")
     public void sendChildcareRefusalNotificationToUserInNeed(@RequestBody NotificationDto notificationDto) {

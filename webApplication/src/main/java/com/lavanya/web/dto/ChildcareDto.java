@@ -10,6 +10,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Bean representing a data transfer Object ChildcareDto.
+ * ChildcareDto has all attributes required to display a childcare.
+ * @author lavanya
+ */
 public class ChildcareDto {
 
     private Integer id;

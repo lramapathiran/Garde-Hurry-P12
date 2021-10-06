@@ -53,6 +53,15 @@ public class ChildcareController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
+    /**
+     * GET requests for /request/childcare endpoint.
+     * This controller-method displays the form for the user connected to create a childcare request.
+     * This is the first step before sending the request to the user in charge.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return requestChildcareStepOne.html
+     */
     @GetMapping("/request/childcare")
     public String showChildcareRequestForm(HttpSession session, Model model) {
 
@@ -92,6 +101,16 @@ public class ChildcareController {
         return "requestChildcareStepOne";
     }
 
+    /**
+     * POST requests for /saveChildcare endpoint.
+     * This controller-method is part of CRUD and is used to save in database Childcare object.
+     * @param childcareDto which is is the childcare to save.
+     * @param result check if there is any error in the childcare object before saving it.
+     * @param userDtoWatchingId id of the user who the request is sent to so the user in charge.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @param model to pass data to the view.
+     * @return requestChildcareStepTwo.html.
+     */
     @PostMapping("/saveChildcare")
     public String saveChildcare(@Valid @ModelAttribute ("childcareDto") ChildcareDto childcareDto, BindingResult result,
                                 @ModelAttribute ("userDtoWatchingId") UUID userDtoWatchingId, HttpSession session, Model model){
@@ -129,6 +148,18 @@ public class ChildcareController {
         return "redirect:/save/request/children/" + childcareDtoSaved.getId();
     }
 
+    /**
+     * GET requests for /save/request/children/{id} endpoint.
+     * This controller-method displays the form for the user connected to associate the children to watch to the childcare created in step one.
+     * This is the second step before sending the request to the user in charge.
+     *
+     * @param childcareId id of the childcare created in step one.
+     * @param error only when an error exists while associating a children to watch to a childcare.
+     * @param name of the children to watch generating an error.
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return requestChildcareStepTwo.html
+     */
     @GetMapping("/save/request/children/{id}")
     public String completeChildcare(@PathVariable ("id") int childcareId, @RequestParam(value = "error", required = false) String error,
                                 @RequestParam(value = "name", required = false) String name, HttpSession session, Model model){
@@ -168,6 +199,15 @@ public class ChildcareController {
         return "requestChildcareStepTwo";
     }
 
+    /**
+     * POST requests for /saveChildrenToWatch endpoint.
+     * This controller-method is part of CRUD and is used to save in database ChildrenToWatch associated to a childcare.
+     * @param childrenToWatchId if of the children object to save as a childrenToWatch.
+     * @param childcareId id of the childcare for which the children to watch is associated.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @throws UnsupportedEncodingException raised when characters are not supported
+     * @return requestChildcareStepTwo.html.
+     */
     @PostMapping("/saveChildrenToWatch")
     public String saveChildrenToWatchToChildcare(@ModelAttribute("childrenToWatchId") int childrenToWatchId, @ModelAttribute("childcareId") int childcareId,
                                                  HttpSession session) throws UnsupportedEncodingException {
@@ -191,6 +231,14 @@ public class ChildcareController {
 
     }
 
+    /**
+     * POST requests for /delete/childrenToWatch endpoint.
+     * This controller-method is part of CRUD and is used to delete in database ChildrenToWatch object associated to a specific childcare.
+     * @param childrenToWatchId id of the childrenToWatch object to delete.
+     * @param childcareId id of the childcare for which the children to watch is associated.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return requestChildcareStepTwo.html.
+     */
     @PostMapping("/delete/childrenToWatch")
     public String deleteChildrenToWatchInChildcare(@ModelAttribute("childrenToWatchId") int childrenToWatchId,
                                                    @ModelAttribute("childcareId") int childcareId, HttpSession session){
@@ -204,6 +252,13 @@ public class ChildcareController {
         return "redirect:/save/request/children/" + childcareId;
     }
 
+    /**
+     * POST requests for /validate/request/childcare endpoint.
+     * This controller-method marks a childcare as complete with all information and triggers automated notifications to the user in charge.
+     * @param childcareId id of the childcare for which the children to watch is associated.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return childcaresRequestsDashboard.html.
+     */
     @PostMapping("/validate/request/childcare")
     public String completeChildcareRequest(@ModelAttribute("childcareId") int childcareId, HttpSession session) {
 
@@ -229,6 +284,15 @@ public class ChildcareController {
         return "redirect:/requests/childcares";
     }
 
+    /**
+     * GET requests for /requests/childcares endpoint.
+     * This controller-method retrieves from database all childcares requests not finalised  finalised but awaiting for approval from user in charge and for childcares requests accepted.
+     * This endpoint displays all childcares requested by the user connected and allows all actions on it.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return childcaresRequestsDashboard.html
+     */
     @GetMapping("/requests/childcares")
     public String showUserChildcaresRequestsDashboard(HttpSession session, Model model) {
 
@@ -266,6 +330,16 @@ public class ChildcareController {
         return "childcaresRequestsDashboard";
     }
 
+    /**
+     * GET requests for /missions/childcares endpoint.
+     * This controller-method retrieves from database all childcares missions the user connected was requested for.
+     * This endpoint displays all childcares missions the user connected has to accept or refuse and has to accomplished for the childcares accepted.
+     * This is a dashboard where the user connected can perform several actions.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return childcaresMissionsDashboard.html
+     */
     @GetMapping("/missions/childcares")
     public String showUserChildcaresMissionsDashboard(HttpSession session, Model model) {
 
@@ -301,6 +375,13 @@ public class ChildcareController {
         return "childcaresMissionsDashboard";
     }
 
+    /**
+     * POST requests for /validateChildcare endpoint.
+     * This controller-method is used to update isValidated attribute of childcare object.
+     * @param validateChildcare object that passes information to validate or not a childcare.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return childcaresMissionsDashboard.html
+     */
     @PostMapping("/validateChildcare")
     public String validateChildcareByUserInCharge(ValidateChildcare validateChildcare, HttpSession session){
 
@@ -335,6 +416,14 @@ public class ChildcareController {
         return "redirect:/missions/childcares";
     }
 
+    /**
+     * POST requests for /delete/childcare endpoint.
+     * This controller-method is part of CRUD and is used to delete in database Childcare object.
+     * @param childcareId id of the Childcare object to delete.
+     * @param personWhoDelete string to identify if the person deleting the childcare is the user in charge or in need in this specific childcare.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return childcaresRequestsDashboard.html or childcaresMissionsDashboard.html according to the personWhoDelete.
+     */
     @PostMapping("/delete/childcare")
     public String deleteChildcare(@ModelAttribute ("id") int childcareId, @ModelAttribute ("personWhoDelete") String personWhoDelete, HttpSession session) {
 
@@ -352,6 +441,13 @@ public class ChildcareController {
         }
     }
 
+    /**
+     * POST requests for /markAccomplishedChildcare endpoint.
+     * This controller-method is used to update isAccomplished attribute of childcare object and so mark a childcare as accomplished by the user in charge.
+     * @param childcareId id of the Childcare object to mark as accomplished
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return childcaresMissionsDashboard.html
+     */
     @PostMapping("/markAccomplishedChildcare")
     public String markChildcareAsAccomplished(@ModelAttribute ("childcareAccomplishedId") int childcareId, HttpSession session) {
 

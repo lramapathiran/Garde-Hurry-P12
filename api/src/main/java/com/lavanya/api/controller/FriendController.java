@@ -23,7 +23,6 @@ public class FriendController {
      * POST requests for /saveFriend endpoint.
      * method to save a friend request between two users.
      * @param friendDto to save in database.
-     * @return LocalDate for the earliest due date amoung all the copies of a book borrowed.
      */
     @PostMapping(value="/saveFriend")
     public void save(@RequestBody FriendDto friendDto) {

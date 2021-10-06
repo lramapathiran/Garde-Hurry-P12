@@ -70,6 +70,7 @@ public class UserController {
     /**
      * POST requests for /saveUser endpoint.
      * This controller-method saves an user and encode its password in database.
+     * @param userToRegister for the user to save in DB.
      *
      */
     @PostMapping("/saveUser")
@@ -86,6 +87,7 @@ public class UserController {
     /**
      * POST requests for /updateUser endpoint.
      * This controller-method updates an user already saved in database.
+     * @param userDto that needs to be updated.
      *
      */
     @PostMapping("/updateUser")
@@ -115,7 +117,7 @@ public class UserController {
     /**
      * GET requests for /users endpoint.
      * This controller-method retrieves from database all users registered in database.
-     * @return List<UserDto> of all users registered.
+     * @return List of all users registered.
      */
     @GetMapping("/users")
     public List<UserDto> showUsersList(){
@@ -132,6 +134,7 @@ public class UserController {
     /**
      * POST requests for /validate/profile endpoint.
      * This controller-method validates or not a user profile.
+     * @param userDto for who the profile needs to be validated by admin.
      *
      */
     @PostMapping("/validate/profile")

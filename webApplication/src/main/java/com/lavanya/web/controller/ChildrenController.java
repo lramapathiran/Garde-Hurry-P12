@@ -29,6 +29,14 @@ public class ChildrenController {
     @Autowired
     UserProxy userProxy;
 
+    /**
+     * GET requests for /createChildren endpoint.
+     * This controller-method displays the form to associate a child to the user connected.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return addChildren.html
+     */
     @GetMapping("/createChildren")
     public String createChildren(HttpSession session, Model model) {
 
@@ -55,6 +63,13 @@ public class ChildrenController {
         return "addChildren";
     }
 
+    /**
+     * POST requests for /saveChildren endpoint.
+     * This controller-method is part of CRUD and is used to save in database Children object.
+     * @param childrenDto which is is the children to save.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return addChildren.html.
+     */
     @PostMapping("/saveChildren")
     public String saveChildren(@ModelAttribute ("ChildrenDto") ChildrenDto childrenDto, HttpSession session){
 
@@ -67,6 +82,13 @@ public class ChildrenController {
         return "redirect:/createChildren";
     }
 
+    /**
+     * POST requests for /delete/children endpoint.
+     * This controller-method is part of CRUD and is used to delete in database Children object.
+     * @param childrenId id of the Children object to delete.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return userProfile.html
+     */
     @PostMapping("/delete/children")
     public String deleteChildren(@ModelAttribute ("id") int childrenId, HttpSession session){
 

@@ -1,5 +1,10 @@
 package com.lavanya.web.dto;
 
+/**
+ * Bean representing ValidateChildcare Object.
+ * ValidateChildcare has all attributes required to validate or not a childcare request.
+ * @author lavanya
+ */
 public class ValidateChildcare {
 
     private Integer childcareToValidateId;

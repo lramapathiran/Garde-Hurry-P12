@@ -49,6 +49,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
      * Query to retrieve a specific user identified by its unique uuid value.
+     * @param uuid of the user we need to retrieve from DB.
      * @return user.
      */
     User findUserByUuid(UUID uuid);

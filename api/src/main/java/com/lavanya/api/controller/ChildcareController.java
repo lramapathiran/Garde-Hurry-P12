@@ -150,6 +150,7 @@ public class ChildcareController {
     /**
      * GET requests for /userInCharge/childcares/ToAccomplish endpoint.
      * method to retrieve list of all ChildcareDtos made by a user in charge and not accomplished yet by him.
+     * @param token required for authentication
      * @return list of ChildcareDtos.
      */
     @GetMapping("/userInCharge/childcares/ToAccomplish")
@@ -185,6 +186,7 @@ public class ChildcareController {
     /**
      * GET requests for /userInCharge/count/childcaresToComment endpoint.
      * method to count the amount of all childcares accomplished but not commented yet by a user of interest identified as the user in charge.
+     * @return Integer for the count of childcares to comment.
      */
     @GetMapping("/userInCharge/count/childcaresToComment")
     public Integer countOfChildcaresToCommentByUserInChargeId(){

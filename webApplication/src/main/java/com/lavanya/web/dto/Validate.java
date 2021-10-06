@@ -1,8 +1,12 @@
 package com.lavanya.web.dto;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.UUID;
 
+/**
+ * Bean representing Validate Object.
+ * Validate has all attributes required to validate or not a user profile.
+ * @author lavanya
+ */
 public class Validate {
 
     private UUID userToValidateId;

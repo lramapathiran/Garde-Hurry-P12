@@ -6,6 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * interface required to communicate with emailBatch module and make all the requests related to NotificationDto object.
+ * @author lavanya
+ */
 @FeignClient(name = "NotificationEmailBatch", url = "localhost:6060")
 public interface NotificationProxy {
 

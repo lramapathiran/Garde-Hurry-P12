@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * interface required to communicate with api module and make all the requests related to Friend object.
+ * @author lavanya
+ */
 @FeignClient(name = "friendApi", url = "localhost:9090")
 public interface FriendProxy {
 

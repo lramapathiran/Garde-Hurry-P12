@@ -7,6 +7,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+/**
+ * Bean representing a data transfer Object CommentDto.
+ * CommentDto has all attributes required to display a comment.
+ * @author lavanya
+ */
 public class CommentDto {
 
     private Integer id;

@@ -112,6 +112,14 @@ public class UserController {
         return "redirect:/homePage";
     }
 
+    /**
+     * GET requests for /user/homePage endpoint.
+     * This controller-method show the homePage of the site once the user is connected
+     *
+     * @param model  to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return mainDashboard.html
+     */
     @GetMapping("/user/homePage")
     public String showUserConnectedMainDashboard(HttpSession session, Model model){
 
@@ -165,11 +173,12 @@ public class UserController {
     }
 
     /**
-     * GET requests for /users endpoint.
+     * GET requests for /users/{pageNumber} endpoint.
      * This controller-method retrieves from database all users registered with admin or user role and pass that list to the view "usersList.html"
      *
      * @param model to pass data to the view.
      * @param pageNumber an int to specify which page of Users to be displayed.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
      * @return usersList.html
      */
     @GetMapping("/users/{pageNumber}")
@@ -217,6 +226,7 @@ public class UserController {
      * This controller-method creates a new object User and pass it to the form for the User to be created with all its attributes.
      *
      * @param model to pass data to the view.
+     * @param error only when an error exists while signing up.
      * @return addUser.html
      */
     @GetMapping("/signup")
@@ -234,6 +244,14 @@ public class UserController {
         return "addUser";
     }
 
+    /**
+     * POST requests for /saveUser endpoint.
+     * This controller-method is part of CRUD and is used to save in database User object.
+     * @param user which is is the user to register.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @param model to pass data to the view.
+     * @return addChildren.html.
+     */
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute ("user") UserToRegister user, Model model, HttpSession session) {
 
@@ -259,6 +277,14 @@ public class UserController {
 
     }
 
+    /**
+     * GET requests for /updateProfile endpoint.
+     * This controller-method display the form to update an existing user account.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return updateProfile.html
+     */
     @GetMapping("/updateProfile")
     public String showUserProfileFormToUpdate(Model model,HttpSession session){
 
@@ -280,6 +306,13 @@ public class UserController {
         return "updateProfile";
     }
 
+    /**
+     * POST requests for /saveUser endpoint.
+     * This controller-method is part of CRUD and is used to update in database User object.
+     * @param userDto which is is the user to update.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return userProfile.html.
+     */
     @PostMapping("/updateUser")
     public String updateUser(@ModelAttribute ("user") UserDto userDto, HttpSession session) {
 
@@ -293,6 +326,14 @@ public class UserController {
         return "redirect:/user";
     }
 
+    /**
+     * GET requests for /user endpoint.
+     * This controller-method display the user profile of the connected user.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return userProfile.html
+     */
     @GetMapping("/user")
     public String showUserProfile(HttpSession session, Model model) {
 
@@ -314,7 +355,16 @@ public class UserController {
         return "userProfile";
     }
 
-    @GetMapping("profile/user/{uuid}")
+    /**
+     * GET requests for /profile/user/{uuid} endpoint.
+     * This controller-method displays to the user connected the profile of another user with basic information.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @param id uuid of the user profile visited by user connected
+     * @return userProfileToVisit.html
+     */
+    @GetMapping("/profile/user/{uuid}")
     public String showUserProfileToVisit(@PathVariable("uuid") UUID id, HttpSession session, Model model) {
 
         String token = (String) session.getAttribute("token");
@@ -355,6 +405,14 @@ public class UserController {
         return "userProfileToVisit";
     }
 
+    /**
+     * POST requests for /validateProfile/{pageNumber} endpoint.
+     * This controller-method is used to update isValidated attribute of user object.
+     * @param validate object that passes information to validate or not a user.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @param currentPage an int to specify which page of Users to be displayed when redirecting to usersList.html.
+     * @return usersList.html
+     */
     @PostMapping("/validateProfile/{pageNumber}")
     public String validateProfile(Validate validate, @PathVariable("pageNumber") int currentPage, HttpSession session){
 

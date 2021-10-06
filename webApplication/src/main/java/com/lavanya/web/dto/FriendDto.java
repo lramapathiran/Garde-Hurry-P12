@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
+/**
+ * Bean representing a data transfer Object FriendDto.
+ * FriendDto has all attributes required to display a friend.
+ * @author lavanya
+ */
 public class FriendDto {
 
     private Integer id;

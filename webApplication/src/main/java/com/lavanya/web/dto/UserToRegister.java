@@ -1,5 +1,10 @@
 package com.lavanya.web.dto;
 
+/**
+ * Bean representing a data transfer Object UserToRegister.
+ * UserToRegister has all attributes required to register a user.
+ * @author lavanya
+ */
 public class UserToRegister {
 
     private String lastName;

@@ -1,0 +1,10 @@
+com.lavanya.api
+com.lavanya.api.configs
+com.lavanya.api.controller
+com.lavanya.api.dto
+com.lavanya.api.enums
+com.lavanya.api.error
+com.lavanya.api.mapper
+com.lavanya.api.model
+com.lavanya.api.repository
+com.lavanya.api.service

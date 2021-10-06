@@ -41,10 +41,12 @@ public class FriendController {
     NotificationProxy notificationProxy;
 
     /**
-     * POST request to send notification to another user to be part of friends list.
+     * POST requests for /request/friend endpoint.
+     * This controller-method is used to send notification to another user to be part of friends list.
      *
      * @param userInvitedId is the id of the user profile visited by the user connected.
-     * @return the url /user/topos
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return userProfileToVisit.html
      */
     @PostMapping("/request/friend")
     public String sendRequestForFriendInvitation(@ModelAttribute ("userInvitedId") UUID userInvitedId, HttpSession session) {
@@ -75,6 +77,14 @@ public class FriendController {
         return "redirect:/profile/user/" + userInvitedId;
     }
 
+    /**
+     * GET requests for /user/friends endpoint.
+     * This controller-method retrieves from database all friends requests made or received by user and not accepted yet and displays all friends of the suer connected.
+     *
+     * @param model to pass data to the view.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return friendsDashboard.html
+     */
     @GetMapping("/user/friends")
     public String showlistOfFriendsByUser(HttpSession session, Model model) {
 
@@ -127,6 +137,13 @@ public class FriendController {
         return "friendsDashboard";
     }
 
+    /**
+     * POST requests for /request/response endpoint.
+     * This controller-method is used to accept a friend request by updating isAccepted attribute of Friend object.
+     * @param id of the Friend object to accept.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return friendsDashboard.html
+     */
     @PostMapping("/request/response")
     public String acceptFriendRequest(HttpSession session, @ModelAttribute ("id") int id){
 
@@ -141,6 +158,13 @@ public class FriendController {
 
     }
 
+    /**
+     * POST requests for /delete/request endpoint.
+     * This controller-method is part of CRUD and is used to delete in database Friend object.
+     * @param id of the Friend object to delete.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return friendsDashboard.html
+     */
     @PostMapping("/delete/request")
     public String refuseFriendRequest(@ModelAttribute("id") int id, HttpSession session) {
 
